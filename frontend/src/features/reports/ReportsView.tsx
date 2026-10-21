@@ -230,9 +230,9 @@ export const ReportsView: React.FC<ReportsViewProps> = ({ changeId, currentUser 
                   <tr key={ir.id}>
                     <td className="p-2 font-mono font-bold text-slate-200 border-r border-slate-800">{ir.impacted_object_id}</td>
                     <td className="p-2 font-mono text-slate-400 border-r border-slate-800">{ir.impacted_object_type}</td>
-                    <td className="p-2 border-r border-slate-800 font-mono text-[10px] text-amber-400">{ir.classification}</td>
-                    <td className="p-2 font-mono text-[10px] text-slate-400 border-r border-slate-800">{ir.propagation_rule}</td>
-                    <td className="p-2 text-slate-300 text-[11px]">{ir.verification_action}</td>
+                    <td className="p-2 border-r border-slate-800 font-mono text-[10px] text-amber-400">{ir.impact_classification || ir.classification}</td>
+                    <td className="p-2 font-mono text-[10px] text-slate-400 border-r border-slate-800">{ir.algorithm_version || ir.propagation_rule}</td>
+                    <td className="p-2 text-slate-300 text-[11px]">{ir.rationale || ir.verification_action}</td>
                   </tr>
                 ))}
               </tbody>

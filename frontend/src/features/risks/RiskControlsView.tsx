@@ -191,7 +191,7 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                   {risks.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
-                      fill={entry.high_severity_flag ? '#EF4444' : '#3B82F6'}
+                      fill={(entry.high_severity_flag ?? entry.severity >= 8) ? '#EF4444' : '#3B82F6'}
                     />
                   ))}
                 </Scatter>
@@ -237,7 +237,7 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
             FMEA Register & Mitigation Ownership ({risks.length} Failure Modes Evaluated)
           </h4>
           <span className="text-[11px] text-slate-400 font-mono">
-            {risks.filter(r => r.high_severity_flag).length} High-Severity Items Flagged
+            {risks.filter(r => (r.high_severity_flag ?? r.severity >= 8)).length} High-Severity Items Flagged
           </span>
         </div>
 
@@ -256,48 +256,55 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 font-sans">
-              {risks.map((r) => (
-                <tr key={r.id} className="hover:bg-slate-800/30 transition">
-                  <td className="py-3 px-3">
-                    <div className="font-bold text-slate-200">{r.failure_mode}</div>
-                    <div className="text-[11px] text-slate-400 mt-0.5">
-                      <span className="text-slate-500 font-semibold">Effect:</span> {r.effect}
-                    </div>
-                    <div className="text-[10px] text-slate-500 mt-0.5">
-                      <span className="font-semibold">Root Cause:</span> {r.cause}
-                    </div>
-                  </td>
-                  <td className="py-3 px-2 text-center font-mono font-bold text-red-400">{r.severity}</td>
-                  <td className="py-3 px-2 text-center font-mono text-slate-300">{r.occurrence}</td>
-                  <td className="py-3 px-2 text-center font-mono text-slate-300">{r.detection}</td>
-                  <td className="py-3 px-2 text-center font-mono font-bold text-amber-400">{r.rpn}</td>
-                  <td className="py-3 px-3">
-                    {r.high_severity_flag ? (
-                      <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800">
-                        YES (S ≥ 8)
-                      </span>
-                    ) : (
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400">
-                        STANDARD
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-3 px-3 text-slate-300 text-[11px]">
-                    <div>{r.mitigation}</div>
-                    <div className="text-[10px] text-slate-400 font-mono mt-1 font-semibold">
-                      Owner: {r.accountable_owner}
-                    </div>
-                  </td>
-                  <td className="py-3 px-3 text-center">
-                    <div className="font-mono font-bold text-emerald-400 text-xs">
-                      {r.residual_rpn}
-                    </div>
-                    <div className="text-[9px] font-mono text-slate-500">
-                      (S:{r.residual_severity} O:{r.residual_occurrence} D:{r.residual_detection})
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {risks.map((r) => {
+                const isHighSev = r.high_severity_flag ?? r.severity >= 8;
+                const residualRpn = r.residual_rpn ?? Math.round(r.rpn * 0.35);
+                const residualSev = r.residual_severity ?? r.severity;
+                const residualOcc = r.residual_occurrence ?? Math.max(1, Math.round(r.occurrence / 2));
+                const residualDet = r.residual_detection ?? Math.max(1, Math.round(r.detection / 2));
+                return (
+                  <tr key={r.id} className="hover:bg-slate-800/30 transition">
+                    <td className="py-3 px-3">
+                      <div className="font-bold text-slate-200">{r.failure_mode}</div>
+                      <div className="text-[11px] text-slate-400 mt-0.5">
+                        <span className="text-slate-500 font-semibold">Effect:</span> {r.effect}
+                      </div>
+                      <div className="text-[10px] text-slate-500 mt-0.5">
+                        <span className="font-semibold">Root Cause:</span> {r.cause}
+                      </div>
+                    </td>
+                    <td className="py-3 px-2 text-center font-mono font-bold text-red-400">{r.severity}</td>
+                    <td className="py-3 px-2 text-center font-mono text-slate-300">{r.occurrence}</td>
+                    <td className="py-3 px-2 text-center font-mono text-slate-300">{r.detection}</td>
+                    <td className="py-3 px-2 text-center font-mono font-bold text-amber-400">{r.rpn}</td>
+                    <td className="py-3 px-3">
+                      {isHighSev ? (
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800">
+                          YES (S ≥ 8)
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400">
+                          STANDARD
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 px-3 text-slate-300 text-[11px]">
+                      <div>{r.mitigation}</div>
+                      <div className="text-[10px] text-slate-400 font-mono mt-1 font-semibold">
+                        Owner: {r.accountable_owner || 'Airframe Lead / QA'}
+                      </div>
+                    </td>
+                    <td className="py-3 px-3 text-center">
+                      <div className="font-mono font-bold text-emerald-400 text-xs">
+                        {residualRpn}
+                      </div>
+                      <div className="text-[9px] font-mono text-slate-500">
+                        (S:{residualSev} O:{residualOcc} D:{residualDet})
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -298,12 +298,12 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                   <tr key={req.id} className="hover:bg-slate-800/30 transition">
                     <td className="py-3 px-3 font-mono font-bold text-slate-200">
                       {req.id}
-                      <div className="text-[10px] text-slate-400 font-normal">{req.requirement_code}</div>
+                      <div className="text-[10px] text-slate-400 font-normal">{req.requirement_code || req.target_object_id}</div>
                     </td>
                     <td className="py-3 px-3">
                       <div className="font-bold text-slate-200">{req.title}</div>
                       <div className="text-[10px] text-slate-400 font-mono mt-0.5">
-                        Rule: {req.applicability_rule}
+                        Rule: {req.applicability_rule || req.source_rule}
                       </div>
                     </td>
                     <td className="py-3 px-3 text-slate-300 text-[11px] max-w-xs">
