@@ -142,28 +142,30 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
   }, [gateEvaluation]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto">
       {/* Top Header & Gate Selector */}
-      <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <FileCheck2 className="w-5 h-5 text-emerald-500" />
-            <h2 className="text-base font-bold text-gray-900">
-              Explainable Quality Gates & Verification Evidence
-            </h2>
+      <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+            <FileCheck2 className="w-5 h-5" />
           </div>
-          <p className="text-xs text-gray-500 mt-0.5">
-            Strict gate rule enforcement with mandatory evidence verification, baseline consistency checks, and separation-of-duties.
-          </p>
+          <div>
+            <h2 className="text-base font-semibold text-gray-900">
+              Evidence-Gated Quality Gates & Verification
+            </h2>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Cryptographic evidence verification, torque logs, and physical inspection locks preventing unverified assembly release.
+            </p>
+          </div>
         </div>
 
         {/* Gate Stage Selector */}
         <div className="flex items-center gap-2">
-          <label className="text-xs text-gray-500">Quality Gate:</label>
+          <label className="text-xs font-medium text-gray-500">Milestone Gate:</label>
           <select
             value={selectedGate}
             onChange={(e) => setSelectedGate(e.target.value)}
-            className="bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
+            className="bg-gray-50 text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5 text-xs font-medium focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
           >
             <option value="PRE_AUTHORIZATION_GATE">Gate 1: Pre-Authorization Gate</option>
             <option value="PRE_IMPLEMENTATION_GATE">Gate 2: Pre-Implementation Gate</option>
@@ -174,40 +176,44 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
 
       {/* Quality Gate Status Banner Card */}
       {gateEvaluation && (
-        <div className={`p-5 rounded-lg border shadow-sm ${
-          gateEvaluation.overall_result === 'PASS' ? 'bg-emerald-950/20 border-emerald-900/60' :
-          gateEvaluation.overall_result === 'BLOCKED' ? 'bg-red-950/25 border-red-900/60' :
-          'bg-amber-950/20 border-amber-900/60'
+        <div className={`p-6 rounded-2xl border shadow-sm ${
+          gateEvaluation.overall_result === 'PASS' 
+            ? 'bg-emerald-50/50 border-emerald-200' 
+            : gateEvaluation.overall_result === 'BLOCKED' 
+            ? 'bg-red-50/50 border-red-200' 
+            : 'bg-amber-50/50 border-amber-200'
         }`}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-200">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-200/80">
             <div>
-              <div className="text-[10px] font-mono uppercase text-gray-500">
-                Gate Milestone Evaluation
+              <div className="text-[10px] font-mono uppercase font-semibold text-gray-500">
+                Milestone Gate Evaluation
               </div>
-              <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mt-0.5">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2.5 mt-0.5">
                 {selectedGate.replace(/_/g, ' ')}
-                <span className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded border ${
-                  gateEvaluation.overall_result === 'PASS' ? 'bg-emerald-950 text-emerald-300 border-emerald-800' :
-                  gateEvaluation.overall_result === 'BLOCKED' ? 'bg-red-950 text-red-300 border-red-800' :
-                  'bg-amber-950 text-amber-300 border-amber-800'
+                <span className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded-full border ${
+                  gateEvaluation.overall_result === 'PASS' 
+                    ? 'bg-emerald-100 text-emerald-800 border-emerald-200' 
+                    : gateEvaluation.overall_result === 'BLOCKED' 
+                    ? 'bg-red-100 text-red-800 border-red-200' 
+                    : 'bg-amber-100 text-amber-800 border-amber-200'
                 }`}>
                   STATUS: {gateEvaluation.overall_result}
                 </span>
               </h3>
             </div>
 
-            <div className="text-xs font-mono text-gray-500">
-              Evaluated by: <span className="text-gray-800">{gateEvaluation.evaluated_by_id || 'System Gate Engine'}</span>
+            <div className="text-xs text-gray-500">
+              Evaluated by: <span className="font-semibold text-gray-800">{gateEvaluation.evaluated_by_id || 'System Gate Engine'}</span>
             </div>
           </div>
 
           {/* Blocking Reasons & Corrective Actions */}
           {gateEvaluation.overall_result === 'BLOCKED' && (
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Blocking Reasons */}
-              <div className="p-3 rounded bg-gray-50 border border-red-900/60 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-red-400 uppercase tracking-wider">
-                  <AlertTriangle className="w-4 h-4 text-red-500" />
+              <div className="p-4 rounded-xl bg-white border border-red-200 shadow-xs space-y-2.5">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-red-700 uppercase tracking-wider">
+                  <AlertTriangle className="w-4 h-4 text-red-600" />
                   Why Progression is Blocked ({blockingReasons.length} Unmet Conditions)
                 </div>
                 <ul className="space-y-1.5 text-xs text-gray-700 list-disc list-inside">
@@ -220,14 +226,14 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
               </div>
 
               {/* Corrective Actions */}
-              <div className="p-3 rounded bg-gray-50 border border-amber-900/60 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-wider">
-                  <CheckCircle className="w-4 h-4 text-amber-500" />
+              <div className="p-4 rounded-xl bg-white border border-amber-200 shadow-xs space-y-2.5">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-800 uppercase tracking-wider">
+                  <CheckCircle className="w-4 h-4 text-amber-600" />
                   Required Corrective Actions to Unblock
                 </div>
                 <ul className="space-y-1.5 text-xs text-gray-700 list-disc list-inside">
                   {correctiveActions.map((action: string, idx: number) => (
-                    <li key={idx} className="leading-relaxed text-amber-200/90 font-medium">
+                    <li key={idx} className="leading-relaxed font-medium text-amber-900">
                       {action}
                     </li>
                   ))}
@@ -237,22 +243,22 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
           )}
 
           {/* Evaluated Checks Breakdown */}
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <div className="text-[10px] font-mono uppercase text-gray-500 mb-2">
+          <div className="mt-5 pt-4 border-t border-gray-200/80">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2.5">
               Individual Condition Evaluations ({checksList.length} Checks Tested)
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
               {checksList.map((chk: any, idx: number) => (
-                <div key={idx} className="p-2.5 rounded bg-gray-50 border border-gray-200 flex items-start gap-2.5">
+                <div key={idx} className="p-3 rounded-xl bg-white border border-gray-200 shadow-xs flex items-start gap-2.5">
                   {chk.result === 'PASS' ? (
-                    <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                   ) : chk.result === 'BLOCKED' ? (
-                    <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                    <XCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
                   ) : (
-                    <Clock className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                    <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                   )}
                   <div>
-                    <div className="font-bold text-gray-800 flex items-center gap-1.5">
+                    <div className="font-semibold text-gray-900 flex items-center gap-1.5">
                       <span className="font-mono text-[10px] text-gray-500">{chk.check_id}</span>
                       {chk.title}
                     </div>
@@ -266,99 +272,101 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
       )}
 
       {/* Verification Requirements Checklist Table */}
-      <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm">
-        <div className="flex justify-between items-center mb-3">
+      <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">
+            <h4 className="text-sm font-semibold text-gray-900">
               Mandatory Verification Requirements & Evidence Records
             </h4>
-            <p className="text-[11px] text-gray-500">
-              All mandatory requirements must have accepted, verified evidence documents to satisfy quality gates.
+            <p className="text-xs text-gray-500 mt-0.5">
+              Every mandatory item must have signed, verified evidence documents to satisfy quality gate release criteria.
             </p>
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto border border-gray-200 rounded-xl">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-gray-200 text-gray-500 uppercase text-[10px]">
-                <th className="py-2.5 px-3">Req ID & Code</th>
-                <th className="py-2.5 px-3">Requirement Title</th>
-                <th className="py-2.5 px-3">Acceptance Criteria</th>
-                <th className="py-2.5 px-3">Mandatory</th>
-                <th className="py-2.5 px-3">Evidence Document</th>
-                <th className="py-2.5 px-3">Status</th>
-                <th className="py-2.5 px-3 text-right">Actions</th>
+              <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium text-[11px]">
+                <th className="py-3 px-3.5">Req ID & Code</th>
+                <th className="py-3 px-3.5">Requirement Title</th>
+                <th className="py-3 px-3.5">Acceptance Criteria</th>
+                <th className="py-3 px-3.5">Mandatory</th>
+                <th className="py-3 px-3.5">Evidence Document</th>
+                <th className="py-3 px-3.5">Status</th>
+                <th className="py-3 px-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 font-sans">
+            <tbody className="divide-y divide-gray-100">
               {requirements.map((req) => {
                 const linkedEv = evidenceRecords.find((e) => e.requirement_id === req.id);
                 return (
-                  <tr key={req.id} className="hover:bg-gray-100 text-gray-800/30 transition">
-                    <td className="py-3 px-3 font-mono font-bold text-gray-800">
+                  <tr key={req.id} className="hover:bg-gray-50/70 transition">
+                    <td className="py-3.5 px-3.5 font-mono font-semibold text-gray-900">
                       {req.id}
                       <div className="text-[10px] text-gray-500 font-normal">{req.requirement_code || req.target_object_id}</div>
                     </td>
-                    <td className="py-3 px-3">
-                      <div className="font-bold text-gray-800">{req.title}</div>
+                    <td className="py-3.5 px-3.5">
+                      <div className="font-semibold text-gray-900">{req.title}</div>
                       <div className="text-[10px] text-gray-500 font-mono mt-0.5">
                         Rule: {req.applicability_rule || req.source_rule}
                       </div>
                     </td>
-                    <td className="py-3 px-3 text-gray-700 text-[11px] max-w-xs">
+                    <td className="py-3.5 px-3.5 text-gray-600 text-[11px] max-w-xs leading-relaxed">
                       {req.acceptance_criteria}
                     </td>
-                    <td className="py-3 px-3">
+                    <td className="py-3.5 px-3.5">
                       {req.mandatory ? (
-                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800">
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
                           MANDATORY
                         </span>
                       ) : (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-800 text-gray-500">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200">
                           OPTIONAL
                         </span>
                       )}
                     </td>
-                    <td className="py-3 px-3">
+                    <td className="py-3.5 px-3.5">
                       {linkedEv ? (
-                        <div className="space-y-0.5 font-mono text-[10px]">
-                          <div className="font-bold text-gray-800 truncate max-w-xs">
+                        <div className="space-y-0.5 font-mono text-[11px]">
+                          <div className="font-semibold text-gray-900 truncate max-w-xs">
                             {linkedEv.file_name}
                           </div>
-                          <div className="text-gray-500 flex items-center gap-1">
-                            <Hash className="w-2.5 h-2.5" />
+                          <div className="text-gray-500 flex items-center gap-1 text-[10px]">
+                            <Hash className="w-2.5 h-2.5 text-gray-400" />
                             {linkedEv.file_hash.slice(0, 12)}...
                           </div>
-                          <div className="text-gray-400">{linkedEv.source_reference}</div>
+                          <div className="text-gray-400 text-[10px]">{linkedEv.source_reference}</div>
                         </div>
                       ) : (
-                        <span className="text-red-400 text-xs font-mono">No evidence submitted</span>
+                        <span className="text-red-600 text-xs font-mono font-medium">No evidence submitted</span>
                       )}
                     </td>
-                    <td className="py-3 px-3">
+                    <td className="py-3.5 px-3.5">
                       {linkedEv ? (
-                        <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
-                          linkedEv.verification_status === 'ACCEPTED' ? 'bg-emerald-950 text-emerald-300 border-emerald-800' :
-                          linkedEv.verification_status === 'REJECTED' ? 'bg-red-950 text-red-300 border-red-800' :
-                          'bg-amber-950 text-amber-300 border-amber-800'
+                        <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full border ${
+                          linkedEv.verification_status === 'ACCEPTED' 
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                            : linkedEv.verification_status === 'REJECTED' 
+                            ? 'bg-red-50 text-red-700 border-red-200' 
+                            : 'bg-amber-50 text-amber-800 border-amber-200'
                         }`}>
                           {linkedEv.verification_status}
                         </span>
                       ) : (
-                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800">
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
                           MISSING
                         </span>
                       )}
                     </td>
-                    <td className="py-3 px-3 text-right space-x-2">
+                    <td className="py-3.5 px-3.5 text-right space-x-2">
                       {!linkedEv && (
                         <button
                           onClick={() => {
                             setTargetReqId(req.id);
                             setShowUploadModal(true);
                           }}
-                          className="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-white rounded text-xs font-medium transition shadow-sm"
+                          className="px-3 py-1 bg-[#0071E3] hover:bg-[#0077ED] text-white rounded-lg text-xs font-medium transition shadow-sm"
                         >
                           Upload Evidence
                         </button>
@@ -369,7 +377,7 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                             setSelectedEvidence(linkedEv);
                             setShowVerifyModal(true);
                           }}
-                          className="px-2.5 py-1 bg-[#1E293B] hover:bg-[#334155] text-gray-800 rounded text-xs border border-gray-200 transition"
+                          className="px-3 py-1 bg-white hover:bg-gray-50 text-gray-700 rounded-lg text-xs font-medium border border-gray-200 transition shadow-sm"
                         >
                           QA Review
                         </button>
@@ -385,10 +393,10 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
 
       {/* Upload Evidence Modal */}
       {showUploadModal && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-          <div className="bg-white border border-gray-200 rounded-lg max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-              <Upload className="w-4 h-4 text-emerald-500" />
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-gray-200 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <Upload className="w-4 h-4 text-blue-600" />
               Register Engineering Verification Evidence
             </h3>
 
@@ -399,7 +407,7 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                   type="text"
                   disabled
                   value={targetReqId}
-                  className="w-full bg-[#121824] text-gray-500 border border-gray-200 rounded px-3 py-1.5 font-mono text-xs"
+                  className="w-full bg-gray-50 text-gray-600 border border-gray-200 rounded-lg px-3 py-1.5 font-mono text-xs cursor-not-allowed"
                 />
               </div>
 
@@ -409,7 +417,7 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                   <select
                     value={evidenceType}
                     onChange={(e) => setEvidenceType(e.target.value)}
-                    className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                    className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   >
                     <option value="TEST_REPORT">TEST_REPORT</option>
                     <option value="MATERIAL_CERT_CMTR">MATERIAL_CERT_CMTR</option>
@@ -425,7 +433,7 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                     required
                     value={docRevision}
                     onChange={(e) => setDocRevision(e.target.value)}
-                    className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
+                    className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -437,8 +445,8 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                   required
                   value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
-                  placeholder="e.g. Proof_Pressure_Test_T501_Certified.pdf"
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-2 text-xs font-mono focus:outline-none focus:border-red-500"
+                  placeholder="e.g. Stop_Fitting_Torque_BAC_5001_Log.pdf"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -449,8 +457,8 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                   required
                   value={sourceRef}
                   onChange={(e) => setSourceRef(e.target.value)}
-                  placeholder="e.g. Lab Certificate CERT-2026-T501-A99"
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                  placeholder="e.g. Calibrated Torque Wrench Log TRQ-2026-99"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -461,21 +469,21 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Calibrated tooling serial numbers, laboratory accreditation references..."
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-gray-200">
+              <div className="flex justify-end gap-2 pt-3 border-t border-gray-100">
                 <button
                   type="button"
                   onClick={() => setShowUploadModal(false)}
-                  className="px-3 py-1.5 bg-[#1E293B] hover:bg-[#334155] text-gray-700 rounded text-xs transition"
+                  className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 rounded-lg text-xs font-medium transition shadow-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded text-xs transition shadow-sm"
+                  className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg text-xs transition shadow-sm"
                 >
                   Register Evidence & Hash
                 </button>
@@ -487,17 +495,17 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
 
       {/* QA Verification Modal */}
       {showVerifyModal && selectedEvidence && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-          <div className="bg-white border border-gray-200 rounded-lg max-w-md w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-blue-400" />
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-gray-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-blue-600" />
               Independent QA Verification Review
             </h3>
 
-            <div className="p-3 rounded bg-gray-50 border border-gray-200 text-xs space-y-1 font-mono">
-              <div className="text-gray-500">File: <span className="text-gray-800 font-bold">{selectedEvidence.file_name}</span></div>
+            <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-200 text-xs space-y-1.5 font-mono">
+              <div className="text-gray-500">File: <span className="text-gray-900 font-bold">{selectedEvidence.file_name}</span></div>
               <div className="text-gray-500">Source: <span className="text-gray-800">{selectedEvidence.source_reference}</span></div>
-              <div className="text-gray-500">Hash: <span className="text-gray-500">{selectedEvidence.file_hash.slice(0, 16)}...</span></div>
+              <div className="text-gray-500">Hash: <span className="text-gray-500">{selectedEvidence.file_hash.slice(0, 20)}...</span></div>
             </div>
 
             <form onSubmit={handleVerifySubmit} className="space-y-4 text-xs">
@@ -506,7 +514,7 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                 <select
                   value={verifyStatus}
                   onChange={(e) => setVerifyStatus(e.target.value as 'ACCEPTED' | 'REJECTED')}
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs font-bold focus:outline-none focus:border-red-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="ACCEPTED">ACCEPTED (Conforming Evidence)</option>
                   <option value="REJECTED">REJECTED (Non-conforming / Deficient)</option>
@@ -521,21 +529,21 @@ export const VerificationGatesView: React.FC<VerificationGatesProps> = ({ change
                   value={verifyNotes}
                   onChange={(e) => setVerifyNotes(e.target.value)}
                   placeholder="Document the technical justification and laboratory certificate audit findings..."
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-gray-200">
+              <div className="flex justify-end gap-2 pt-3 border-t border-gray-100">
                 <button
                   type="button"
                   onClick={() => setShowVerifyModal(false)}
-                  className="px-3 py-1.5 bg-[#1E293B] hover:bg-[#334155] text-gray-700 rounded text-xs transition"
+                  className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 rounded-lg text-xs font-medium transition shadow-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className={`px-4 py-1.5 text-white font-medium rounded text-xs transition shadow-sm ${
+                  className={`px-4 py-1.5 text-white font-medium rounded-lg text-xs transition shadow-sm ${
                     verifyStatus === 'ACCEPTED' ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-red-600 hover:bg-red-500'
                   }`}
                 >

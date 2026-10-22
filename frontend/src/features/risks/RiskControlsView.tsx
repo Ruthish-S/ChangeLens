@@ -95,53 +95,57 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
   const isHighSeverity = severity >= 8;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl mx-auto">
       {/* Top Header */}
-      <div className="p-4 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-red-500" />
-            <h2 className="text-base font-bold text-gray-900">
-              Risk Management & FMEA Register (AIAG & VDA Adapted)
-            </h2>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-800 text-gray-700 border border-gray-200">
-              Rubric v2.0
-            </span>
+      <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600 shrink-0">
+            <ShieldAlert className="w-5 h-5" />
           </div>
-          <p className="text-xs text-gray-500 mt-0.5">
-            Deterministic risk priority scoring linking potential assembly defects to mandatory verification requirements. Failure modes with S ≥ 8 mandate Chief Engineer escalation.
-          </p>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-base font-semibold text-gray-900">
+                Risk Management & FMEA Register (AIAG & VDA)
+              </h2>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200 font-medium">
+                Rubric v2.0
+              </span>
+            </div>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Deterministic risk priority scoring linking potential defects to mandatory verification requirements. Failure modes with S ≥ 8 mandate Chief Airframe Engineer escalation.
+            </p>
+          </div>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded text-xs font-medium transition shadow-sm self-start md:self-auto"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#0071E3] hover:bg-[#0077ED] text-white rounded-lg text-xs font-medium transition shadow-sm self-start md:self-auto"
         >
           <Plus className="w-3.5 h-3.5" />
           Add Failure Mode
         </button>
       </div>
 
-      {/* Plot 2 & Rubric Explanation Grid */}
+      {/* Plot & Rubric Explanation Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Plot 2: Scatter Plot */}
-        <div className="lg:col-span-2 p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm">
-          <div className="flex justify-between items-center mb-3">
+        {/* Scatter Plot */}
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
+          <div className="flex justify-between items-center mb-4">
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">
-                Plot 2 — Severity vs Occurrence Risk Landscape
+              <h4 className="text-sm font-semibold text-gray-900">
+                Severity vs Occurrence Risk Landscape
               </h4>
-              <p className="text-[11px] text-gray-500">
-                Red dots indicate High Severity (S ≥ 8) requiring mandatory airframe authority review.
+              <p className="text-xs text-gray-500 mt-0.5">
+                Red markers indicate High Severity (S ≥ 8) requiring mandatory airframe authority review.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-[10px]">
-              <span className="flex items-center gap-1 text-red-400">
-                <span className="w-2 h-2 rounded-full bg-red-500" /> S ≥ 8 Escalated
+            <div className="flex items-center gap-3 text-xs">
+              <span className="flex items-center gap-1.5 text-red-700 font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500" /> S ≥ 8 Escalated
               </span>
-              <span className="flex items-center gap-1 text-blue-400">
-                <span className="w-2 h-2 rounded-full bg-blue-500" /> Standard
+              <span className="flex items-center gap-1.5 text-blue-700 font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> Standard
               </span>
             </div>
           </div>
@@ -149,22 +153,22 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis
                   type="number"
                   dataKey="occurrence"
                   name="Occurrence (O)"
                   domain={[1, 10]}
-                  tick={{ fill: '#64748B', fontSize: 10 }}
-                  label={{ value: 'Occurrence (1-10)', position: 'insideBottom', offset: -10, fill: '#64748B', fontSize: 10 }}
+                  tick={{ fill: '#64748B', fontSize: 11 }}
+                  label={{ value: 'Occurrence (1-10)', position: 'insideBottom', offset: -10, fill: '#64748B', fontSize: 11 }}
                 />
                 <YAxis
                   type="number"
                   dataKey="severity"
                   name="Severity (S)"
                   domain={[1, 10]}
-                  tick={{ fill: '#64748B', fontSize: 10 }}
-                  label={{ value: 'Severity (1-10)', angle: -90, position: 'insideLeft', fill: '#64748B', fontSize: 10 }}
+                  tick={{ fill: '#64748B', fontSize: 11 }}
+                  label={{ value: 'Severity (1-10)', angle: -90, position: 'insideLeft', fill: '#64748B', fontSize: 11 }}
                 />
                 <Tooltip
                   cursor={{ strokeDasharray: '3 3' }}
@@ -172,13 +176,13 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                     if (active && payload && payload.length) {
                       const data = payload[0].payload;
                       return (
-                        <div className="bg-gray-50 border border-gray-200 p-2.5 rounded shadow-lg text-xs font-sans">
-                          <div className="font-bold text-gray-800">{data.failure_mode}</div>
-                          <div className="text-[11px] text-gray-500 mt-1">
-                            Severity: <span className="font-mono text-red-400 font-bold">{data.severity}</span> | Occurrence: <span className="font-mono text-gray-700">{data.occurrence}</span> | Detection: <span className="font-mono text-gray-700">{data.detection}</span>
+                        <div className="bg-white border border-gray-200 p-3 rounded-xl shadow-lg text-xs font-sans text-gray-900">
+                          <div className="font-semibold text-gray-900">{data.failure_mode}</div>
+                          <div className="text-[11px] text-gray-600 mt-1">
+                            Severity: <span className="font-mono text-red-600 font-bold">{data.severity}</span> | Occurrence: <span className="font-mono text-gray-800">{data.occurrence}</span> | Detection: <span className="font-mono text-gray-800">{data.detection}</span>
                           </div>
-                          <div className="text-[11px] text-gray-500">
-                            RPN: <span className="font-mono text-amber-400 font-bold">{data.rpn}</span> &rarr; Residual RPN: <span className="font-mono text-emerald-400 font-bold">{data.residual_rpn}</span>
+                          <div className="text-[11px] text-gray-600 mt-0.5">
+                            RPN: <span className="font-mono text-amber-700 font-bold">{data.rpn}</span> &rarr; Residual RPN: <span className="font-mono text-emerald-700 font-bold">{data.residual_rpn}</span>
                           </div>
                           <div className="text-[10px] text-gray-500 mt-1">Owner: {data.accountable_owner}</div>
                         </div>
@@ -191,7 +195,7 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                   {risks.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
-                      fill={(entry.high_severity_flag ?? entry.severity >= 8) ? '#EF4444' : '#3B82F6'}
+                      fill={(entry.high_severity_flag ?? entry.severity >= 8) ? '#EF4444' : '#0071E3'}
                     />
                   ))}
                 </Scatter>
@@ -201,105 +205,99 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
         </div>
 
         {/* FMEA Governance Rule Card */}
-        <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm flex flex-col justify-between space-y-3">
+        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between space-y-4">
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-2 flex items-center gap-1.5">
-              <Scale className="w-4 h-4 text-amber-400" />
+            <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              <Scale className="w-4 h-4 text-amber-600" />
               Safety Governance & Escalation Rules
             </h4>
-            <div className="space-y-2.5 text-xs text-gray-700 leading-relaxed">
-              <div className="p-2.5 rounded bg-red-950/20 border border-red-900/50">
-                <span className="font-bold text-red-400">High-Severity Escalation Rule:</span>
-                <p className="text-[11px] text-red-200/90 mt-0.5">
+            <div className="space-y-3 text-xs text-gray-700 leading-relaxed">
+              <div className="p-3.5 rounded-xl bg-red-50/80 border border-red-200">
+                <span className="font-semibold text-red-800">High-Severity Escalation Rule:</span>
+                <p className="text-[11px] text-red-900 mt-1">
                   RPN alone is not a sufficient safety decision rule. Any failure mode with Severity S ≥ 8 automatically mandates independent engineering sign-off, regardless of how low Occurrence or Detection are estimated.
                 </p>
               </div>
 
-              <div className="p-2.5 rounded bg-gray-50 border border-gray-200">
-                <span className="font-bold text-gray-800">Adaptive Requirement Trigger:</span>
-                <p className="text-[11px] text-gray-500 mt-0.5">
-                  Recording an S ≥ 8 failure mode automatically generates requirement <code className="text-amber-400">REQ-GATE-SAFETY-ESCALATION</code>, blocking authorization until formally signed by the Chief Airframe Engineer.
+              <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-200">
+                <span className="font-semibold text-gray-900">Adaptive Requirement Trigger:</span>
+                <p className="text-[11px] text-gray-600 mt-1">
+                  Recording an S ≥ 8 failure mode automatically generates requirement <code className="text-blue-600 font-mono">REQ-GATE-SAFETY-ESCALATION</code>, blocking authorization until formally signed by the Chief Airframe Engineer.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="p-2.5 rounded bg-gray-100 text-gray-800/40 border border-gray-200/60 text-[10.5px] text-gray-500 font-mono">
+          <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 text-[11px] text-gray-600 font-mono text-center">
             FMEA Formula: RPN = S &times; O &times; D (Scale 1-1000)
           </div>
         </div>
       </div>
 
       {/* FMEA Table */}
-      <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm">
-        <div className="flex justify-between items-center mb-3">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">
+      <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <h4 className="text-sm font-semibold text-gray-900">
             FMEA Register & Mitigation Ownership ({risks.length} Failure Modes Evaluated)
           </h4>
-          <span className="text-[11px] text-gray-500 font-mono">
+          <span className="text-xs text-gray-500 font-mono">
             {risks.filter(r => (r.high_severity_flag ?? r.severity >= 8)).length} High-Severity Items Flagged
           </span>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto border border-gray-200 rounded-xl">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-gray-200 text-gray-500 uppercase text-[10px]">
-                <th className="py-2.5 px-3">Failure Mode & Effect</th>
-                <th className="py-2.5 px-2 text-center">S</th>
-                <th className="py-2.5 px-2 text-center">O</th>
-                <th className="py-2.5 px-2 text-center">D</th>
-                <th className="py-2.5 px-2 text-center font-bold">RPN</th>
-                <th className="py-2.5 px-3">Severity Escalation</th>
-                <th className="py-2.5 px-3 w-1/3">Mitigation Action & Owner</th>
-                <th className="py-2.5 px-3 text-center">Residual RPN</th>
+              <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium text-[11px]">
+                <th className="py-3 px-3.5">Failure Mode & Effect</th>
+                <th className="py-3 px-2 text-center">S</th>
+                <th className="py-3 px-2 text-center">O</th>
+                <th className="py-3 px-2 text-center">D</th>
+                <th className="py-3 px-2 text-center font-bold">RPN</th>
+                <th className="py-3 px-3.5">Severity Escalation</th>
+                <th className="py-3 px-3.5 w-1/3">Mitigation Action & Owner</th>
+                <th className="py-3 px-3.5 text-center">Residual RPN</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 font-sans">
+            <tbody className="divide-y divide-gray-100">
               {risks.map((r) => {
                 const isHighSev = r.high_severity_flag ?? r.severity >= 8;
                 const residualRpn = r.residual_rpn ?? Math.round(r.rpn * 0.35);
-                const residualSev = r.residual_severity ?? r.severity;
-                const residualOcc = r.residual_occurrence ?? Math.max(1, Math.round(r.occurrence / 2));
-                const residualDet = r.residual_detection ?? Math.max(1, Math.round(r.detection / 2));
                 return (
-                  <tr key={r.id} className="hover:bg-gray-100 text-gray-800/30 transition">
-                    <td className="py-3 px-3">
-                      <div className="font-bold text-gray-800">{r.failure_mode}</div>
-                      <div className="text-[11px] text-gray-500 mt-0.5">
-                        <span className="text-gray-400 font-semibold">Effect:</span> {r.effect}
+                  <tr key={r.id} className="hover:bg-gray-50/70 transition">
+                    <td className="py-3.5 px-3.5">
+                      <div className="font-semibold text-gray-900">{r.failure_mode}</div>
+                      <div className="text-[11px] text-gray-600 mt-0.5">
+                        <span className="text-gray-500 font-medium">Effect:</span> {r.effect}
                       </div>
-                      <div className="text-[10px] text-gray-400 mt-0.5">
-                        <span className="font-semibold">Root Cause:</span> {r.cause}
+                      <div className="text-[10px] text-gray-500 mt-0.5">
+                        <span className="font-medium">Root Cause:</span> {r.cause}
                       </div>
                     </td>
-                    <td className="py-3 px-2 text-center font-mono font-bold text-red-400">{r.severity}</td>
-                    <td className="py-3 px-2 text-center font-mono text-gray-700">{r.occurrence}</td>
-                    <td className="py-3 px-2 text-center font-mono text-gray-700">{r.detection}</td>
-                    <td className="py-3 px-2 text-center font-mono font-bold text-amber-400">{r.rpn}</td>
-                    <td className="py-3 px-3">
+                    <td className="py-3.5 px-2 text-center font-mono font-bold text-red-600">{r.severity}</td>
+                    <td className="py-3.5 px-2 text-center font-mono text-gray-700">{r.occurrence}</td>
+                    <td className="py-3.5 px-2 text-center font-mono text-gray-700">{r.detection}</td>
+                    <td className="py-3.5 px-2 text-center font-mono font-bold text-amber-700">{r.rpn}</td>
+                    <td className="py-3.5 px-3.5">
                       {isHighSev ? (
-                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800">
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-200">
                           YES (S ≥ 8)
                         </span>
                       ) : (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-800 text-gray-500">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200">
                           STANDARD
                         </span>
                       )}
                     </td>
-                    <td className="py-3 px-3 text-gray-700 text-[11px]">
+                    <td className="py-3.5 px-3.5 text-gray-700 text-[11px]">
                       <div>{r.mitigation}</div>
-                      <div className="text-[10px] text-gray-500 font-mono mt-1 font-semibold">
+                      <div className="text-[10px] text-gray-500 font-mono mt-1 font-medium">
                         Owner: {r.accountable_owner || 'Airframe Lead / QA'}
                       </div>
                     </td>
-                    <td className="py-3 px-3 text-center">
-                      <div className="font-mono font-bold text-emerald-400 text-xs">
+                    <td className="py-3.5 px-3.5 text-center">
+                      <div className="font-mono font-bold text-emerald-700 text-xs">
                         {residualRpn}
-                      </div>
-                      <div className="text-[9px] font-mono text-gray-400">
-                        (S:{residualSev} O:{residualOcc} D:{residualDet})
                       </div>
                     </td>
                   </tr>
@@ -312,23 +310,23 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
 
       {/* Add Failure Mode Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-          <div className="bg-white border border-gray-200 rounded-lg max-w-xl w-full p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
-              <Plus className="w-4 h-4 text-red-500" />
-              Add FMEA Failure Mode & Calculate Risk
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-gray-200 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
+              <Plus className="w-4 h-4 text-blue-600" />
+              Add Failure Mode to FMEA Register
             </h3>
 
             <form onSubmit={handleAddRisk} className="space-y-4 text-xs">
               <div>
-                <label className="block text-gray-700 font-medium mb-1">Potential Failure Mode</label>
+                <label className="block text-gray-700 font-medium mb-1">Failure Mode</label>
                 <input
                   type="text"
                   required
                   value={failureMode}
                   onChange={(e) => setFailureMode(e.target.value)}
-                  placeholder="e.g. Stop pad clearance gap exceedance under cyclic pressurization"
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-2 text-xs focus:outline-none focus:border-red-500"
+                  placeholder="e.g. Stop fitting guide pin retaining bolt omitted or under-torqued"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -340,28 +338,28 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                     rows={2}
                     value={effect}
                     onChange={(e) => setEffect(e.target.value)}
-                    placeholder="e.g. Uneven load distribution leading to fatigue fracture"
-                    className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                    placeholder="e.g. Door plug translates upward under cabin pressure differential"
+                    className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">Potential Cause</label>
+                  <label className="block text-gray-700 font-medium mb-1">Potential Root Cause</label>
                   <textarea
                     required
                     rows={2}
                     value={cause}
                     onChange={(e) => setCause(e.target.value)}
-                    placeholder="e.g. Inadequate shim thickness tolerance on jig assembly"
-                    className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                    placeholder="e.g. Unrecorded opening during seal rework without traveler lock"
+                    className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
               </div>
 
-              {/* S, O, D Sliders / Selectors */}
-              <div className="grid grid-cols-3 gap-3 p-3 rounded bg-gray-50 border border-gray-200">
+              {/* S, O, D Sliders */}
+              <div className="grid grid-cols-3 gap-3 p-3.5 rounded-xl bg-gray-50 border border-gray-200">
                 <div>
-                  <label className="block text-gray-500 text-[11px] mb-1">
-                    Severity (S: 1-10): <span className="font-bold text-red-400">{severity}</span>
+                  <label className="block text-gray-600 text-[11px] mb-1">
+                    Severity (S: 1-10): <span className="font-bold text-red-600">{severity}</span>
                   </label>
                   <input
                     type="range"
@@ -372,12 +370,12 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                     className="w-full"
                   />
                   {isHighSeverity && (
-                    <span className="text-[9px] font-bold text-red-400 block mt-1">S ≥ 8 MANDATORY ESCALATION</span>
+                    <span className="text-[9px] font-bold text-red-600 block mt-1">S ≥ 8 MANDATORY ESCALATION</span>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-gray-500 text-[11px] mb-1">
+                  <label className="block text-gray-600 text-[11px] mb-1">
                     Occurrence (O: 1-10): <span className="font-bold text-gray-800">{occurrence}</span>
                   </label>
                   <input
@@ -391,7 +389,7 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                 </div>
 
                 <div>
-                  <label className="block text-gray-500 text-[11px] mb-1">
+                  <label className="block text-gray-600 text-[11px] mb-1">
                     Detection (D: 1-10): <span className="font-bold text-gray-800">{detection}</span>
                   </label>
                   <input
@@ -406,9 +404,9 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
               </div>
 
               {/* Calculated RPN Banner */}
-              <div className="flex items-center justify-between p-2.5 rounded bg-gray-100 text-gray-800 border border-gray-200 text-xs">
-                <span className="text-gray-700">Calculated RPN (S &times; O &times; D):</span>
-                <span className="font-mono font-bold text-base text-amber-400">{calculatedRpn}</span>
+              <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-200 text-xs">
+                <span className="text-gray-700 font-medium">Calculated Risk Priority Number (S &times; O &times; D):</span>
+                <span className="font-mono font-bold text-base text-amber-700">{calculatedRpn}</span>
               </div>
 
               <div>
@@ -418,8 +416,8 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                   required
                   value={mitigation}
                   onChange={(e) => setMitigation(e.target.value)}
-                  placeholder="e.g. Feeler gauge verification I-402 on every production unit"
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-2 text-xs focus:outline-none focus:border-red-500"
+                  placeholder="e.g. Mandatory feeler gauge inspection and digital torque log lock"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
@@ -430,21 +428,21 @@ export const RiskControlsView: React.FC<RiskControlsProps> = ({ changeId, curren
                   required
                   value={owner}
                   onChange={(e) => setOwner(e.target.value)}
-                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-gray-200">
+              <div className="flex justify-end gap-2 pt-3 border-t border-gray-100">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-3 py-1.5 bg-[#1E293B] hover:bg-[#334155] text-gray-700 rounded text-xs transition"
+                  className="px-3 py-1.5 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 rounded-lg text-xs font-medium transition shadow-sm"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-red-600 hover:bg-red-500 text-white font-medium rounded text-xs transition shadow-sm"
+                  className="px-4 py-1.5 bg-[#0071E3] hover:bg-[#0077ED] text-white font-medium rounded-lg text-xs transition shadow-sm"
                 >
                   Save Failure Mode
                 </button>

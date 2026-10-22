@@ -57,31 +57,31 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
     return impactResults.find((r) => r.impacted_object_id === selectedNodeId) || impactResults[0];
   }, [impactResults, selectedNodeId]);
 
-  // Color helper based on item type and impact classification
+  // Visual helper based on item type and impact classification
   const getNodeVisuals = (itemType: string, classification: string, isSelected: boolean) => {
     let border = 'border-gray-200';
-    let bg = 'bg-white/90';
-    let badgeBg = 'bg-gray-100 text-gray-800 text-gray-700';
+    let bg = 'bg-white';
+    let badgeBg = 'bg-gray-100 text-gray-700 border border-gray-200';
     let ring = '';
 
     if (classification === 'DIRECT_PRIMARY') {
       border = 'border-red-300';
-      bg = 'bg-red-50 text-red-900';
-      badgeBg = 'bg-red-100 text-red-700 border border-red-200 font-semibold';
-      ring = 'ring-2 ring-rose-500/40 shadow-lg shadow-rose-950/50';
+      bg = 'bg-white';
+      badgeBg = 'bg-red-50 text-red-700 border border-red-200 font-semibold';
+      ring = 'ring-2 ring-red-400/40 shadow-sm';
     } else if (classification === 'VERIFICATION_SCOPE') {
       border = 'border-emerald-300';
-      bg = 'bg-emerald-50 text-emerald-900';
-      badgeBg = 'bg-emerald-100 text-emerald-700 border border-emerald-200 font-semibold';
-      ring = 'ring-1 ring-emerald-500/40';
+      bg = 'bg-white';
+      badgeBg = 'bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold';
+      ring = 'ring-1 ring-emerald-400/40';
     } else if (classification === 'COUPLED_SECONDARY') {
       border = 'border-blue-300';
-      bg = 'bg-blue-50 text-blue-900';
-      badgeBg = 'bg-blue-100 text-blue-700 border border-blue-200 font-semibold';
+      bg = 'bg-white';
+      badgeBg = 'bg-blue-50 text-blue-700 border border-blue-200 font-semibold';
     }
 
     if (isSelected) {
-      border = 'border-blue-600';
+      border = 'border-[#0071E3]';
       ring = 'ring-2 ring-blue-500/50 shadow-md';
     }
 
@@ -98,7 +98,7 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
       if (typeFilter !== 'ALL' && ir.impacted_object_type !== typeFilter) return;
       if (classificationFilter !== 'ALL' && ir.impact_classification !== classificationFilter) return;
 
-      // Layout columns by distance and type
+      // Layout columns by distance
       let col = ir.distance_from_source;
       if (col > 3) col = 3;
       const row = colCounters[col] || 0;
@@ -111,20 +111,20 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
         id: ir.impacted_object_id,
         data: {
           label: (
-            <div className="p-3 min-w-[190px] text-left select-none">
+            <div className="p-3.5 min-w-[195px] text-left select-none">
               <div className="flex items-center justify-between text-[9px] font-mono uppercase mb-1">
-                <span className="text-gray-500 font-bold">{ir.impacted_object_type}</span>
-                <span className={`px-1.5 py-0.2 rounded ${visual.badgeBg}`}>
+                <span className="text-gray-500 font-semibold">{ir.impacted_object_type}</span>
+                <span className={`px-1.5 py-0.5 rounded-full ${visual.badgeBg}`}>
                   {ir.impact_classification.replace('_', ' ')}
                 </span>
               </div>
-              <div className="font-mono font-bold text-xs text-white truncate">
+              <div className="font-mono font-bold text-xs text-gray-900 truncate">
                 {ir.impacted_object_id}
               </div>
-              <div className="text-[11px] text-gray-700 truncate mt-0.5 font-medium">
+              <div className="text-[11px] text-gray-600 truncate mt-0.5 font-medium">
                 {ir.impacted_object_name}
               </div>
-              <div className="text-[9px] font-mono text-cyan-400/90 mt-1 flex items-center justify-between">
+              <div className="text-[10px] font-mono text-gray-400 mt-1 flex items-center justify-between">
                 <span>Dist: {ir.distance_from_source} deg</span>
                 <span>{ir.algorithm_version.split('-')[0]}</span>
               </div>
@@ -132,7 +132,7 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
           )
         },
         position: { x: col * 260 + 30, y: row * 125 + 30 },
-        className: `rounded-2xl border ${visual.border} ${visual.bg} ${visual.ring} backdrop-blur-md transition-all cursor-pointer`
+        className: `rounded-2xl border ${visual.border} ${visual.bg} ${visual.ring} shadow-sm transition-all cursor-pointer`
       });
 
       // Construct edge from traversal_path
@@ -144,16 +144,16 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
           id: `edge-${ir.impacted_object_id}`,
           source,
           target,
-          label: ir.impact_classification,
+          label: ir.impact_classification.replace('_', ' '),
           labelStyle: { fill: '#64748B', fontSize: 9, fontFamily: 'monospace' },
           style: {
-            stroke: ir.impact_classification === 'DIRECT_PRIMARY' ? '#f43f5e' : '#06b6d4',
+            stroke: ir.impact_classification === 'DIRECT_PRIMARY' ? '#EF4444' : '#0071E3',
             strokeWidth: 2
           },
           animated: ir.impact_classification === 'DIRECT_PRIMARY',
           markerEnd: {
             type: MarkerType.ArrowClosed,
-            color: ir.impact_classification === 'DIRECT_PRIMARY' ? '#f43f5e' : '#06b6d4',
+            color: ir.impact_classification === 'DIRECT_PRIMARY' ? '#EF4444' : '#0071E3',
             width: 14,
             height: 14
           }
@@ -179,36 +179,34 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Top Header & Filter Bar */}
-      <div className="p-5 rounded-2xl glass-panel-elevated border border-gray-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-purple-950/80 border border-purple-800 text-purple-400">
-              <Network className="w-5 h-5" />
+      <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+            <Network className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-base font-semibold text-gray-900">
+                Dependency & Impact Graph Explorer
+              </h2>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-semibold">
+                NetworkX BFS
+              </span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-bold text-white">
-                  Interactive Dependency & Impact Graph Explorer
-                </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 font-bold">
-                  NetworkX BFS
-                </span>
-              </div>
-              <p className="text-xs text-gray-500 mt-0.5">
-                Deterministic graph propagation mapping primary scope items to downstream parts, processes, and verification tests.
-              </p>
-            </div>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Deterministic graph propagation mapping primary change items to downstream parts, processes, and verification tests.
+            </p>
           </div>
         </div>
 
         {/* Filter Controls */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 text-xs">
-            <span className="text-gray-500 font-mono text-[11px]">Type:</span>
+            <span className="text-gray-500 font-medium text-[11px]">Type:</span>
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="bg-gray-50 text-gray-800 border border-gray-200 rounded-xl px-2.5 py-1 text-xs focus:outline-none focus:border-cyan-500 cursor-pointer"
+              className="bg-gray-50 text-gray-900 border border-gray-200 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-blue-500 cursor-pointer"
             >
               <option value="ALL">All Types</option>
               <option value="COMPONENT">Component</option>
@@ -220,11 +218,11 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
           </div>
 
           <div className="flex items-center gap-1.5 text-xs">
-            <span className="text-gray-500 font-mono text-[11px]">Class:</span>
+            <span className="text-gray-500 font-medium text-[11px]">Class:</span>
             <select
               value={classificationFilter}
               onChange={(e) => setClassificationFilter(e.target.value)}
-              className="bg-gray-50 text-gray-800 border border-gray-200 rounded-xl px-2.5 py-1 text-xs focus:outline-none focus:border-cyan-500 cursor-pointer"
+              className="bg-gray-50 text-gray-900 border border-gray-200 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-blue-500 cursor-pointer"
             >
               <option value="ALL">All Classes</option>
               <option value="DIRECT_PRIMARY">Direct Primary</option>
@@ -238,7 +236,7 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
       {/* Main Graph Canvas and Inspector Drawer */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* React Flow Graph */}
-        <div className="lg:col-span-2 h-[560px] rounded-2xl bg-gray-50 border border-gray-200/80 relative overflow-hidden shadow-2xl">
+        <div className="lg:col-span-2 h-[560px] rounded-2xl bg-white border border-gray-200/80 relative overflow-hidden shadow-sm">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -247,8 +245,8 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
             onNodeClick={onNodeClick}
             fitView
           >
-            <Background color="#E5E7EB" gap={18} />
-            <Controls className="bg-gray-50 border-gray-200 fill-slate-300 rounded-xl overflow-hidden" />
+            <Background color="#F1F5F9" gap={20} />
+            <Controls className="bg-white border-gray-200 fill-slate-600 rounded-xl overflow-hidden shadow-xs" />
             <MiniMap
               nodeColor={(node) => (node.id === selectedNodeId ? '#0071E3' : '#CBD5E1')}
               className="bg-white border border-gray-200 rounded-xl"
@@ -256,43 +254,43 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
           </ReactFlow>
 
           {/* Floating Graph Legend */}
-          <div className="absolute bottom-4 left-4 glass-panel p-3 rounded-xl text-[10px] space-y-1.5 z-10 font-sans shadow-lg">
-            <div className="font-bold text-gray-700 uppercase text-[9px] tracking-wider mb-1">
-              Impact Classification Legend
+          <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm p-3.5 rounded-xl border border-gray-200 text-[11px] space-y-1.5 z-10 font-sans shadow-sm">
+            <div className="font-semibold text-gray-800 uppercase text-[9px] tracking-wider mb-1">
+              Impact Classification
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
-              <span className="text-gray-700 font-mono font-semibold">Direct Primary Scope</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500" />
+              <span className="text-gray-700 font-medium">Direct Primary Scope</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
-              <span className="text-gray-700 font-mono font-semibold">Coupled Secondary Component</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+              <span className="text-gray-700 font-medium">Coupled Secondary Component</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-              <span className="text-gray-700 font-mono font-semibold">Mandatory Verification Scope</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span className="text-gray-700 font-medium">Mandatory Verification Scope</span>
             </div>
           </div>
         </div>
 
         {/* Selected Node Details Drawer */}
-        <div className="p-5 rounded-2xl glass-panel-elevated border border-gray-200/80 flex flex-col justify-between space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between space-y-4">
           {selectedImpact ? (
             <div className="space-y-4">
-              <div className="border-b border-gray-200/80 pb-3">
-                <div className="flex items-center justify-between text-[10px] font-mono uppercase text-gray-500 mb-1">
-                  <span>{selectedImpact.impacted_object_type}</span>
-                  <span className={`px-2 py-0.5 rounded-full font-bold ${
+              <div className="border-b border-gray-100 pb-4">
+                <div className="flex items-center justify-between text-[10px] font-mono uppercase text-gray-500 mb-1.5">
+                  <span className="font-semibold">{selectedImpact.impacted_object_type}</span>
+                  <span className={`px-2 py-0.5 rounded-full font-semibold ${
                     selectedImpact.impact_classification === 'DIRECT_PRIMARY'
-                      ? 'bg-rose-950 text-rose-300 border border-rose-800'
+                      ? 'bg-red-50 text-red-700 border border-red-200'
                       : selectedImpact.impact_classification === 'VERIFICATION_SCOPE'
-                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
-                      : 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                      : 'bg-blue-50 text-blue-700 border border-blue-200'
                   }`}>
                     {selectedImpact.impact_classification.replace('_', ' ')}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-white font-mono">
+                <h3 className="text-lg font-bold text-gray-900 font-mono">
                   {selectedImpact.impacted_object_id}
                 </h3>
                 <div className="text-xs text-gray-700 mt-0.5 font-medium">
@@ -302,28 +300,28 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
 
               {/* Traversal Path */}
               <div>
-                <div className="text-gray-500 text-[10px] font-mono uppercase tracking-wider mb-1.5 font-bold">
+                <div className="text-gray-500 text-[10px] font-mono uppercase tracking-wider mb-1.5 font-semibold">
                   Traceable Propagation Path
                 </div>
-                <div className="p-3 rounded-xl bg-gray-50 text-gray-800 border border-gray-200 font-mono text-xs text-cyan-300 leading-relaxed">
+                <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 font-mono text-xs text-blue-700 leading-relaxed font-medium">
                   {selectedImpact.traversal_path}
                 </div>
               </div>
 
-              {/* Plain-Language Rationale */}
+              {/* Explainable Rationale */}
               <div>
-                <div className="text-gray-500 text-[10px] font-mono uppercase tracking-wider mb-1.5 font-bold">
+                <div className="text-gray-500 text-[10px] font-mono uppercase tracking-wider mb-1.5 font-semibold">
                   Explainable Engineering Rationale
                 </div>
-                <div className="p-3 rounded-xl bg-gray-50 text-gray-800 border border-gray-200 text-xs text-gray-700 leading-relaxed">
+                <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-700 leading-relaxed">
                   {selectedImpact.rationale}
                 </div>
               </div>
 
-              {/* Distance from Change Scope */}
-              <div className="p-3 rounded-xl bg-cyan-950/20 border border-cyan-900/40 text-xs text-cyan-200 flex items-center justify-between font-mono">
+              {/* Distance from Scope */}
+              <div className="p-3 rounded-xl bg-blue-50/70 border border-blue-100 text-xs text-blue-900 flex items-center justify-between font-mono">
                 <span>Degrees of Separation:</span>
-                <span className="font-bold text-sm text-cyan-400">{selectedImpact.distance_from_source}</span>
+                <span className="font-bold text-sm text-blue-700">{selectedImpact.distance_from_source}</span>
               </div>
             </div>
           ) : (
@@ -332,38 +330,38 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
             </div>
           )}
 
-          <div className="pt-3 border-t border-gray-200/80 text-[11px] text-gray-400 font-mono text-center">
+          <div className="pt-3 border-t border-gray-100 text-[11px] text-gray-400 font-mono text-center">
             ChangeLens Graph Engine · 100% Synthetic Oracle Recall
           </div>
         </div>
       </div>
 
       {/* Traversal Results Table */}
-      <div className="p-5 rounded-2xl glass-panel border border-gray-200/80">
-        <div className="flex justify-between items-center mb-4">
+      <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800">
+            <h4 className="text-sm font-semibold text-gray-900">
               Impact Traversal Results Matrix ({impactResults.length} Reachable Objects)
             </h4>
-            <p className="text-[11px] text-gray-500">
+            <p className="text-xs text-gray-500 mt-0.5">
               Downstream impacted items identified by BFS graph exploration algorithm.
             </p>
           </div>
-          <span className="text-[11px] font-mono text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded-lg border border-cyan-800/60 font-semibold">
+          <span className="text-xs font-mono text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200 font-semibold self-start sm:self-auto">
             Algorithm: {impactResults[0]?.algorithm_version || 'NetworkX-BFS-v2.1'}
           </span>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto border border-gray-200 rounded-xl">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-gray-200/80 text-gray-500 uppercase text-[10px] font-mono">
-                <th className="py-3 px-3">Object ID</th>
-                <th className="py-3 px-3">Name & Scope</th>
-                <th className="py-3 px-3">Type</th>
-                <th className="py-3 px-3">Classification</th>
-                <th className="py-3 px-3">Distance</th>
-                <th className="py-3 px-3 w-1/3">Propagation Rationale</th>
+              <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 font-medium text-[11px]">
+                <th className="py-3 px-3.5">Object ID</th>
+                <th className="py-3 px-3.5">Name & Scope</th>
+                <th className="py-3 px-3.5">Type</th>
+                <th className="py-3 px-3.5">Classification</th>
+                <th className="py-3 px-3.5">Distance</th>
+                <th className="py-3 px-3.5 w-1/3">Propagation Rationale</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -371,30 +369,30 @@ export const ImpactExplorerView: React.FC<ImpactExplorerProps> = ({ changeId }) 
                 <tr
                   key={ir.id}
                   onClick={() => setSelectedNodeId(ir.impacted_object_id)}
-                  className={`hover:bg-gray-100 text-gray-800/30 transition-colors cursor-pointer ${
-                    selectedNodeId === ir.impacted_object_id ? 'bg-gray-100 text-gray-800/60' : ''
+                  className={`hover:bg-gray-50/70 transition cursor-pointer ${
+                    selectedNodeId === ir.impacted_object_id ? 'bg-blue-50/40' : ''
                   }`}
                 >
-                  <td className="py-3.5 px-3 font-mono font-bold text-cyan-400">{ir.impacted_object_id}</td>
-                  <td className="py-3.5 px-3 font-semibold text-gray-800">{ir.impacted_object_name}</td>
-                  <td className="py-3.5 px-3">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-gray-50 text-gray-700 border border-gray-200">
+                  <td className="py-3.5 px-3.5 font-mono font-semibold text-blue-600">{ir.impacted_object_id}</td>
+                  <td className="py-3.5 px-3.5 font-semibold text-gray-900">{ir.impacted_object_name}</td>
+                  <td className="py-3.5 px-3.5">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200">
                       {ir.impacted_object_type}
                     </span>
                   </td>
-                  <td className="py-3.5 px-3">
+                  <td className="py-3.5 px-3.5">
                     <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full border ${
                       ir.impact_classification === 'DIRECT_PRIMARY'
-                        ? 'bg-rose-950/80 text-rose-300 border-rose-800'
+                        ? 'bg-red-50 text-red-700 border border-red-200'
                         : ir.impact_classification === 'VERIFICATION_SCOPE'
-                        ? 'bg-emerald-950/80 text-emerald-300 border-emerald-800'
-                        : 'bg-cyan-950/80 text-cyan-300 border-cyan-800'
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        : 'bg-blue-50 text-blue-700 border border-blue-200'
                     }`}>
                       {ir.impact_classification}
                     </span>
                   </td>
-                  <td className="py-3.5 px-3 font-mono text-gray-700">{ir.distance_from_source} deg</td>
-                  <td className="py-3.5 px-3 text-gray-500 text-xs leading-relaxed">{ir.rationale}</td>
+                  <td className="py-3.5 px-3.5 font-mono text-gray-600">{ir.distance_from_source} deg</td>
+                  <td className="py-3.5 px-3.5 text-gray-600 text-xs leading-relaxed">{ir.rationale}</td>
                 </tr>
               ))}
             </tbody>
