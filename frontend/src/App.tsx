@@ -91,7 +91,7 @@ export const App: React.FC = () => {
   const currentChange = changes.find((c) => c.id === selectedChangeId) || changes[0];
 
   return (
-    <div className="flex h-screen bg-[#070a10] text-slate-100 overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#090d16] text-slate-100 overflow-hidden font-sans">
       {/* Persistent Industrial HUD Sidebar */}
       <Sidebar
         currentTab={currentTab}
@@ -106,7 +106,7 @@ export const App: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Top 2026 Aerospace HUD Status Bar */}
-        <header className="h-16 border-b border-slate-800/80 bg-[#090e1a]/95 backdrop-blur-md px-6 flex items-center justify-between shrink-0 z-10">
+        <header className="h-16 border-b border-slate-800/70 bg-slate-900/70 backdrop-blur-md px-6 flex items-center justify-between shrink-0 z-10">
           <div className="flex items-center gap-4">
             {/* System Status Beacon */}
             <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-mono">
@@ -158,9 +158,7 @@ export const App: React.FC = () => {
             >
               <Search className="w-3.5 h-3.5 text-slate-400" />
               <span className="hidden sm:inline">Search...</span>
-              <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-800 border border-slate-700 text-slate-400">
-                ⌘K
-              </kbd>
+              <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">Ctrl+K</kbd>
             </button>
 
             {/* Showcase Tour Trigger Button */}
@@ -206,7 +204,7 @@ export const App: React.FC = () => {
         </header>
 
         {/* Scrollable View Container */}
-        <main className="flex-1 overflow-y-auto p-6 bg-[#070a10]">
+        <main className="flex-1 overflow-y-auto p-6 bg-[#090d16]">
           {currentTab === 'overview' && (
             <OverviewView
               onNavigate={handleNavigate}

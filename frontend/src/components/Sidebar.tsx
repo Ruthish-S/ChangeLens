@@ -9,9 +9,11 @@ import {
   FileSpreadsheet,
   GraduationCap,
   Sparkles,
-  Plane,
+  Aperture,
   UserCheck,
-  ChevronDown
+  ChevronDown,
+  ShieldCheck,
+  Activity
 } from 'lucide-react';
 import { User } from '../api/client';
 
@@ -45,55 +47,59 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenTour
 }) => {
   const navItems = [
-    { id: 'overview', label: 'Executive Dashboard', icon: LayoutDashboard, shortcut: '1' },
-    { id: 'changes', label: 'Change Workspace', icon: GitBranch, shortcut: '2' },
-    { id: 'impact', label: 'Impact Graph Explorer', icon: Network, shortcut: '3' },
-    { id: 'risks', label: 'Risk Controls (FMEA)', icon: ShieldAlert, shortcut: '4' },
+    { id: 'overview' as NavTab, label: 'Executive Dashboard', icon: LayoutDashboard, shortcut: '1' },
+    { id: 'changes' as NavTab, label: 'Change Workspace', icon: GitBranch, shortcut: '2' },
+    { id: 'impact' as NavTab, label: 'Impact Graph Explorer', icon: Network, shortcut: '3' },
+    { id: 'risks' as NavTab, label: 'Risk Controls (FMEA)', icon: ShieldAlert, shortcut: '4' },
     { 
-      id: 'evidence', 
+      id: 'evidence' as NavTab, 
       label: 'Verification & Gates', 
       icon: FileCheck2, 
       shortcut: '5',
       badge: blockedCount > 0 ? `${blockedCount} BLOCKED` : undefined,
-      badgeColor: 'bg-rose-950/80 text-rose-400 border border-rose-800'
+      badgeColor: 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
     },
-    { id: 'approvals', label: 'Review Queue & SoD', icon: CheckSquare, shortcut: '6' },
-    { id: 'reports', label: 'Reports & Exports', icon: FileSpreadsheet, shortcut: '7' },
-    { id: 'ilm', label: 'ILM Case Study', icon: GraduationCap, shortcut: '8' }
+    { id: 'approvals' as NavTab, label: 'Review Queue & SoD', icon: CheckSquare, shortcut: '6' },
+    { id: 'reports' as NavTab, label: 'Reports & Exports', icon: FileSpreadsheet, shortcut: '7' },
+    { id: 'ilm' as NavTab, label: 'ILM Case Study', icon: GraduationCap, shortcut: '8' }
   ];
 
   return (
-    <aside className="w-64 h-screen bg-[#070b14] border-r border-slate-800/80 flex flex-col shrink-0 select-none font-sans z-20">
-      {/* Brand Header */}
-      <div className="h-16 px-5 border-b border-slate-800/80 flex items-center justify-between">
+    <aside className="w-64 h-screen bg-[#090d16] border-r border-slate-800/70 flex flex-col shrink-0 select-none font-sans z-20">
+      {/* 2026 Sleek Brand Header */}
+      <div className="h-16 px-5 border-b border-slate-800/70 flex items-center justify-between bg-slate-900/40">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-600 to-blue-500 p-0.5 shadow-lg shadow-cyan-950/50 flex items-center justify-center">
-            <div className="w-full h-full bg-[#080d1a] rounded-[10px] flex items-center justify-center">
-              <Plane className="w-5 h-5 text-cyan-400" />
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1.5px] shadow-md shadow-cyan-950/40 flex items-center justify-center">
+            <div className="w-full h-full bg-[#0a0f1d] rounded-[10px] flex items-center justify-center">
+              <Aperture className="w-5 h-5 text-cyan-400" />
             </div>
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h1 className="text-sm font-black tracking-tight text-white uppercase">
+              <h1 className="text-sm font-bold tracking-tight text-white font-sans">
                 ChangeLens
               </h1>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/60 font-semibold">
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-semibold">
                 2026
               </span>
             </div>
-            <p className="text-[10px] font-mono text-slate-400 truncate max-w-[140px]">
-              Boeing 737-9 MAX Case
+            <p className="text-[10px] text-slate-400 font-medium">
+              Aerospace Configuration Desk
             </p>
           </div>
         </div>
       </div>
 
-      {/* User Persona & Separation-of-Duties Selector */}
-      <div className="px-3.5 py-3 border-b border-slate-800/60 bg-[#0a0f1d]/60">
-        <div className="text-[10px] uppercase font-mono tracking-wider text-slate-400 mb-1.5 flex items-center justify-between">
-          <span>Active Persona (FAA SoD)</span>
-          <UserCheck className="w-3 h-3 text-cyan-400" />
+      {/* User Persona & Separation-of-Duties Card */}
+      <div className="p-3 border-b border-slate-800/60 bg-slate-900/30">
+        <div className="flex items-center justify-between text-[11px] font-medium text-slate-400 mb-2 px-1">
+          <span className="flex items-center gap-1.5">
+            <UserCheck className="w-3.5 h-3.5 text-cyan-400" />
+            Active Persona
+          </span>
+          <span className="text-[10px] font-mono text-slate-500">FAA SoD</span>
         </div>
+        
         <div className="relative">
           <select
             value={currentUser?.id || ''}
@@ -101,7 +107,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               const selected = allUsers.find((u) => u.id === e.target.value);
               if (selected) onUserChange(selected);
             }}
-            className="w-full appearance-none bg-slate-900/90 text-xs text-slate-200 border border-slate-700/80 rounded-xl px-3 py-2 pr-8 focus:outline-none focus:border-cyan-500 cursor-pointer font-medium hover:border-slate-600 transition-colors"
+            className="w-full appearance-none bg-slate-800/80 hover:bg-slate-800 text-xs text-slate-200 border border-slate-700/70 rounded-xl px-3 py-2 pr-8 focus:outline-none focus:border-cyan-500 cursor-pointer font-medium transition-all shadow-sm"
           >
             {allUsers.map((u) => (
               <option key={u.id} value={u.id} className="bg-slate-900 text-slate-200 py-1">
@@ -109,27 +115,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-3 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none" />
         </div>
+
         {currentUser && (
-          <div className="mt-1.5 flex items-center justify-between text-[10px] font-mono">
-            <span className="text-slate-400">Approval Power:</span>
-            <span className={`px-1.5 py-0.5 rounded font-bold ${
+          <div className="mt-2 px-1 flex items-center justify-between text-[11px]">
+            <span className="text-slate-400">Authority:</span>
+            <span className={`px-2 py-0.5 rounded-md font-mono text-[10px] font-semibold border ${
               currentUser.role === 'APPROVER' 
-                ? 'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                 : currentUser.role === 'REQUESTER'
-                ? 'bg-amber-950 text-amber-400 border border-amber-800'
-                : 'bg-blue-950 text-blue-400 border border-blue-800'
+                ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
             }`}>
-              {currentUser.role === 'APPROVER' ? 'FINAL AUTHORIZER' : currentUser.role === 'REQUESTER' ? 'SELF-APPROVE BLOCKED' : 'VERIFIER ONLY'}
+              {currentUser.role === 'APPROVER' ? 'Final Sign-off' : currentUser.role === 'REQUESTER' ? 'Self-Sign Blocked' : 'Quality Verify'}
             </span>
           </div>
         )}
       </div>
 
-      {/* Main Navigation Links */}
-      <nav className="flex-1 px-3 py-3 space-y-1 overflow-y-auto">
-        <div className="text-[10px] uppercase font-mono tracking-wider text-slate-400 px-2.5 mb-1">
+      {/* Navigation Tab Menu */}
+      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
+        <div className="px-3 pb-1 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
           Workspaces
         </div>
         {navItems.map((item) => {
@@ -138,53 +145,53 @@ export const Sidebar: React.FC<SidebarProps> = ({
           return (
             <button
               key={item.id}
-              onClick={() => onTabChange(item.id as NavTab)}
-              className={`w-full group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
+              onClick={() => onTabChange(item.id)}
+              className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between transition-all duration-150 ${
                 isActive
-                  ? 'bg-gradient-to-r from-cyan-950/60 to-blue-950/40 text-cyan-300 border border-cyan-800/80 shadow-md shadow-cyan-950/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                  ? 'bg-cyan-500/15 text-cyan-300 font-semibold border border-cyan-500/30 shadow-sm shadow-cyan-950/20'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
               }`}
             >
-              <div className="flex items-center gap-3 truncate">
-                <Icon
-                  className={`w-4 h-4 shrink-0 transition-colors ${
-                    isActive ? 'text-cyan-400' : 'text-slate-400 group-hover:text-slate-200'
-                  }`}
-                />
+              <div className="flex items-center gap-2.5 min-w-0">
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
                 <span className="truncate">{item.label}</span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
                 {item.badge && (
-                  <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md font-bold ${item.badgeColor}`}>
+                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold ${item.badgeColor}`}>
                     {item.badge}
                   </span>
                 )}
-                <kbd className="hidden group-hover:inline-block text-[9px] font-mono px-1 rounded bg-slate-800 text-slate-400 border border-slate-700">
+                <kbd className="hidden lg:inline-block text-[10px] font-mono text-slate-500 px-1 py-0.5 rounded bg-slate-800/60 border border-slate-700/50">
                   {item.shortcut}
                 </kbd>
               </div>
             </button>
           );
         })}
-      </nav>
+      </div>
 
-      {/* Guided Showcase Tour Banner */}
-      <div className="p-3 border-t border-slate-800/80 bg-[#090e1a]">
+      {/* Modern Bottom Tour & System Status */}
+      <div className="p-3 border-t border-slate-800/70 bg-slate-900/40 space-y-2">
         <button
           onClick={onOpenTour}
-          className="w-full px-3 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600/20 via-indigo-600/20 to-purple-600/20 hover:from-cyan-600/30 hover:to-purple-600/30 border border-cyan-500/40 text-cyan-300 flex items-center justify-between text-xs font-bold transition-all shadow-lg shadow-cyan-950/20 group"
+          className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold transition-all shadow-sm"
         >
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-cyan-400 animate-spin-slow group-hover:scale-110 transition-transform" />
-            <span>Showcase Tour</span>
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Interactive Tour</span>
           </div>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-400">
-            Guided
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-200">
+            Guide
           </span>
         </button>
 
-        <div className="mt-2 text-[10px] font-mono text-center text-slate-400">
-          ChangeLens v1.0.0 · 2026 Production
+        <div className="px-1 flex items-center justify-between text-[10px] font-mono text-slate-500">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            ChangeLens v2.6.0
+          </span>
+          <span>Boeing 737-9</span>
         </div>
       </div>
     </aside>
