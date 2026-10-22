@@ -17,7 +17,10 @@ import {
   ShieldCheck,
   FileText,
   Search,
-  Scale
+  Plus,
+  Network,
+  FileSpreadsheet,
+  Lock
 } from 'lucide-react';
 import {
   ScatterChart,
@@ -97,84 +100,114 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 font-sans">
-      {/* Apple-Style Minimal Hero Banner */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 p-8 shadow-sm">
+      {/* Apple-Style Clean Operational Hero */}
+      <div className="bg-white rounded-2xl border border-gray-200/80 p-7 shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2.5 max-w-3xl">
+          <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-xs font-semibold text-blue-700">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
-              ILM Module 5 · Manufacturing Quality Governance
+              Active Baseline: Boeing 737-9 MAX · Station 500 Assembly
             </div>
             <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
-              Change Control & Quality Governance
+              Change Control &amp; Quality Governance Desk
             </h1>
-            <p className="text-sm text-gray-500 leading-relaxed">
-              The operational implementation of <span className="font-semibold text-gray-800">Option C: Integrated Governance</span> from the Boeing 737-9 MAX case study. Enforcing evidence-gated verification, AIAG/VDA FMEA risk escalations, and strict segregation of duties so uninspected work can never progress.
+            <p className="text-sm text-gray-500 max-w-3xl leading-relaxed">
+              Real-time engineering configuration tracking, automated dependency propagation, and evidence-gated release control. Enforcing that no critical aerospace operation progresses without verified physical records and independent QA certification.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => onNavigate('changes')}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs transition-all shadow-sm shadow-blue-500/20"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              New Change Order
+            </button>
+            <button
+              onClick={() => onNavigate('evidence')}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-medium border border-red-200 transition-all shadow-sm"
+            >
+              <Lock className="w-3.5 h-3.5 text-red-600" />
+              Gate Locks (1)
+            </button>
             <button
               onClick={fetchData}
               disabled={loading}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-medium border border-gray-200 transition-all shadow-sm"
+              className="p-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-200 transition-all shadow-sm"
+              title="Refresh Data"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-gray-500 ${loading ? 'animate-spin text-blue-600' : ''}`} />
-              Refresh
-            </button>
-            <button
-              onClick={() => onNavigate('changes')}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs transition-all shadow-sm shadow-blue-500/20"
-            >
-              Change Workspace
-              <ArrowRight className="w-4 h-4" />
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-blue-600' : ''}`} />
             </button>
           </div>
         </div>
 
-        {/* PPT Framework Convergence Pills */}
-        <div className="mt-6 pt-6 border-t border-gray-100 grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {/* 4 Core System Safeguards (Real Operational Features) */}
+        <div className="mt-6 pt-6 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div 
-            onClick={() => onNavigate('ilm')}
-            className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            onClick={() => onNavigate('changes')}
+            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
           >
-            <div className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Investigate</div>
-            <div className="text-xs font-semibold text-gray-900 mt-0.5">Fishbone & 5 Whys</div>
-            <div className="text-[11px] text-gray-500 mt-1">Stops undocumented open work</div>
+            <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
+              <span>Digital Traveler Lock</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            </div>
+            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
+              Prevents undocumented cabin rework. Physical assemblies cannot be opened without active serialized authorization.
+            </p>
+            <div className="text-[10px] font-medium text-blue-600 mt-2">1 Active Traveler Open &rarr;</div>
           </div>
+
           <div 
-            onClick={() => onNavigate('ilm')}
-            className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            onClick={() => onNavigate('impact')}
+            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
           >
-            <div className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Analyze</div>
-            <div className="text-xs font-semibold text-gray-900 mt-0.5">PESTEL & SWOT</div>
-            <div className="text-[11px] text-gray-500 mt-1">Regulatory SMS & digital audits</div>
+            <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
+              <span>Impact Traversal</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            </div>
+            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
+              BFS graph scans 3 degrees of fasteners, structural mid-exit door panels, and test travelers with 100% recall.
+            </p>
+            <div className="text-[10px] font-medium text-blue-600 mt-2">7 Affected Items Mapped &rarr;</div>
           </div>
+
           <div 
             onClick={() => onNavigate('risks')}
-            className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
           >
-            <div className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Decide</div>
-            <div className="text-xs font-semibold text-gray-900 mt-0.5">FMEA & RACI Matrix</div>
-            <div className="text-[11px] text-gray-500 mt-1">Auto-escalates Severity ≥ 8</div>
+            <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
+              <span>FMEA Risk Containment</span>
+              <span className="w-2 h-2 rounded-full bg-red-500" />
+            </div>
+            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
+              Automatically flags explosive decompression hazards (Severity 10, RPN 280), mandating Level II QA sign-off.
+            </p>
+            <div className="text-[10px] font-medium text-red-600 mt-2">3 High-Severity Flags &rarr;</div>
           </div>
+
           <div 
             onClick={() => onNavigate('evidence')}
-            className="p-3 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
           >
-            <div className="text-[11px] font-semibold text-blue-600 uppercase tracking-wider">Selected Solution</div>
-            <div className="text-xs font-semibold text-gray-900 mt-0.5">Integrated Governance</div>
-            <div className="text-[11px] text-gray-500 mt-1">Score: 3.95 (Evidence-Gated)</div>
+            <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
+              <span>Evidence Quality Gates</span>
+              <span className="w-2 h-2 rounded-full bg-red-500" />
+            </div>
+            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
+              Aircraft progression is locked until torque certificates and independent stamps are SHA-256 cryptographically verified.
+            </p>
+            <div className="text-[10px] font-medium text-red-600 mt-2">Delivery Milestone Held &rarr;</div>
           </div>
         </div>
       </div>
 
-      {/* Clean KPI Cards */}
+      {/* Bento KPI Metric Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
         {/* Total Changes */}
         <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between text-gray-400 mb-2">
-            <span className="text-[11px] font-medium uppercase tracking-wider">Total Changes</span>
+            <span className="text-[11px] font-medium uppercase tracking-wider">Active Changes</span>
             <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
               <GitPullRequest className="w-3.5 h-3.5 text-blue-600" />
             </div>
@@ -184,7 +217,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
               {metrics?.total_changes ?? 2}
             </div>
             <div className="text-[11px] text-gray-400 mt-1">
-              Active in scope
+              Active configuration
             </div>
           </div>
         </div>
@@ -280,39 +313,45 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Case Study Benchmark Spotlight Card */}
-      <div className="p-6 rounded-2xl bg-white border border-red-200/80 shadow-sm relative overflow-hidden">
+      {/* Active Operational Hold Card (Boeing 737-9 Door Plug Incident) */}
+      <div className="p-6 rounded-2xl bg-white border border-red-200 shadow-sm relative overflow-hidden">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className="text-[10px] font-semibold text-red-700 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-200">
-                Primary Case Study Benchmark
+                CRITICAL QUALITY HOLD · CCR-2026-0001
               </span>
-              <span className="text-xs font-mono font-medium text-gray-500">CCR-2026-0001</span>
+              <span className="text-xs font-mono font-medium text-gray-500">Boeing 737-9 MAX Station 500</span>
               <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-red-100 text-red-800">
                 Gate Blocked
               </span>
             </div>
             <h3 className="text-lg font-semibold text-gray-900">
-              Fuselage Station 500 Mid-Exit Door Plug Rework &amp; Retaining Pin Assembly
+              Fuselage Station 500 Mid-Exit Door Plug Rework &amp; Pin Re-installation
             </h3>
-            <p className="text-xs sm:text-sm text-gray-500 max-w-4xl leading-relaxed">
-              Models the assembly traveler defect behind Alaska Airlines Flight 1282. ChangeLens traversed 7 affected items across 3 degrees, caught the <span className="font-semibold text-red-600">Severity 10 explosive decompression risk (RPN 280)</span>, and enforced an automated quality gate lock because retaining bolt torque verification logs and Level II QA stamps are missing.
+            <p className="text-xs sm:text-sm text-gray-600 max-w-4xl leading-relaxed">
+              Models the exact assembly traveler defect behind the Alaska Airlines Flight 1282 accident. ChangeLens caught the uninspected closure, flagged the <span className="font-semibold text-red-600">Severity 10 explosive decompression hazard (RPN 280)</span>, and locked aircraft release at Quality Gate 3 because retaining bolt torque verification logs (BAC-5001-4) and Level II QA stamps are missing.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => onNavigate('impact', 'CCR-2026-0001')}
-              className="px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-xs font-medium border border-gray-200 transition"
-            >
-              Explore Graph
-            </button>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             <button
               onClick={() => onNavigate('evidence', 'CCR-2026-0001')}
               className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-medium transition shadow-sm"
             >
-              Inspect Quality Gate
+              Resolve Gate Lock &rarr;
+            </button>
+            <button
+              onClick={() => onNavigate('impact', 'CCR-2026-0001')}
+              className="px-3.5 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-xs font-medium border border-gray-200 transition"
+            >
+              Impact Graph
+            </button>
+            <button
+              onClick={() => onNavigate('risks', 'CCR-2026-0001')}
+              className="px-3.5 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-xs font-medium border border-gray-200 transition"
+            >
+              FMEA Register
             </button>
           </div>
         </div>
@@ -492,12 +531,12 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Active Change Requests Table */}
+      {/* Active Change Orders Table */}
       <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
         <div className="flex justify-between items-center mb-4">
           <div>
             <h4 className="text-sm font-semibold text-gray-900">
-              Active Change Requests &amp; State Transitions
+              Active Change Orders &amp; Release Status
             </h4>
             <p className="text-xs text-gray-400 mt-0.5">
               Evaluated under baseline BASE-737-9-DOORPLUG-A.
@@ -544,7 +583,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
                       onClick={() => onNavigate('changes', c.id)}
                       className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium text-xs transition"
                     >
-                      Workspace <ChevronRight className="w-3.5 h-3.5" />
+                      Open Workspace <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </td>
                 </tr>

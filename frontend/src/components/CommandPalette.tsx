@@ -49,7 +49,6 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     { id: 'tab-evidence', title: 'Go to Verification & Quality Gates', category: 'Navigation', icon: FileCheck2, color: 'text-amber-400', action: () => onSelectTab('evidence') },
     { id: 'tab-approvals', title: 'Go to Review Queue & Governance', category: 'Navigation', icon: CheckSquare, color: 'text-emerald-400', action: () => onSelectTab('approvals') },
     { id: 'tab-reports', title: 'Go to Reports & Exports (PDF/Word/Excel)', category: 'Navigation', icon: FileSpreadsheet, color: 'text-indigo-400', action: () => onSelectTab('reports') },
-    { id: 'tab-ilm', title: 'Go to ILM Case Study & Management Frameworks', category: 'Academic', icon: GraduationCap, color: 'text-rose-400', action: () => onSelectTab('ilm') },
     
     // Quick Change Switchers
     { id: 'cr-1', title: 'CCR-2026-0001: Boeing Station 500 Door Plug Rework', category: 'Change Request', icon: GitBranch, color: 'text-red-400', action: () => onSelectTab('changes', 'CCR-2026-0001') },

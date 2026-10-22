@@ -7,13 +7,10 @@ import {
   FileCheck2,
   CheckSquare,
   FileSpreadsheet,
-  GraduationCap,
   Sparkles,
   Aperture,
   UserCheck,
-  ChevronDown,
-  ShieldCheck,
-  Activity
+  ChevronDown
 } from 'lucide-react';
 import { User } from '../api/client';
 
@@ -24,8 +21,7 @@ export type NavTab =
   | 'risks' 
   | 'evidence' 
   | 'approvals' 
-  | 'reports' 
-  | 'ilm';
+  | 'reports';
 
 interface SidebarProps {
   currentTab: NavTab;
@@ -48,20 +44,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const navItems = [
     { id: 'overview' as NavTab, label: 'Dashboard', icon: LayoutDashboard, shortcut: '1' },
-    { id: 'changes' as NavTab, label: 'Changes', icon: GitBranch, shortcut: '2' },
+    { id: 'changes' as NavTab, label: 'Change Orders', icon: GitBranch, shortcut: '2' },
     { id: 'impact' as NavTab, label: 'Impact Graph', icon: Network, shortcut: '3' },
-    { id: 'risks' as NavTab, label: 'Risk Controls', icon: ShieldAlert, shortcut: '4' },
+    { id: 'risks' as NavTab, label: 'Risk & FMEA', icon: ShieldAlert, shortcut: '4' },
     { 
       id: 'evidence' as NavTab, 
-      label: 'Verification', 
+      label: 'Quality Gates', 
       icon: FileCheck2, 
       shortcut: '5',
       badge: blockedCount > 0 ? `${blockedCount} Blocked` : undefined,
       badgeColor: 'bg-red-50 text-red-600 border border-red-200'
     },
-    { id: 'approvals' as NavTab, label: 'Reviews', icon: CheckSquare, shortcut: '6' },
-    { id: 'reports' as NavTab, label: 'Reports', icon: FileSpreadsheet, shortcut: '7' },
-    { id: 'ilm' as NavTab, label: 'Case Study', icon: GraduationCap, shortcut: '8' }
+    { id: 'approvals' as NavTab, label: 'Review Queue', icon: CheckSquare, shortcut: '6' },
+    { id: 'reports' as NavTab, label: 'Audit Reports', icon: FileSpreadsheet, shortcut: '7' }
   ];
 
   return (
@@ -69,7 +64,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Brand Header */}
       <div className="h-14 px-5 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm">
             <Aperture className="w-4.5 h-4.5 text-white" />
           </div>
           <div>
@@ -77,20 +72,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
               ChangeLens
             </h1>
             <p className="text-[11px] text-gray-400 leading-tight">
-              Governance Platform
+              Aviation Quality &amp; Change Control
             </p>
           </div>
         </div>
       </div>
 
       {/* User Persona & Separation-of-Duties Card */}
-      <div className="p-3 border-b border-gray-200">
+      <div className="p-3 border-b border-gray-200 bg-gray-50/50">
         <div className="flex items-center justify-between text-[11px] font-medium text-gray-500 mb-2 px-1">
           <span className="flex items-center gap-1.5">
             <UserCheck className="w-3.5 h-3.5 text-gray-400" />
             Active Persona
           </span>
-          <span className="text-[10px] text-gray-400">SoD</span>
+          <span className="text-[10px] font-mono text-gray-400">FAA SoD</span>
         </div>
         
         <div className="relative">
@@ -100,10 +95,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               const selected = allUsers.find((u) => u.id === e.target.value);
               if (selected) onUserChange(selected);
             }}
-            className="w-full appearance-none bg-gray-50 hover:bg-gray-100 text-xs text-gray-700 border border-gray-200 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer font-medium transition-all"
+            className="w-full appearance-none bg-white text-xs text-gray-700 border border-gray-200 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer font-medium transition-all shadow-sm"
           >
             {allUsers.map((u) => (
-              <option key={u.id} value={u.id}>
+              <option key={u.id} value={u.id} className="py-1">
                 {u.display_name} ({u.role})
               </option>
             ))}
@@ -116,7 +111,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span className="text-gray-400">Authority:</span>
             <span className={`px-2 py-0.5 rounded-md text-[10px] font-medium border ${
               currentUser.role === 'APPROVER' 
-                ? 'bg-green-50 text-green-700 border-green-200'
+                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                 : currentUser.role === 'REQUESTER'
                 ? 'bg-amber-50 text-amber-700 border-amber-200'
                 : 'bg-blue-50 text-blue-700 border-blue-200'
@@ -130,7 +125,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Navigation Tab Menu */}
       <div className="flex-1 overflow-y-auto px-2 py-3 space-y-0.5">
         <div className="px-3 pb-2 text-[10px] uppercase tracking-wider text-gray-400 font-semibold">
-          Navigation
+          Workspaces
         </div>
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -141,7 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => onTabChange(item.id)}
               className={`w-full text-left px-3 py-2 rounded-lg text-[13px] font-medium flex items-center justify-between transition-all duration-150 ${
                 isActive
-                  ? 'bg-gray-100 text-gray-900 font-semibold'
+                  ? 'bg-gray-100 text-gray-900 font-semibold shadow-sm'
                   : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
               }`}
             >
@@ -172,19 +167,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <div className="flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-blue-500" />
-            <span>Interactive Tour</span>
+            <span>Interactive Guide</span>
           </div>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-600">
-            Guide
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 font-medium">
+            Tour
           </span>
         </button>
 
         <div className="px-1 flex items-center justify-between text-[10px] text-gray-400">
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-            ChangeLens v2.6.0
+            ChangeLens Engine
           </span>
-          <span>Boeing 737-9</span>
+          <span>Station 500 Active</span>
         </div>
       </div>
     </aside>

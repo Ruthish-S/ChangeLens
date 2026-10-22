@@ -9,7 +9,6 @@ import { RiskControlsView } from './features/risks/RiskControlsView';
 import { VerificationGatesView } from './features/evidence/VerificationGatesView';
 import { ReviewQueueView } from './features/approvals/ReviewQueueView';
 import { ReportsView } from './features/reports/ReportsView';
-import { IlmCaseStudyView } from './features/ilm/IlmCaseStudyView';
 import { api, User, ChangeRequest } from './api/client';
 import { 
   GitBranch, 
@@ -72,7 +71,6 @@ export const App: React.FC = () => {
           '5': 'evidence',
           '6': 'approvals',
           '7': 'reports',
-          '8': 'ilm'
         };
         if (keyMap[e.key]) {
           setCurrentTab(keyMap[e.key]);
@@ -254,7 +252,7 @@ export const App: React.FC = () => {
             />
           )}
 
-          {currentTab === 'ilm' && <IlmCaseStudyView />}
+          
         </main>
       </div>
 
