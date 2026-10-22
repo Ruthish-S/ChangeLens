@@ -20,7 +20,8 @@ import {
   Plus,
   Network,
   FileSpreadsheet,
-  Lock
+  Lock,
+  Filter
 } from 'lucide-react';
 import {
   ScatterChart,
@@ -53,6 +54,8 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
   const [cycleData, setCycleData] = useState<any[]>([]);
   const [evidenceData, setEvidenceData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [tableFilter, setTableFilter] = useState<string>('ALL');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const fetchData = async () => {
     try {
@@ -89,127 +92,147 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         return 'bg-emerald-50 text-emerald-700 border-emerald-200';
       case 'UNDER_REVIEW':
       case 'IMPACT_ASSESSED':
-        return 'bg-amber-50 text-amber-700 border-amber-200';
+        return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'REJECTED':
       case 'RETURNED_FOR_REVISION':
         return 'bg-rose-50 text-rose-700 border-rose-200';
       default:
-        return 'bg-gray-50 text-gray-700 border-gray-200';
+        return 'bg-amber-50 text-amber-800 border-amber-200';
     }
   };
 
+  const filteredChanges = changes.filter((c) => {
+    const matchesFilter = tableFilter === 'ALL' || c.change_type.toLowerCase().includes(tableFilter.toLowerCase());
+    const matchesSearch = searchQuery === '' || 
+      c.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.reason.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 font-sans">
-      {/* Apple-Style Clean Operational Hero */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 p-7 shadow-sm">
+      {/* Apple-Style Operations Hero */}
+      <div className="bg-white rounded-3xl border border-gray-200/80 p-8 shadow-[0_1px_3px_rgba(0,0,0,0.03)] relative overflow-hidden">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-xs font-semibold text-blue-700">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
-              Active Baseline: Boeing 737-9 MAX · Station 500 Assembly
+          <div className="space-y-2.5 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 border border-blue-100 text-xs font-semibold text-[#0071E3]">
+              <span className="w-2 h-2 rounded-full bg-[#0071E3] animate-pulse-subtle" />
+              Active Airframe Baseline: Boeing 737-9 MAX · Fuselage Station 500
             </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
-              Change Control &amp; Quality Governance Desk
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight leading-tight">
+              Aviation Change Control &amp; Quality Governance
             </h1>
-            <p className="text-sm text-gray-500 max-w-3xl leading-relaxed">
-              Real-time engineering configuration tracking, automated dependency propagation, and evidence-gated release control. Enforcing that no critical aerospace operation progresses without verified physical records and independent QA certification.
+            <p className="text-sm text-gray-500 leading-relaxed font-normal">
+              Autonomous engineering change propagation, FMEA risk containment, and cryptographic evidence verification. Ensures zero unrecorded aircraft modifications reach the flight line.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <button
               onClick={() => onNavigate('changes')}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs transition-all shadow-sm shadow-blue-500/20"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0071E3] hover:bg-[#0077ED] text-white font-medium text-xs transition-all shadow-sm"
             >
               <Plus className="w-3.5 h-3.5" />
               New Change Order
             </button>
             <button
               onClick={() => onNavigate('evidence')}
-              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-medium border border-red-200 transition-all shadow-sm"
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-red-50 hover:bg-red-100/80 text-red-700 text-xs font-semibold border border-red-200 transition-all shadow-xs"
             >
               <Lock className="w-3.5 h-3.5 text-red-600" />
-              Gate Locks (1)
+              Gate Holds ({metrics?.blocked_changes ?? 1})
             </button>
             <button
               onClick={fetchData}
               disabled={loading}
-              className="p-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-200 transition-all shadow-sm"
-              title="Refresh Data"
+              className="p-2.5 rounded-xl bg-white hover:bg-gray-50 text-gray-600 border border-gray-200 transition-all shadow-2xs"
+              title="Refresh Telemetry"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-blue-600' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#0071E3]' : ''}`} />
             </button>
           </div>
         </div>
 
-        {/* 4 Core System Safeguards (Real Operational Features) */}
-        <div className="mt-6 pt-6 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {/* 4 Core System Safeguards (Interactive Navigation Cards) */}
+        <div className="mt-7 pt-6 border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           <div 
             onClick={() => onNavigate('changes')}
-            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            className="p-4 rounded-2xl bg-[#FAFAFC] hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200/80 cursor-pointer transition-all duration-200 group"
           >
             <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
               <span>Digital Traveler Lock</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
             </div>
-            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-              Prevents undocumented cabin rework. Physical assemblies cannot be opened without active serialized authorization.
+            <p className="text-[11px] text-gray-500 mt-1.5 leading-relaxed">
+              Stops unrecorded rework. Physical doors and panels cannot be unbolted without an active, serialized digital order.
             </p>
-            <div className="text-[10px] font-medium text-blue-600 mt-2">1 Active Traveler Open &rarr;</div>
+            <div className="text-[11px] font-semibold text-[#0071E3] mt-2.5 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              1 Active Traveler &rarr;
+            </div>
           </div>
 
           <div 
             onClick={() => onNavigate('impact')}
-            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            className="p-4 rounded-2xl bg-[#FAFAFC] hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200/80 cursor-pointer transition-all duration-200 group"
           >
             <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
-              <span>Impact Traversal</span>
+              <span>BFS Impact Traversal</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500" />
             </div>
-            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-              BFS graph scans 3 degrees of fasteners, structural mid-exit door panels, and test travelers with 100% recall.
+            <p className="text-[11px] text-gray-500 mt-1.5 leading-relaxed">
+              NetworkX graph traces 3 degrees of fasteners, stop pins, structural door fittings, and torque inspections with 100% recall.
             </p>
-            <div className="text-[10px] font-medium text-blue-600 mt-2">7 Affected Items Mapped &rarr;</div>
+            <div className="text-[11px] font-semibold text-[#0071E3] mt-2.5 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              7 Affected Items &rarr;
+            </div>
           </div>
 
           <div 
             onClick={() => onNavigate('risks')}
-            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            className="p-4 rounded-2xl bg-[#FAFAFC] hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200/80 cursor-pointer transition-all duration-200 group"
           >
             <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
-              <span>FMEA Risk Containment</span>
+              <span>FMEA Risk Escalation</span>
               <span className="w-2 h-2 rounded-full bg-red-500" />
             </div>
-            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-              Automatically flags explosive decompression hazards (Severity 10, RPN 280), mandating Level II QA sign-off.
+            <p className="text-[11px] text-gray-500 mt-1.5 leading-relaxed">
+              Auto-flags explosive decompression hazards (Severity 10, RPN 280), mandating Chief Airframe Engineer review.
             </p>
-            <div className="text-[10px] font-medium text-red-600 mt-2">3 High-Severity Flags &rarr;</div>
+            <div className="text-[11px] font-semibold text-red-600 mt-2.5 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              3 High-Severity Flags &rarr;
+            </div>
           </div>
 
           <div 
             onClick={() => onNavigate('evidence')}
-            className="p-3.5 rounded-xl bg-gray-50/70 hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200 cursor-pointer transition-all"
+            className="p-4 rounded-2xl bg-[#FAFAFC] hover:bg-blue-50/50 border border-gray-100 hover:border-blue-200/80 cursor-pointer transition-all duration-200 group"
           >
             <div className="flex items-center justify-between text-xs font-semibold text-gray-900">
               <span>Evidence Quality Gates</span>
               <span className="w-2 h-2 rounded-full bg-red-500" />
             </div>
-            <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">
-              Aircraft progression is locked until torque certificates and independent stamps are SHA-256 cryptographically verified.
+            <p className="text-[11px] text-gray-500 mt-1.5 leading-relaxed">
+              Aircraft progression is hard-locked until torque wrench logs and Level II stamps are cryptographically SHA-256 verified.
             </p>
-            <div className="text-[10px] font-medium text-red-600 mt-2">Delivery Milestone Held &rarr;</div>
+            <div className="text-[11px] font-semibold text-red-600 mt-2.5 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+              Release Milestone Held &rarr;
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Bento KPI Metric Cards */}
+      {/* Bento Metric KPI Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5">
-        {/* Total Changes */}
-        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between">
+        {/* Active Changes */}
+        <div 
+          onClick={() => onNavigate('changes')}
+          className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-xs hover:shadow-sm cursor-pointer transition-all flex flex-col justify-between"
+        >
           <div className="flex items-center justify-between text-gray-400 mb-2">
-            <span className="text-[11px] font-medium uppercase tracking-wider">Active Changes</span>
+            <span className="text-[11px] font-medium uppercase tracking-wider">Active Orders</span>
             <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
-              <GitPullRequest className="w-3.5 h-3.5 text-blue-600" />
+              <GitPullRequest className="w-3.5 h-3.5 text-[#0071E3]" />
             </div>
           </div>
           <div>
@@ -223,9 +246,12 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
 
         {/* Gate Blocks */}
-        <div className="p-4 rounded-xl bg-white border border-red-200 shadow-sm flex flex-col justify-between">
-          <div className="flex items-center justify-between text-red-500 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider">Gate Blocks</span>
+        <div 
+          onClick={() => onNavigate('evidence')}
+          className="p-5 rounded-2xl bg-white border border-red-200 shadow-xs hover:shadow-sm cursor-pointer transition-all flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between text-red-600 mb-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider">Gate Holds</span>
             <div className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center">
               <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
             </div>
@@ -234,14 +260,17 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
             <div className="text-2xl sm:text-3xl font-semibold text-red-600">
               {metrics?.blocked_changes ?? 1}
             </div>
-            <div className="text-[11px] text-red-600/80 mt-1 font-medium">
+            <div className="text-[11px] text-red-700 mt-1 font-medium">
               Missing evidence locked
             </div>
           </div>
         </div>
 
         {/* In Review */}
-        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between">
+        <div 
+          onClick={() => onNavigate('approvals')}
+          className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-xs hover:shadow-sm cursor-pointer transition-all flex flex-col justify-between"
+        >
           <div className="flex items-center justify-between text-gray-400 mb-2">
             <span className="text-[11px] font-medium uppercase tracking-wider">In Review</span>
             <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center">
@@ -259,7 +288,10 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
 
         {/* High Severity Risks */}
-        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between">
+        <div 
+          onClick={() => onNavigate('risks')}
+          className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-xs hover:shadow-sm cursor-pointer transition-all flex flex-col justify-between"
+        >
           <div className="flex items-center justify-between text-gray-400 mb-2">
             <span className="text-[11px] font-medium uppercase tracking-wider">High Sev (S ≥ 8)</span>
             <div className="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center">
@@ -271,13 +303,16 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
               {metrics?.high_severity_risks ?? 3}
             </div>
             <div className="text-[11px] text-gray-400 mt-1">
-              Mandatory QA gates
+              Safety escalation
             </div>
           </div>
         </div>
 
         {/* Evidence Completeness */}
-        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between">
+        <div 
+          onClick={() => onNavigate('evidence')}
+          className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-xs hover:shadow-sm cursor-pointer transition-all flex flex-col justify-between"
+        >
           <div className="flex items-center justify-between text-gray-400 mb-2">
             <span className="text-[11px] font-medium uppercase tracking-wider">Evidence Rate</span>
             <div className="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center">
@@ -295,7 +330,10 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
 
         {/* Review Cycle */}
-        <div className="p-4 rounded-xl bg-white border border-gray-200/80 shadow-sm flex flex-col justify-between">
+        <div 
+          onClick={() => onNavigate('reports')}
+          className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-xs hover:shadow-sm cursor-pointer transition-all flex flex-col justify-between"
+        >
           <div className="flex items-center justify-between text-gray-400 mb-2">
             <span className="text-[11px] font-medium uppercase tracking-wider">Cycle Time</span>
             <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
@@ -306,31 +344,31 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
             <div className="text-2xl sm:text-3xl font-semibold text-gray-900">
               {metrics ? `${metrics.median_cycle_time_hours}h` : '18.5h'}
             </div>
-            <div className="text-[11px] text-emerald-600 font-medium mt-1">
+            <div className="text-[11px] text-emerald-600 font-semibold mt-1">
               -64.6% vs legacy
             </div>
           </div>
         </div>
       </div>
 
-      {/* Active Operational Hold Card (Boeing 737-9 Door Plug Incident) */}
-      <div className="p-6 rounded-2xl bg-white border border-red-200 shadow-sm relative overflow-hidden">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold text-red-700 bg-red-50 px-2.5 py-0.5 rounded-full border border-red-200">
+      {/* Active Operational Hold Card (Alaska 1282 Case Study Resolution) */}
+      <div className="p-7 rounded-3xl bg-white border border-red-200/90 shadow-sm relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div className="space-y-2.5">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="text-[11px] font-semibold text-red-700 bg-red-50 px-3 py-0.5 rounded-full border border-red-200">
                 CRITICAL QUALITY HOLD · CCR-2026-0001
               </span>
-              <span className="text-xs font-mono font-medium text-gray-500">Boeing 737-9 MAX Station 500</span>
+              <span className="text-xs font-mono font-medium text-gray-500">Boeing 737-9 MAX Station 500 Assembly</span>
               <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-red-100 text-red-800">
-                Gate Blocked
+                Gate 3 Locked
               </span>
             </div>
             <h3 className="text-lg font-semibold text-gray-900">
-              Fuselage Station 500 Mid-Exit Door Plug Rework &amp; Pin Re-installation
+              Fuselage Station 500 Mid-Exit Door Plug Retaining Bolt Rework
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 max-w-4xl leading-relaxed">
-              Models the exact assembly traveler defect behind the Alaska Airlines Flight 1282 accident. ChangeLens caught the uninspected closure, flagged the <span className="font-semibold text-red-600">Severity 10 explosive decompression hazard (RPN 280)</span>, and locked aircraft release at Quality Gate 3 because retaining bolt torque verification logs (BAC-5001-4) and Level II QA stamps are missing.
+            <p className="text-xs sm:text-sm text-gray-600 max-w-4xl leading-relaxed font-normal">
+              Directly resolves the assembly traveler breakdown behind Alaska Airlines Flight 1282. ChangeLens detected that the mid-exit door plug was opened for rivet rework, identified the <span className="font-semibold text-red-600">Severity 10 explosive decompression hazard (RPN 280)</span>, and locked delivery progression because retaining bolt torque verification logs (BAC-5001-4) and Level II QA stamps are unverified.
             </p>
           </div>
 
@@ -343,13 +381,13 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
             </button>
             <button
               onClick={() => onNavigate('impact', 'CCR-2026-0001')}
-              className="px-3.5 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-xs font-medium border border-gray-200 transition"
+              className="px-3.5 py-2 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-medium border border-gray-200 transition shadow-2xs"
             >
               Impact Graph
             </button>
             <button
               onClick={() => onNavigate('risks', 'CCR-2026-0001')}
-              className="px-3.5 py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-xl text-xs font-medium border border-gray-200 transition"
+              className="px-3.5 py-2 bg-white hover:bg-gray-50 text-gray-700 rounded-xl text-xs font-medium border border-gray-200 transition shadow-2xs"
             >
               FMEA Register
             </button>
@@ -361,25 +399,25 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Plot 1: Risk Landscape */}
-        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
+        <div className="p-6 rounded-3xl bg-white border border-gray-200/80 shadow-xs">
           <div className="flex justify-between items-center mb-4">
             <div>
               <h4 className="text-sm font-semibold text-gray-900">
                 Risk Landscape (FMEA Failure Modes)
               </h4>
               <p className="text-xs text-gray-400 mt-0.5">
-                Severity vs Occurrence. Red points represent Severity ≥ 8 mandatory escalations.
+                Severity vs Occurrence. Red markers indicate S ≥ 8 mandatory escalations.
               </p>
             </div>
-            <span className="text-[11px] font-medium text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">
-              AIAG / VDA Standard
+            <span className="text-[11px] font-semibold text-[#0071E3] bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">
+              AIAG &amp; VDA Standard
             </span>
           </div>
 
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis
                   type="number"
                   dataKey="occurrence"
@@ -402,13 +440,13 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
                     if (active && payload && payload.length) {
                       const data = payload[0].payload;
                       return (
-                        <div className="bg-white border border-gray-200 p-3 rounded-xl shadow-lg text-xs font-sans max-w-xs">
+                        <div className="bg-white border border-gray-200 p-3 rounded-2xl shadow-lg text-xs font-sans max-w-xs">
                           <div className="font-semibold text-gray-900">{data.failure_mode}</div>
                           <div className="text-[11px] text-gray-500 mt-1">Severity: <span className="font-semibold text-red-600">{data.severity}</span> | Occurrence: <span className="font-semibold text-gray-700">{data.occurrence}</span></div>
-                          <div className="text-[11px] text-gray-500">Calculated RPN: <span className="font-semibold text-amber-600">{data.rpn}</span></div>
+                          <div className="text-[11px] text-gray-500">Calculated RPN: <span className="font-semibold text-amber-700">{data.rpn}</span></div>
                           {data.severity >= 8 && (
-                            <div className="mt-1.5 text-[10px] text-red-700 font-semibold bg-red-50 px-2 py-0.5 rounded border border-red-200">
-                              MANDATORY ESCALATION (S ≥ 8)
+                            <div className="mt-1.5 text-[10px] text-red-700 font-semibold bg-red-50 px-2 py-0.5 rounded-full border border-red-200 text-center">
+                              MANDATORY SAFETY ESCALATION (S ≥ 8)
                             </div>
                           )}
                         </div>
@@ -431,7 +469,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
 
         {/* Plot 2: Quality-Gate Bottlenecks */}
-        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
+        <div className="p-6 rounded-3xl bg-white border border-gray-200/80 shadow-xs">
           <div className="flex justify-between items-center mb-4">
             <div>
               <h4 className="text-sm font-semibold text-gray-900">
@@ -449,11 +487,11 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={bottleneckData} margin={{ top: 10, right: 10, bottom: 20, left: -20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis dataKey="stage" tick={{ fill: '#9CA3AF', fontSize: 11 }} />
                 <YAxis tick={{ fill: '#9CA3AF', fontSize: 11 }} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB', borderRadius: '12px', fontSize: '11px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB', borderRadius: '16px', fontSize: '11px', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '8px' }} />
                 <Bar dataKey="passed" name="Passed" stackId="a" fill="#10B981" radius={[0, 0, 0, 0]} />
@@ -466,7 +504,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
 
         {/* Plot 3: Review Cycle Time Trend */}
-        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
+        <div className="p-6 rounded-3xl bg-white border border-gray-200/80 shadow-xs">
           <div className="flex justify-between items-center mb-4">
             <div>
               <h4 className="text-sm font-semibold text-gray-900">
@@ -484,11 +522,11 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={cycleData} margin={{ top: 10, right: 20, bottom: 20, left: -20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis dataKey="period" tick={{ fill: '#9CA3AF', fontSize: 11 }} />
                 <YAxis tick={{ fill: '#9CA3AF', fontSize: 11 }} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB', borderRadius: '12px', fontSize: '11px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB', borderRadius: '16px', fontSize: '11px', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}
                 />
                 <Line type="monotone" dataKey="median_hours" name="Median Hours" stroke="#0071E3" strokeWidth={2.5} dot={{ r: 4, fill: '#0071E3' }} />
               </LineChart>
@@ -497,7 +535,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
 
         {/* Plot 4: Evidence Completeness */}
-        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
+        <div className="p-6 rounded-3xl bg-white border border-gray-200/80 shadow-xs">
           <div className="flex justify-between items-center mb-4">
             <div>
               <h4 className="text-sm font-semibold text-gray-900">
@@ -515,11 +553,11 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={evidenceData} margin={{ top: 10, right: 10, bottom: 20, left: -20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
                 <XAxis dataKey="category" tick={{ fill: '#9CA3AF', fontSize: 10 }} />
                 <YAxis tick={{ fill: '#9CA3AF', fontSize: 11 }} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB', borderRadius: '12px', fontSize: '11px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}
+                  contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB', borderRadius: '16px', fontSize: '11px', boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '8px' }} />
                 <Bar dataKey="accepted" name="Accepted" fill="#10B981" radius={[0, 0, 0, 0]} />
@@ -531,9 +569,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Active Change Orders Table */}
-      <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm">
-        <div className="flex justify-between items-center mb-4">
+      {/* Active Change Orders Table with Interactive Filter & Search */}
+      <div className="p-7 rounded-3xl bg-white border border-gray-200/80 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h4 className="text-sm font-semibold text-gray-900">
               Active Change Orders &amp; Release Status
@@ -542,52 +580,98 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
               Evaluated under baseline BASE-737-9-DOORPLUG-A.
             </p>
           </div>
-          <span className="text-xs font-medium text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-            {changes.length} active in scope
-          </span>
+
+          {/* Search & Filter Bar */}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search orders..."
+                className="pl-8 pr-3 py-1.5 bg-gray-50 text-xs text-gray-900 rounded-xl border border-gray-200 focus:outline-none focus:border-[#0071E3] w-40 sm:w-48"
+              />
+            </div>
+
+            <div className="flex items-center gap-1 bg-gray-50 p-1 rounded-xl border border-gray-200 text-xs">
+              <button
+                onClick={() => setTableFilter('ALL')}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${
+                  tableFilter === 'ALL' ? 'bg-white text-gray-900 shadow-2xs font-semibold' : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setTableFilter('FASTENER')}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${
+                  tableFilter === 'FASTENER' ? 'bg-white text-gray-900 shadow-2xs font-semibold' : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                Fasteners
+              </button>
+              <button
+                onClick={() => setTableFilter('MATERIAL')}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${
+                  tableFilter === 'MATERIAL' ? 'bg-white text-gray-900 shadow-2xs font-semibold' : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                Materials
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto border border-gray-200 rounded-2xl">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-gray-100 text-gray-400 uppercase text-[10px] font-medium tracking-wider">
-                <th className="py-3 px-3">Change ID</th>
-                <th className="py-3 px-3">Title &amp; Purpose</th>
-                <th className="py-3 px-3">Category</th>
-                <th className="py-3 px-3">Baseline</th>
-                <th className="py-3 px-3">Status</th>
-                <th className="py-3 px-3 text-right">Action</th>
+              <tr className="bg-gray-50/70 border-b border-gray-200 text-gray-400 uppercase text-[10px] font-medium tracking-wider">
+                <th className="py-3 px-3.5">Change ID</th>
+                <th className="py-3 px-3.5">Title &amp; Operational Purpose</th>
+                <th className="py-3 px-3.5">Category</th>
+                <th className="py-3 px-3.5">Baseline</th>
+                <th className="py-3 px-3.5">Status</th>
+                <th className="py-3 px-3.5 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {changes.map((c) => (
-                <tr key={c.id} className="hover:bg-gray-50/70 transition-colors">
-                  <td className="py-3.5 px-3 font-mono font-medium text-blue-600">{c.id}</td>
-                  <td className="py-3.5 px-3 max-w-md">
-                    <div className="font-medium text-gray-900">{c.title}</div>
-                    <div className="text-[11px] text-gray-500 truncate mt-0.5">{c.reason}</div>
-                  </td>
-                  <td className="py-3.5 px-3">
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-gray-100 text-gray-600 border border-gray-200">
-                      {c.change_type}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-3 font-mono text-[11px] text-gray-400">{c.baseline_id}</td>
-                  <td className="py-3.5 px-3">
-                    <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-full border ${getStatusBadge(c.state)}`}>
-                      {c.state}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-3 text-right">
-                    <button
-                      onClick={() => onNavigate('changes', c.id)}
-                      className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-700 font-medium text-xs transition"
-                    >
-                      Open Workspace <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
+              {filteredChanges.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-8 text-gray-400 text-xs">
+                    No change orders matched your query.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredChanges.map((c) => (
+                  <tr key={c.id} className="hover:bg-gray-50/70 transition-colors">
+                    <td className="py-3.5 px-3.5 font-mono font-semibold text-[#0071E3]">{c.id}</td>
+                    <td className="py-3.5 px-3.5 max-w-md">
+                      <div className="font-semibold text-gray-900">{c.title}</div>
+                      <div className="text-[11px] text-gray-500 truncate mt-0.5">{c.reason}</div>
+                    </td>
+                    <td className="py-3.5 px-3.5">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 border border-gray-200">
+                        {c.change_type}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-3.5 font-mono text-[11px] text-gray-500">{c.baseline_id}</td>
+                    <td className="py-3.5 px-3.5">
+                      <span className={`text-[10px] font-semibold px-2.5 py-0.5 rounded-full border ${getStatusBadge(c.state)}`}>
+                        {c.state}
+                      </span>
+                    </td>
+                    <td className="py-3.5 px-3.5 text-right">
+                      <button
+                        onClick={() => onNavigate('changes', c.id)}
+                        className="inline-flex items-center gap-1 text-[#0071E3] hover:text-[#0077ED] font-semibold text-xs transition"
+                      >
+                        Open Workspace <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

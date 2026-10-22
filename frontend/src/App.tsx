@@ -11,13 +11,11 @@ import { ReviewQueueView } from './features/approvals/ReviewQueueView';
 import { ReportsView } from './features/reports/ReportsView';
 import { api, User, ChangeRequest } from './api/client';
 import { 
-  GitBranch, 
   Shield, 
   Activity, 
   Search, 
-  Sparkles, 
-  AlertTriangle,
-  Zap
+  Sparkles,
+  Command
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -41,7 +39,7 @@ export const App: React.FC = () => {
       ]);
       setAllUsers(users);
       if (users.length > 0 && !currentUser) {
-        setCurrentUser(users[0]); // default to Marcus Vance (Requester)
+        setCurrentUser(users[0]);
       }
       setChanges(crList);
       setBlockedCount(metrics.blocked_changes);
@@ -56,7 +54,7 @@ export const App: React.FC = () => {
     initData();
   }, []);
 
-  // Keyboard shortcuts: Ctrl+K or Cmd+K for command palette, 1-8 for tabs
+  // Keyboard shortcuts: Ctrl+K or Cmd+K for command palette, 1-7 for tabs
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -89,7 +87,7 @@ export const App: React.FC = () => {
   const currentChange = changes.find((c) => c.id === selectedChangeId) || changes[0];
 
   return (
-    <div className="flex h-screen bg-[#f5f5f7] text-gray-900 overflow-hidden font-sans">
+    <div className="flex h-screen bg-[#F5F5F7] text-gray-900 overflow-hidden font-sans">
       {/* Sidebar */}
       <Sidebar
         currentTab={currentTab}
@@ -103,14 +101,14 @@ export const App: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        {/* Top Status Bar */}
-        <header className="h-14 border-b border-gray-200 bg-white/80 backdrop-blur-sm px-6 flex items-center justify-between shrink-0 z-10">
+        {/* Top Glass Status Bar */}
+        <header className="h-16 border-b border-gray-200/80 glass-header px-7 flex items-center justify-between shrink-0 z-10">
           <div className="flex items-center gap-4">
-            {/* System Status */}
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-gray-50 border border-gray-200 text-[11px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-              <span className="font-medium text-gray-500">
-                {api.getIsLiveBackend() ? 'Live' : 'Demo'}
+            {/* System Status Pill */}
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-gray-200 text-xs shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-subtle" />
+              <span className="font-medium text-gray-600">
+                {api.getIsLiveBackend() ? 'Live Telemetry' : 'Demo Mode'}
               </span>
             </div>
 
@@ -118,28 +116,28 @@ export const App: React.FC = () => {
 
             {/* Active Change Selector Dropdown */}
             {currentChange && (
-              <div className="flex items-center gap-2 text-xs">
-                <span className="text-gray-400 hidden lg:inline">Active:</span>
+              <div className="flex items-center gap-2.5 text-xs">
+                <span className="text-gray-400 font-medium hidden lg:inline">Change Order:</span>
                 <select
                   value={selectedChangeId}
                   onChange={(e) => setSelectedChangeId(e.target.value)}
-                  className="bg-gray-50 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
+                  className="bg-white text-xs font-semibold text-gray-900 border border-gray-200 rounded-lg px-2.5 py-1 focus:outline-none focus:border-[#0071E3] cursor-pointer shadow-2xs"
                 >
                   {changes.map((c) => (
                     <option key={c.id} value={c.id}>
-                      {c.id} - {c.priority}
+                      {c.id} ({c.priority})
                     </option>
                   ))}
                 </select>
-                <span className="text-gray-600 truncate max-w-xs hidden xl:inline font-medium">
+                <span className="text-gray-600 truncate max-w-xs hidden xl:inline font-normal">
                   {currentChange.title}
                 </span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
+                <span className={`text-[10px] px-2.5 py-0.5 rounded-full border font-semibold ${
                   currentChange.state === 'AUTHORIZED' 
-                    ? 'bg-green-50 text-green-700 border-green-200'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     : currentChange.state === 'REJECTED'
                     ? 'bg-red-50 text-red-700 border-red-200'
-                    : 'bg-amber-50 text-amber-700 border-amber-200'
+                    : 'bg-amber-50 text-amber-800 border-amber-200'
                 }`}>
                   {currentChange.state}
                 </span>
@@ -152,47 +150,47 @@ export const App: React.FC = () => {
             {/* Command Palette Trigger Button */}
             <button
               onClick={() => setIsCommandOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs text-gray-500 hover:text-gray-700 transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-xs text-gray-500 hover:text-gray-900 transition-all shadow-2xs"
             >
               <Search className="w-3.5 h-3.5 text-gray-400" />
               <span className="hidden sm:inline">Search...</span>
-              <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 border border-gray-200 text-gray-400">Ctrl+K</kbd>
+              <kbd className="text-[10px] px-1.5 py-0.5 rounded-md bg-gray-100 border border-gray-200 text-gray-400 font-mono">⌘K</kbd>
             </button>
 
             {/* Showcase Tour Trigger Button */}
             <button
               onClick={() => setIsTourOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200 text-xs font-semibold text-blue-600 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100/70 border border-blue-200 text-xs font-semibold text-[#0071E3] transition-all shadow-2xs"
             >
-              <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+              <Sparkles className="w-3.5 h-3.5 text-[#0071E3]" />
               <span className="hidden md:inline">Tour</span>
             </button>
 
             <div className="h-4 w-px bg-gray-200 hidden sm:block" />
 
-            {/* Tech Badges */}
+            {/* Technology Safeguard Badges */}
             <div className="hidden lg:flex items-center gap-2">
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-200 text-[11px] text-gray-500">
-                <Activity className="w-3.5 h-3.5 text-blue-500" />
-                <span>NetworkX BFS</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-[11px] text-gray-600 shadow-2xs">
+                <Activity className="w-3.5 h-3.5 text-blue-600" />
+                <span className="font-medium">NetworkX BFS</span>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-200 text-[11px] text-gray-500">
-                <Shield className="w-3.5 h-3.5 text-red-500" />
-                <span>AIAG/VDA FMEA</span>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-[11px] text-gray-600 shadow-2xs">
+                <Shield className="w-3.5 h-3.5 text-red-600" />
+                <span className="font-medium">AIAG &amp; VDA</span>
               </div>
             </div>
 
             {/* Active User Pill */}
             {currentUser && (
-              <div className="flex items-center gap-2 pl-1 text-xs">
-                <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center font-semibold text-white text-[11px]">
+              <div className="flex items-center gap-2 pl-1.5 text-xs">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#0071E3] to-[#409CFF] flex items-center justify-center font-bold text-white text-xs shadow-xs">
                   {currentUser.display_name.charAt(0)}
                 </div>
                 <div className="hidden sm:block text-left">
-                  <div className="text-xs font-medium text-gray-700 leading-tight">
+                  <div className="text-xs font-semibold text-gray-900 leading-tight">
                     {currentUser.display_name.split(' ')[0]}
                   </div>
-                  <div className="text-[10px] text-gray-400 leading-tight">
+                  <div className="text-[10px] text-gray-400 font-mono leading-tight">
                     {currentUser.role}
                   </div>
                 </div>
@@ -202,7 +200,7 @@ export const App: React.FC = () => {
         </header>
 
         {/* Scrollable View Container */}
-        <main className="flex-1 overflow-y-auto p-6 bg-[#f5f5f7]">
+        <main className="flex-1 overflow-y-auto p-7 bg-[#F5F5F7]">
           {currentTab === 'overview' && (
             <OverviewView
               onNavigate={handleNavigate}
@@ -251,8 +249,6 @@ export const App: React.FC = () => {
               currentUser={currentUser}
             />
           )}
-
-          
         </main>
       </div>
 
