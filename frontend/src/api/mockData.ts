@@ -102,272 +102,734 @@ export const MOCK_BASELINE: ConfigurationBaseline = {
 
 export const MOCK_CHANGE_REQUESTS: ChangeRequest[] = [
   {
-    id: "CCR-2026-0001",
-    title: "Fuselage Station 500 Door Plug Rework & Retaining Pin Re-installation Protocol",
-    reason: "Correct cabin interior seal installation defect requiring opening and re-closing mid-exit plug panel during final fuselage assembly.",
-    change_type: "DESIGN_MODIFICATION",
-    requester_id: "usr-lead-eng",
-    baseline_id: "BASE-737-9-DOORPLUG-A",
-    state: "IMPACT_ASSESSED",
-    priority: "HIGH",
-    created_at: "2026-10-18T14:30:00Z",
-    updated_at: "2026-10-19T09:15:00Z",
-    requester: MOCK_USERS[0],
-    change_items: [
+    "id": "CCR-2026-0001",
+    "title": "Fuselage Station 500 Door Plug Rework & Retaining Pin Re-installation Protocol",
+    "reason": "Correct cabin interior seal installation defect requiring opening and re-closing mid-exit plug panel during final fuselage assembly.",
+    "change_type": "DESIGN_MODIFICATION",
+    "requester_id": "usr-lead-eng",
+    "baseline_id": "BASE-737-9-DOORPLUG-A",
+    "state": "IMPACT_ASSESSED",
+    "priority": "HIGH",
+    "industry": "AEROSPACE",
+    "compliance_standard": "FAA AC-05 / AS9100 Rev D",
+    "target_system": "Boeing 737-9 MAX Mid-Exit Door Plug",
+    "created_at": "2026-10-18T14:30:00Z",
+    "updated_at": "2026-10-19T09:15:00Z",
+    "requester": {
+      "id": "usr-lead-eng",
+      "username": "mvance",
+      "display_name": "Marcus Vance (PE)",
+      "role": "REQUESTER",
+      "email": "m.vance@aerocraft.com",
+      "active": true
+    },
+    "change_items": [
       {
-        id: 1,
-        change_request_id: "CCR-2026-0001",
-        affected_object_id: "C-105",
-        field_name: "installation_procedure_revision",
-        proposed_operation: "MODIFY",
-        current_value: "SOP-737-44-09 Rev A (Single sign-off)",
-        proposed_value: "SOP-737-44-09 Rev B (Mandatory dual-stamp QA & torque verification)",
-        justification: "NTSB preliminary findings indicate 4 retaining bolts were not reinstalled after interior insulation rework."
+        "id": 1,
+        "change_request_id": "CCR-2026-0001",
+        "affected_object_id": "C-105",
+        "field_name": "installation_procedure_revision",
+        "proposed_operation": "MODIFY",
+        "current_value": "SOP-737-44-09 Rev A (Single sign-off)",
+        "proposed_value": "SOP-737-44-09 Rev B (Mandatory dual-stamp QA & torque verification)",
+        "justification": "NTSB findings indicate 4 retaining bolts were not reinstalled after interior insulation rework."
       },
       {
-        id: 2,
-        change_request_id: "CCR-2026-0001",
-        affected_object_id: "S-202",
-        field_name: "safety_lockwire_requirement",
-        proposed_operation: "MODIFY",
-        current_value: "Optional secondary locking",
-        proposed_value: "Mandatory positive locking cotter pin with calibrated torque seal striping",
-        justification: "Eliminate risk of bolt disengagement under cyclic cabin pressurization loads."
+        "id": 2,
+        "change_request_id": "CCR-2026-0001",
+        "affected_object_id": "S-202",
+        "field_name": "safety_lockwire_requirement",
+        "proposed_operation": "MODIFY",
+        "current_value": "Optional secondary locking",
+        "proposed_value": "Mandatory positive locking cotter pin with calibrated torque seal striping",
+        "justification": "Eliminate risk of bolt disengagement under cyclic cabin pressurization loads."
       }
     ],
-    impact_results: [
-      { id: 1, change_request_id: "CCR-2026-0001", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "C-105", impacted_object_name: "Upper Guide Pin & Retaining Bolt Assembly", impacted_object_type: "COMPONENT", distance_from_source: 0, traversal_path: "C-105", impact_classification: "DIRECT_PRIMARY", rationale: "Directly specified in change request scope items.", created_at: "2026-10-18T14:35:00Z" },
-      { id: 2, change_request_id: "CCR-2026-0001", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "S-202", impacted_object_name: "Fastener Installation & Torque Spec BAC-5001-4", impacted_object_type: "SPECIFICATION", distance_from_source: 0, traversal_path: "S-202", impact_classification: "DIRECT_PRIMARY", rationale: "Directly specified in change request scope items.", created_at: "2026-10-18T14:35:00Z" },
-      { id: 3, change_request_id: "CCR-2026-0001", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "P-302", impacted_object_name: "Retaining Bolt Installation & Lockwire Procedure", impacted_object_type: "PROCESS", distance_from_source: 1, traversal_path: "C-105 <- P-302", impact_classification: "DIRECT_PRIMARY", rationale: "Process operates directly on modified component C-105.", created_at: "2026-10-18T14:35:00Z" },
-      { id: 4, change_request_id: "CCR-2026-0001", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "C-102", impacted_object_name: "Upper Guide Track Assembly", impacted_object_type: "COMPONENT", distance_from_source: 1, traversal_path: "C-105 -> C-102", impact_classification: "COUPLED_SECONDARY", rationale: "Mates directly with guide pin; upward arrest depends on bolt retention.", created_at: "2026-10-18T14:35:00Z" },
-      { id: 5, change_request_id: "CCR-2026-0001", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "C-104", impacted_object_name: "Mid-Exit Door Plug Panel", impacted_object_type: "COMPONENT", distance_from_source: 1, traversal_path: "C-105 -> C-104", impact_classification: "COUPLED_SECONDARY", rationale: "Plug panel vertical upward disengagement arrested by retaining bolts.", created_at: "2026-10-18T14:35:00Z" },
-      { id: 6, change_request_id: "CCR-2026-0001", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "I-401", impacted_object_name: "Visual Bolt Installation & Cotter Pin Inspection", impacted_object_type: "INSPECTION", distance_from_source: 2, traversal_path: "C-105 <- P-302 <- I-401", impact_classification: "VERIFICATION_SCOPE", rationale: "Inspection required to verify P-302 procedure compliance.", created_at: "2026-10-18T14:35:00Z" },
-      { id: 7, change_request_id: "CCR-2026-0001", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "T-503", impacted_object_name: "Fastener Torque & Pin Retention Calibration Verification", impacted_object_type: "TEST", distance_from_source: 1, traversal_path: "C-105 -> T-503", impact_classification: "VERIFICATION_SCOPE", rationale: "Direct verification test for C-105 fastener retention.", created_at: "2026-10-18T14:35:00Z" }
-    ],
-    risk_assessments: [
+    "impact_results": [
       {
-        id: 1,
-        change_request_id: "CCR-2026-0001",
-        failure_mode: "Failure to reinstall 4 retaining bolts during door opening traveler rework",
-        effect: "Plug translates upward under cyclic cabin pressurization, disengaging stop fittings and causing rapid explosive decompression at altitude.",
-        cause: "Informal door opening without formal manufacturing traveler or independent QA inspection sign-off.",
-        severity: 10,
-        occurrence: 4,
-        detection: 7,
-        rpn: 280,
-        action_priority: "HIGH",
-        mitigation: "Mandatory digital traveler gate requiring photo evidence, calibrated torque logs, and dual QA stamp before pressure testing.",
-        status: "ACTIVE"
+        "id": 1,
+        "change_request_id": "CCR-2026-0001",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "C-105",
+        "impacted_object_name": "Upper Guide Pin & Retaining Bolt Assembly",
+        "impacted_object_type": "COMPONENT",
+        "distance_from_source": 0,
+        "traversal_path": "C-105",
+        "impact_classification": "DIRECT_PRIMARY",
+        "rationale": "Directly specified in change request scope items.",
+        "created_at": "2026-10-18T14:35:00Z"
       },
       {
-        id: 2,
-        change_request_id: "CCR-2026-0001",
-        failure_mode: "Incorrect bolt torque causing premature thread fatigue or stripping",
-        effect: "Bolt shears under dynamic acoustic flutter and aerodynamic turbulence.",
-        cause: "Uncalibrated manual wrench used on assembly station floor.",
-        severity: 9,
-        occurrence: 3,
-        detection: 5,
-        rpn: 135,
-        action_priority: "HIGH",
-        mitigation: "Calibrated digital torque tool with Bluetooth telemetry logged directly to manufacturing execution system (BAC-5001-4).",
-        status: "ACTIVE"
+        "id": 2,
+        "change_request_id": "CCR-2026-0001",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "S-202",
+        "impacted_object_name": "Fastener Installation & Torque Spec BAC-5001-4",
+        "impacted_object_type": "SPECIFICATION",
+        "distance_from_source": 0,
+        "traversal_path": "S-202",
+        "impact_classification": "DIRECT_PRIMARY",
+        "rationale": "Directly specified in change request scope items.",
+        "created_at": "2026-10-18T14:35:00Z"
       },
       {
-        id: 3,
-        change_request_id: "CCR-2026-0001",
-        failure_mode: "Cotter pin omission on upper guide pin retaining nuts",
-        effect: "Nut vibrates loose over 1,500 flight cycles; bolt migrates out of guide track bracket.",
-        cause: "Insufficient visual lighting and restricted access during cabin interior insulation installation.",
-        severity: 9,
-        occurrence: 3,
-        detection: 6,
-        rpn: 162,
-        action_priority: "HIGH",
-        mitigation: "Color-coded visual inspection standard (INSP-737-001) and borescope photo upload to gate checklist.",
-        status: "ACTIVE"
-      }
-    ],
-    verification_requirements: [
-      {
-        id: "REQ-CCR-2026-0001-01",
-        change_request_id: "CCR-2026-0001",
-        requirement_type: "TEST",
-        target_object_id: "T-503",
-        title: "Calibrated Torque Tool Verification Log",
-        description: "Recorded digital torque values for all 4 retaining bolts confirming compliance with BAC-5001-4.",
-        acceptance_criteria: "Torque 125-140 in-lbs recorded with serialized calibrated tool ID.",
-        mandatory: true,
-        source_rule: "RISK_SEV_ESCALATION"
+        "id": 3,
+        "change_request_id": "CCR-2026-0001",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "P-302",
+        "impacted_object_name": "Retaining Bolt Installation & Lockwire Procedure",
+        "impacted_object_type": "PROCESS",
+        "distance_from_source": 1,
+        "traversal_path": "C-105 <- P-302",
+        "impact_classification": "DIRECT_PRIMARY",
+        "rationale": "Process operates directly on modified component C-105.",
+        "created_at": "2026-10-18T14:35:00Z"
       },
       {
-        id: "REQ-CCR-2026-0001-02",
-        change_request_id: "CCR-2026-0001",
-        requirement_type: "INSPECTION",
-        target_object_id: "I-401",
-        title: "Independent Quality Stamp & Photo Evidence",
-        description: "Dual QA stamp confirming physical presence of 4 bolts and installed cotter pins.",
-        acceptance_criteria: "High-resolution digital photo showing all 4 pinned locations signed by Level II QA inspector.",
-        mandatory: true,
-        source_rule: "RISK_SEV_ESCALATION"
+        "id": 4,
+        "change_request_id": "CCR-2026-0001",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "C-102",
+        "impacted_object_name": "Upper Guide Track Assembly",
+        "impacted_object_type": "COMPONENT",
+        "distance_from_source": 1,
+        "traversal_path": "C-105 -> C-102",
+        "impact_classification": "COUPLED_SECONDARY",
+        "rationale": "Mates directly with guide pin; upward arrest depends on bolt retention.",
+        "created_at": "2026-10-18T14:35:00Z"
       },
       {
-        id: "REQ-CCR-2026-0001-03",
-        change_request_id: "CCR-2026-0001",
-        requirement_type: "PROCESS",
-        target_object_id: "P-302",
-        title: "Work Traveler Sign-Off SOP-737-44-09",
-        description: "Closed traveler document certifying door plug re-installation completed per revision B.",
-        acceptance_criteria: "Complete traveler record with technician signature and timestamp.",
-        mandatory: true,
-        source_rule: "WORKFLOW_GATE"
-      }
-    ],
-    evidence_records: [
+        "id": 5,
+        "change_request_id": "CCR-2026-0001",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "C-104",
+        "impacted_object_name": "Mid-Exit Door Plug Panel",
+        "impacted_object_type": "COMPONENT",
+        "distance_from_source": 1,
+        "traversal_path": "C-105 -> C-104",
+        "impact_classification": "COUPLED_SECONDARY",
+        "rationale": "Plug panel vertical upward disengagement arrested by retaining bolts.",
+        "created_at": "2026-10-18T14:35:00Z"
+      },
       {
-        id: "EVD-2026-001",
-        change_request_id: "CCR-2026-0001",
-        requirement_id: "REQ-CCR-2026-0001-03",
-        evidence_type: "PROCESS_TRAVELER",
-        source_reference: "TRAVELER-STATION500-2026-0412",
-        document_revision: "Rev B",
-        file_name: "traveler_station500_closure_signed.pdf",
-        file_hash: "8f4a1e9c2b3d5f7a0e1c2d3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f",
-        file_size_bytes: 428192,
-        verification_status: "ACCEPTED",
-        verified_by_id: "usr-qa-mgr",
-        verified_at: "2026-10-18T16:45:00Z",
-        notes: "Work traveler verified closed with technician timestamp and supervisor endorsement."
-      }
-    ],
-    gate_evaluations: [
+        "id": 6,
+        "change_request_id": "CCR-2026-0001",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "I-401",
+        "impacted_object_name": "Visual Bolt Installation & Cotter Pin Inspection",
+        "impacted_object_type": "INSPECTION",
+        "distance_from_source": 2,
+        "traversal_path": "C-105 <- P-302 <- I-401",
+        "impact_classification": "VERIFICATION_SCOPE",
+        "rationale": "Inspection required to verify P-302 procedure compliance.",
+        "created_at": "2026-10-18T14:35:00Z"
+      },
       {
-        id: 1,
-        change_request_id: "CCR-2026-0001",
-        gate_name: "PRE_AUTHORIZATION_GATE",
-        overall_result: "BLOCKED",
-        evaluated_at: "2026-10-19T09:30:00Z",
-        evaluated_by_id: "usr-qa-mgr",
-        details_json: JSON.stringify({
-          mandatory_requirements_total: 3,
-          evidence_provided: 1,
-          accepted_evidence: 1,
-          missing_or_unaccepted: 2,
-          high_severity_risks_unmitigated: 0
-        }),
-        blocking_reasons_json: JSON.stringify([
-          "Mandatory requirement [REQ-CCR-2026-0001-01] (Calibrated Torque Tool Verification Log) has no accepted evidence on file.",
-          "Mandatory requirement [REQ-CCR-2026-0001-02] (Independent Quality Stamp & Photo Evidence) has no accepted evidence on file."
-        ]),
-        corrective_actions_json: JSON.stringify([
-          "Upload serialized torque telemetry log meeting BAC-5001-4 specifications to REQ-CCR-2026-0001-01.",
-          "Provide dual-stamped QA inspection certificate and photo confirmation to REQ-CCR-2026-0001-02."
-        ])
+        "id": 7,
+        "change_request_id": "CCR-2026-0001",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "T-503",
+        "impacted_object_name": "Fastener Torque & Pin Retention Calibration Verification",
+        "impacted_object_type": "TEST",
+        "distance_from_source": 1,
+        "traversal_path": "C-105 -> T-503",
+        "impact_classification": "VERIFICATION_SCOPE",
+        "rationale": "Direct verification test for C-105 fastener retention.",
+        "created_at": "2026-10-18T14:35:00Z"
       }
     ],
-    approvals: []
+    "risk_assessments": [
+      {
+        "id": 1,
+        "change_request_id": "CCR-2026-0001",
+        "failure_mode": "Failure to reinstall 4 retaining bolts during door opening traveler rework",
+        "effect": "Plug translates upward under cyclic cabin pressurization, disengaging stop fittings and causing rapid explosive decompression at altitude.",
+        "cause": "Informal door opening without formal manufacturing traveler or independent QA inspection sign-off.",
+        "severity": 10,
+        "occurrence": 4,
+        "detection": 7,
+        "rpn": 280,
+        "action_priority": "HIGH",
+        "mitigation": "Mandatory digital traveler gate requiring photo evidence, calibrated torque logs, and dual QA stamp before pressure testing.",
+        "status": "ACTIVE",
+        "high_severity_flag": true,
+        "accountable_owner": "Chief Airframe Engineer"
+      },
+      {
+        "id": 2,
+        "change_request_id": "CCR-2026-0001",
+        "failure_mode": "Incorrect bolt torque causing premature thread fatigue or stripping",
+        "effect": "Bolt shears under dynamic acoustic flutter and aerodynamic turbulence.",
+        "cause": "Uncalibrated manual wrench used on assembly station floor.",
+        "severity": 9,
+        "occurrence": 3,
+        "detection": 5,
+        "rpn": 135,
+        "action_priority": "HIGH",
+        "mitigation": "Calibrated digital torque tool with Bluetooth telemetry logged directly to manufacturing execution system (BAC-5001-4).",
+        "status": "ACTIVE",
+        "high_severity_flag": true,
+        "accountable_owner": "Lead Fastener Specialist"
+      },
+      {
+        "id": 3,
+        "change_request_id": "CCR-2026-0001",
+        "failure_mode": "Cotter pin omission on upper guide pin retaining nuts",
+        "effect": "Nut vibrates loose over 1,500 flight cycles; bolt migrates out of guide track bracket.",
+        "cause": "Insufficient visual lighting and restricted access during cabin interior insulation installation.",
+        "severity": 9,
+        "occurrence": 3,
+        "detection": 6,
+        "rpn": 162,
+        "action_priority": "HIGH",
+        "mitigation": "Color-coded visual inspection standard (INSP-737-001) and borescope photo upload to gate checklist.",
+        "status": "ACTIVE",
+        "high_severity_flag": true,
+        "accountable_owner": "Lead QA Inspector"
+      }
+    ],
+    "verification_requirements": [
+      {
+        "id": "REQ-CCR-2026-0001-01",
+        "change_request_id": "CCR-2026-0001",
+        "requirement_type": "TEST",
+        "target_object_id": "T-503",
+        "title": "Calibrated Torque Tool Verification Log",
+        "description": "Recorded digital torque values for all 4 retaining bolts confirming compliance with BAC-5001-4.",
+        "acceptance_criteria": "Torque 160-190 in-lbs recorded with serialized calibrated tool ID.",
+        "mandatory": true,
+        "source_rule": "RISK_SEV_ESCALATION"
+      },
+      {
+        "id": "REQ-CCR-2026-0001-02",
+        "change_request_id": "CCR-2026-0001",
+        "requirement_type": "INSPECTION",
+        "target_object_id": "I-401",
+        "title": "Independent Quality Stamp & Photo Evidence",
+        "description": "Dual QA stamp confirming physical presence of 4 bolts and installed cotter pins.",
+        "acceptance_criteria": "High-resolution digital photo showing all 4 pinned locations signed by Level II QA inspector.",
+        "mandatory": true,
+        "source_rule": "RISK_SEV_ESCALATION"
+      },
+      {
+        "id": "REQ-CCR-2026-0001-03",
+        "change_request_id": "CCR-2026-0001",
+        "requirement_type": "PROCESS",
+        "target_object_id": "P-302",
+        "title": "Work Traveler Sign-Off SOP-737-44-09",
+        "description": "Closed traveler document certifying door plug re-installation completed per revision B.",
+        "acceptance_criteria": "Complete traveler record with technician signature and timestamp.",
+        "mandatory": true,
+        "source_rule": "WORKFLOW_GATE"
+      }
+    ],
+    "evidence_records": [
+      {
+        "id": "EVD-2026-001",
+        "change_request_id": "CCR-2026-0001",
+        "requirement_id": "REQ-CCR-2026-0001-03",
+        "evidence_type": "PROCESS_TRAVELER",
+        "source_reference": "TRAVELER-STATION500-2026-0412",
+        "document_revision": "Rev B",
+        "file_name": "traveler_station500_closure_signed.pdf",
+        "file_hash": "8f4a1e9c2b3d5f7a0e1c2d3b4a5f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f",
+        "file_size_bytes": 428192,
+        "verification_status": "ACCEPTED",
+        "verified_by_id": "usr-qa-mgr",
+        "verified_at": "2026-10-18T16:45:00Z",
+        "notes": "Work traveler verified closed with technician timestamp and supervisor endorsement."
+      }
+    ],
+    "gate_evaluations": [
+      {
+        "id": 1,
+        "change_request_id": "CCR-2026-0001",
+        "gate_name": "PRE_AUTHORIZATION_GATE",
+        "overall_result": "BLOCKED",
+        "evaluated_at": "2026-10-19T09:30:00Z",
+        "evaluated_by_id": "usr-qa-mgr",
+        "details_json": "{\"mandatory_requirements_total\": 3, \"evidence_provided\": 1, \"accepted_evidence\": 1, \"missing_or_unaccepted\": 2, \"high_severity_risks_unmitigated\": 0}",
+        "blocking_reasons_json": "[\"Mandatory requirement [REQ-CCR-2026-0001-01] (Calibrated Torque Tool Verification Log) has no accepted evidence on file.\", \"Mandatory requirement [REQ-CCR-2026-0001-02] (Independent Quality Stamp & Photo Evidence) has no accepted evidence on file.\"]",
+        "corrective_actions_json": "[\"Upload serialized torque telemetry log meeting BAC-5001-4 specifications to REQ-CCR-2026-0001-01.\", \"Provide dual-stamped QA inspection certificate and photo confirmation to REQ-CCR-2026-0001-02.\"]"
+      }
+    ],
+    "approvals": []
   },
   {
-    id: "CCR-2026-0002",
-    title: "Standard Fastener Revision for Lower Hinge Bracket Assembly",
-    reason: "Supplier obsolescence substitution of standard NAS aerospace washer on lower pivot hinge assembly.",
-    change_type: "FASTENER_SUBSTITUTION",
-    requester_id: "usr-lead-eng",
-    baseline_id: "BASE-737-9-DOORPLUG-A",
-    state: "UNDER_REVIEW",
-    priority: "MEDIUM",
-    created_at: "2026-10-17T10:00:00Z",
-    updated_at: "2026-10-18T11:00:00Z",
-    requester: MOCK_USERS[0],
-    change_items: [
+    "id": "ECO-2026-0814",
+    "title": "High-Voltage EV Battery Pack Busbar Insulation & Thermal Runaway Barrier Revision",
+    "reason": "Mitigate cell-to-cell thermal propagation risk in 800V silicon-carbide architecture under UN 38.3 vibration profile.",
+    "change_type": "MATERIAL_SUBSTITUTION",
+    "requester_id": "usr-lead-eng",
+    "baseline_id": "BASE-EV-BATTERY-800V",
+    "state": "AUTHORIZED",
+    "priority": "HIGH",
+    "industry": "AUTOMOTIVE",
+    "compliance_standard": "ISO 26262 ASIL-D / IATF 16949",
+    "target_system": "800V High-Voltage Battery Module",
+    "created_at": "2026-10-15T08:00:00Z",
+    "updated_at": "2026-10-17T11:20:00Z",
+    "requester": {
+      "id": "usr-lead-eng",
+      "username": "mvance",
+      "display_name": "Marcus Vance (PE)",
+      "role": "REQUESTER",
+      "email": "m.vance@aerocraft.com",
+      "active": true
+    },
+    "change_items": [
       {
-        id: 3,
-        change_request_id: "CCR-2026-0002",
-        affected_object_id: "C-106",
-        field_name: "washer_part_specification",
-        proposed_operation: "SUBSTITUTE",
-        current_value: "NAS1149F0463P",
-        proposed_value: "NAS1149F0463M (Passivated stainless steel alternate)",
-        justification: "Equivalent shear and galvanic corrosion resistance per MIL-STD-1312."
+        "id": 10,
+        "change_request_id": "ECO-2026-0814",
+        "affected_object_id": "B-301",
+        "field_name": "thermal_barrier_material",
+        "proposed_operation": "SUBSTITUTE",
+        "current_value": "Nomex 410 (0.25mm, dielectric breakdown 18 kV/mm)",
+        "proposed_value": "Ceramic Aerogel Composite (1.0mm, dielectric breakdown 32 kV/mm)",
+        "justification": "Prevent cascade cell rupture during fast DC charging at 350 kW."
       }
     ],
-    impact_results: [
-      { id: 8, change_request_id: "CCR-2026-0002", algorithm_version: "NetworkX-BFS-v2.1", impacted_object_id: "C-106", impacted_object_name: "Lower Hinge Pin & Arrestor Assembly", impacted_object_type: "COMPONENT", distance_from_source: 0, traversal_path: "C-106", impact_classification: "DIRECT_PRIMARY", rationale: "Directly specified in change request scope items.", created_at: "2026-10-17T10:05:00Z" }
-    ],
-    risk_assessments: [
+    "impact_results": [
       {
-        id: 4,
-        change_request_id: "CCR-2026-0002",
-        failure_mode: "Galvanic corrosion between stainless washer and 7075-T6 aluminum hinge lug",
-        effect: "Local surface oxidation requiring premature overhaul during C-check inspection.",
-        cause: "Electrochemical potential difference in marine / humid operating environments.",
-        severity: 4,
-        occurrence: 3,
-        detection: 3,
-        rpn: 36,
-        action_priority: "LOW",
-        mitigation: "Apply zinc chromate primer per BAC-5710 before fastener installation.",
-        status: "ACTIVE"
+        "id": 11,
+        "change_request_id": "ECO-2026-0814",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "B-301",
+        "impacted_object_name": "Module Cell Interconnect Busbar",
+        "impacted_object_type": "COMPONENT",
+        "distance_from_source": 0,
+        "traversal_path": "B-301",
+        "impact_classification": "DIRECT_PRIMARY",
+        "rationale": "Primary modified component.",
+        "created_at": "2026-10-15T08:05:00Z"
+      },
+      {
+        "id": 12,
+        "change_request_id": "ECO-2026-0814",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "S-901",
+        "impacted_object_name": "Dielectric Isolation Specification IEC 60664",
+        "impacted_object_type": "SPECIFICATION",
+        "distance_from_source": 1,
+        "traversal_path": "B-301 -> S-901",
+        "impact_classification": "VERIFICATION_SCOPE",
+        "rationale": "Dielectric test mandatory for ASIL-D rating.",
+        "created_at": "2026-10-15T08:05:00Z"
       }
     ],
-    verification_requirements: [
+    "risk_assessments": [
       {
-        id: "REQ-CCR-2026-0002-01",
-        change_request_id: "CCR-2026-0002",
-        requirement_type: "SPECIFICATION",
-        target_object_id: "C-106",
-        title: "Material Conformity Certificate NAS1149F0463M",
-        description: "Supplier mill test certificate verifying chemical composition and passivation.",
-        acceptance_criteria: "Certified test report compliant with AMS-QQ-P-35.",
-        mandatory: true,
-        source_rule: "STANDARD_QA"
+        "id": 13,
+        "change_request_id": "ECO-2026-0814",
+        "failure_mode": "Dielectric punch-through during regenerative braking surge",
+        "effect": "High-voltage chassis short circuit resulting in pyrotechnic fuse blow.",
+        "cause": "Aerogel compression tolerance stack-up during pack enclosure assembly.",
+        "severity": 8,
+        "occurrence": 2,
+        "detection": 4,
+        "rpn": 64,
+        "action_priority": "MEDIUM",
+        "mitigation": "Automated 2,500V Hi-Pot isolation test on end-of-line jig.",
+        "status": "ACTIVE",
+        "high_severity_flag": true,
+        "accountable_owner": "High-Voltage Safety Lead"
       }
     ],
-    evidence_records: [
+    "verification_requirements": [
       {
-        id: "EVD-2026-002",
-        change_request_id: "CCR-2026-0002",
-        requirement_id: "REQ-CCR-2026-0002-01",
-        evidence_type: "CERTIFICATE_OF_CONFORMANCE",
-        source_reference: "COC-AERO-FAST-8841",
-        document_revision: "Rev 1",
-        file_name: "coc_nas1149_passivated_certified.pdf",
-        file_hash: "3b7c9a1d2e5f8a0b1c4d7e9f2a5b8c1d3e6f9a2b5c8d1e4f7a0b3c6d9e2f5a8b",
-        file_size_bytes: 184512,
-        verification_status: "ACCEPTED",
-        verified_by_id: "usr-qa-mgr",
-        verified_at: "2026-10-17T14:20:00Z",
-        notes: "Mill certificate verified; chemical passivation confirmed."
+        "id": "REQ-ECO-0814-01",
+        "change_request_id": "ECO-2026-0814",
+        "requirement_type": "TEST",
+        "target_object_id": "T-801",
+        "title": "2,500V DC Hi-Pot Dielectric Leakage Test",
+        "description": "Verify leakage current under 0.5 mA across all 16 busbar cell connections.",
+        "acceptance_criteria": "Zero breakdown at 2.5 kV for 60 seconds.",
+        "mandatory": true,
+        "source_rule": "ISO_26262_ASIL_D"
       }
     ],
-    gate_evaluations: [
+    "evidence_records": [
       {
-        id: 2,
-        change_request_id: "CCR-2026-0002",
-        gate_name: "PRE_AUTHORIZATION_GATE",
-        overall_result: "PASS",
-        evaluated_at: "2026-10-18T10:30:00Z",
-        evaluated_by_id: "usr-qa-mgr",
-        details_json: JSON.stringify({
-          mandatory_requirements_total: 1,
-          evidence_provided: 1,
-          accepted_evidence: 1,
-          missing_or_unaccepted: 0,
-          high_severity_risks_unmitigated: 0
-        }),
-        blocking_reasons_json: "[]",
-        corrective_actions_json: "[]"
+        "id": "EVD-ECO-0814-01",
+        "change_request_id": "ECO-2026-0814",
+        "requirement_id": "REQ-ECO-0814-01",
+        "evidence_type": "TEST_REPORT",
+        "source_reference": "HIPOT-REPORT-SN-088192",
+        "document_revision": "Rev A",
+        "file_name": "hipot_2500v_test_certified.pdf",
+        "file_hash": "4a7b2c9e1f3d5a8b0c2e4f6a8b1d3f5a7c9e0b2d4f6a8c1e3b5d7f9a1c3e5b7d",
+        "file_size_bytes": 312450,
+        "verification_status": "ACCEPTED",
+        "verified_by_id": "usr-qa-mgr",
+        "verified_at": "2026-10-16T14:00:00Z",
+        "notes": "Dielectric leakage 0.12 mA recorded; certified conforming."
       }
     ],
-    approvals: [
+    "gate_evaluations": [
       {
-        id: 1,
-        change_request_id: "CCR-2026-0002",
-        reviewer_id: "usr-chief-eng",
-        reviewer_role: "APPROVER",
-        decision: "APPROVED",
-        rationale: "Fastener substitution verified equivalent; corrosion mitigation acceptable. Compliant with separation of duties.",
-        timestamp: "2026-10-18T11:00:00Z"
+        "id": 14,
+        "change_request_id": "ECO-2026-0814",
+        "gate_name": "PRE_AUTHORIZATION_GATE",
+        "overall_result": "PASS",
+        "evaluated_at": "2026-10-17T11:00:00Z",
+        "evaluated_by_id": "usr-qa-mgr",
+        "details_json": "{\"mandatory_requirements_total\": 1, \"evidence_provided\": 1, \"accepted_evidence\": 1, \"missing_or_unaccepted\": 0, \"high_severity_risks_unmitigated\": 0}",
+        "blocking_reasons_json": "[]",
+        "corrective_actions_json": "[]"
+      }
+    ],
+    "approvals": [
+      {
+        "id": 15,
+        "change_request_id": "ECO-2026-0814",
+        "reviewer_id": "usr-chief-eng",
+        "reviewer_role": "APPROVER",
+        "decision": "APPROVED",
+        "rationale": "ASIL-D electrical isolation requirements fully validated; release authorized.",
+        "timestamp": "2026-10-17T11:20:00Z"
+      }
+    ]
+  },
+  {
+    "id": "ECN-2026-4402",
+    "title": "Implantable Cardiac Pacemaker Hermetic Laser Titanium Casing Weld Protocol",
+    "reason": "Upgrade laser weld pulse duration to eliminate micro-porosity in Grade 23 Ti-6Al-4V ELI titanium capsule.",
+    "change_type": "PROCESS_CHANGE",
+    "requester_id": "usr-lead-eng",
+    "baseline_id": "BASE-MED-PACEMAKER-GEN4",
+    "state": "UNDER_REVIEW",
+    "priority": "HIGH",
+    "industry": "MEDTECH",
+    "compliance_standard": "FDA 21 CFR Part 820 / ISO 13485",
+    "target_system": "Class III Implantable Pulse Generator",
+    "created_at": "2026-10-16T11:00:00Z",
+    "updated_at": "2026-10-18T15:30:00Z",
+    "requester": {
+      "id": "usr-lead-eng",
+      "username": "mvance",
+      "display_name": "Marcus Vance (PE)",
+      "role": "REQUESTER",
+      "email": "m.vance@aerocraft.com",
+      "active": true
+    },
+    "change_items": [
+      {
+        "id": 20,
+        "change_request_id": "ECN-2026-4402",
+        "affected_object_id": "MED-101",
+        "field_name": "laser_weld_pulse_schedule",
+        "proposed_operation": "MODIFY",
+        "current_value": "Nd:YAG Pulse 4.2ms @ 18J (Single pass)",
+        "proposed_value": "Fiber Laser Wobble 6.5ms @ 22J (Overlap 85%)",
+        "justification": "Hermetic seal failure rate reduced from 0.08% to zero over 10-year simulated in-vivo immersion."
+      }
+    ],
+    "impact_results": [
+      {
+        "id": 21,
+        "change_request_id": "ECN-2026-4402",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "MED-101",
+        "impacted_object_name": "Titanium Casing Shell Assembly",
+        "impacted_object_type": "COMPONENT",
+        "distance_from_source": 0,
+        "traversal_path": "MED-101",
+        "impact_classification": "DIRECT_PRIMARY",
+        "rationale": "Primary medical implant enclosure.",
+        "created_at": "2026-10-16T11:05:00Z"
+      },
+      {
+        "id": 22,
+        "change_request_id": "ECN-2026-4402",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "TEST-HELIUM",
+        "impacted_object_name": "Helium Mass Spectrometer Leak Test MIL-STD-883",
+        "impacted_object_type": "TEST",
+        "distance_from_source": 1,
+        "traversal_path": "MED-101 -> TEST-HELIUM",
+        "impact_classification": "VERIFICATION_SCOPE",
+        "rationale": "FDA Class III mandatory hermetic seal verification.",
+        "created_at": "2026-10-16T11:05:00Z"
+      }
+    ],
+    "risk_assessments": [
+      {
+        "id": 23,
+        "change_request_id": "ECN-2026-4402",
+        "failure_mode": "Hermetic breach causing bodily fluid ingress into lithium battery compartment",
+        "effect": "Pacing output failure; catastrophic loss of cardiac synchronization in patient.",
+        "cause": "Micro-fissure at seam radius under thermal contraction.",
+        "severity": 10,
+        "occurrence": 1,
+        "detection": 3,
+        "rpn": 30,
+        "action_priority": "HIGH",
+        "mitigation": "100% fine leak helium vacuum test with detection sensitivity 1e-9 atm-cc/s.",
+        "status": "ACTIVE",
+        "high_severity_flag": true,
+        "accountable_owner": "Biomedical Regulatory VP"
+      }
+    ],
+    "verification_requirements": [
+      {
+        "id": "REQ-MED-4402-01",
+        "change_request_id": "ECN-2026-4402",
+        "requirement_type": "TEST",
+        "target_object_id": "TEST-HELIUM",
+        "title": "Helium Mass Spectrometer Leak Certificate",
+        "description": "Test to verify leak rate < 5x10^-9 atm-cc/sec per MIL-STD-883 Method 1014.",
+        "acceptance_criteria": "Leak rate under 1.0x10^-9 recorded on NIST-calibrated spectrometer.",
+        "mandatory": true,
+        "source_rule": "FDA_CLASS_III_CRITICAL"
+      }
+    ],
+    "evidence_records": [
+      {
+        "id": "EVD-MED-4402-01",
+        "change_request_id": "ECN-2026-4402",
+        "requirement_id": "REQ-MED-4402-01",
+        "evidence_type": "TEST_REPORT",
+        "source_reference": "SPECTRO-LAB-CERT-9901",
+        "document_revision": "Rev 1.0",
+        "file_name": "helium_leak_test_nist_certified.pdf",
+        "file_hash": "7c8b9a0e1f2d3c4b5a6e7f8d9c0b1a2e3f4d5c6b7a8e9f0d1c2b3a4e5f6d7c8b",
+        "file_size_bytes": 288410,
+        "verification_status": "ACCEPTED",
+        "verified_by_id": "usr-qa-mgr",
+        "verified_at": "2026-10-17T16:00:00Z",
+        "notes": "Leak rate 3.4x10^-10 atm-cc/sec certified; zero porosity observed."
+      }
+    ],
+    "gate_evaluations": [
+      {
+        "id": 24,
+        "change_request_id": "ECN-2026-4402",
+        "gate_name": "PRE_AUTHORIZATION_GATE",
+        "overall_result": "PASS",
+        "evaluated_at": "2026-10-18T10:00:00Z",
+        "evaluated_by_id": "usr-qa-mgr",
+        "details_json": "{\"mandatory_requirements_total\": 1, \"evidence_provided\": 1, \"accepted_evidence\": 1, \"missing_or_unaccepted\": 0, \"high_severity_risks_unmitigated\": 0}",
+        "blocking_reasons_json": "[]",
+        "corrective_actions_json": "[]"
+      }
+    ],
+    "approvals": []
+  },
+  {
+    "id": "CR-2026-9011",
+    "title": "3nm EUV Lithography Stepper Reticle Chuck Thermal Expansion Calibration",
+    "reason": "Compensate 0.15nm overlay drift induced by 400W EUV plasma source thermal load on silicon carbide chuck.",
+    "change_type": "DESIGN_REVISION",
+    "requester_id": "usr-lead-eng",
+    "baseline_id": "BASE-SEMI-EUV-3NM",
+    "state": "IMPACT_ASSESSED",
+    "priority": "HIGH",
+    "industry": "SEMICONDUCTOR",
+    "compliance_standard": "SEMI E10 / ISO 9001",
+    "target_system": "High-NA EUV Scanner Reticle Stage",
+    "created_at": "2026-10-17T07:30:00Z",
+    "updated_at": "2026-10-19T08:00:00Z",
+    "requester": {
+      "id": "usr-lead-eng",
+      "username": "mvance",
+      "display_name": "Marcus Vance (PE)",
+      "role": "REQUESTER",
+      "email": "m.vance@aerocraft.com",
+      "active": true
+    },
+    "change_items": [
+      {
+        "id": 30,
+        "change_request_id": "CR-2026-9011",
+        "affected_object_id": "SEMI-CHUCK",
+        "field_name": "piezo_cooling_feedforward_gain",
+        "proposed_operation": "MODIFY",
+        "current_value": "Gain 1.24 V/mK (Open-loop)",
+        "proposed_value": "Gain 1.82 V/mK with multi-zone interferometric feedback",
+        "justification": "Yield improvement of 4.2% across 300mm wafer edge dies."
+      }
+    ],
+    "impact_results": [
+      {
+        "id": 31,
+        "change_request_id": "CR-2026-9011",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "SEMI-CHUCK",
+        "impacted_object_name": "Electrostatic Reticle Clamping Chuck",
+        "impacted_object_type": "COMPONENT",
+        "distance_from_source": 0,
+        "traversal_path": "SEMI-CHUCK",
+        "impact_classification": "DIRECT_PRIMARY",
+        "rationale": "Directly calibrated component.",
+        "created_at": "2026-10-17T07:35:00Z"
+      }
+    ],
+    "risk_assessments": [
+      {
+        "id": 32,
+        "change_request_id": "CR-2026-9011",
+        "failure_mode": "Over-damping causing reticle slip during 15G stage acceleration",
+        "effect": "Reticle particle generation; destruction of ,000 photomask.",
+        "cause": "Control loop gain overshoot under high throughput stepping.",
+        "severity": 9,
+        "occurrence": 2,
+        "detection": 5,
+        "rpn": 90,
+        "action_priority": "HIGH",
+        "mitigation": "Dual laser interferometer slip detector with sub-nanometer threshold lock.",
+        "status": "ACTIVE",
+        "high_severity_flag": true,
+        "accountable_owner": "Chief Lithography Architect"
+      }
+    ],
+    "verification_requirements": [
+      {
+        "id": "REQ-SEMI-9011-01",
+        "change_request_id": "CR-2026-9011",
+        "requirement_type": "TEST",
+        "target_object_id": "TEST-OVERLAY",
+        "title": "Sub-Nanometer Overlay Yield Verification",
+        "description": "50-wafer qualification run showing mean overlay error < 0.8nm 3-sigma.",
+        "acceptance_criteria": "Overlay measurement across 100 die locations verified compliant.",
+        "mandatory": true,
+        "source_rule": "SEMI_E10_CRITICAL"
+      }
+    ],
+    "evidence_records": [],
+    "gate_evaluations": [
+      {
+        "id": 33,
+        "change_request_id": "CR-2026-9011",
+        "gate_name": "PRE_AUTHORIZATION_GATE",
+        "overall_result": "BLOCKED",
+        "evaluated_at": "2026-10-19T08:15:00Z",
+        "evaluated_by_id": "usr-qa-mgr",
+        "details_json": "{\"mandatory_requirements_total\": 1, \"evidence_provided\": 0, \"accepted_evidence\": 0, \"missing_or_unaccepted\": 1, \"high_severity_risks_unmitigated\": 0}",
+        "blocking_reasons_json": "[\"Mandatory requirement [REQ-SEMI-9011-01] has no evidence submitted.\"]",
+        "corrective_actions_json": "[\"Upload certified 50-wafer overlay metrology run report.\"]"
+      }
+    ],
+    "approvals": []
+  },
+  {
+    "id": "MOC-2026-1180",
+    "title": "Nuclear Power Plant Main Steam Isolation Valve Hydrostatic Pressure Boundary Ceramic Seal Upgrade",
+    "reason": "Substitute cobalt-base Stellite hardfacing with nickel-chromium ceramic matrix to eliminate activation corrosion products in reactor primary loop.",
+    "change_type": "MATERIAL_SUBSTITUTION",
+    "requester_id": "usr-lead-eng",
+    "baseline_id": "BASE-NUCLEAR-MSIV-LOOP1",
+    "state": "CLOSED",
+    "priority": "HIGH",
+    "industry": "ENERGY",
+    "compliance_standard": "ASME Section III / API 6D",
+    "target_system": "Reactor Primary Coolant Boundary MSIV",
+    "created_at": "2026-10-10T06:00:00Z",
+    "updated_at": "2026-10-14T18:00:00Z",
+    "requester": {
+      "id": "usr-lead-eng",
+      "username": "mvance",
+      "display_name": "Marcus Vance (PE)",
+      "role": "REQUESTER",
+      "email": "m.vance@aerocraft.com",
+      "active": true
+    },
+    "change_items": [
+      {
+        "id": 40,
+        "change_request_id": "MOC-2026-1180",
+        "affected_object_id": "MSIV-VALVE-SEAT",
+        "field_name": "hardfacing_alloy_composition",
+        "proposed_operation": "MODIFY",
+        "current_value": "Stellite 6 (Co-Cr-W-C alloy)",
+        "proposed_value": "Ni-Cr-B-Si Colmonoy 5 with Y2O3 ceramic dispersion",
+        "justification": "Eliminates Cobalt-60 radiation fields during refueling outages."
+      }
+    ],
+    "impact_results": [
+      {
+        "id": 41,
+        "change_request_id": "MOC-2026-1180",
+        "algorithm_version": "NetworkX-BFS-v2.1",
+        "impacted_object_id": "MSIV-VALVE-SEAT",
+        "impacted_object_name": "Main Steam Isolation Valve Disc & Seat",
+        "impacted_object_type": "COMPONENT",
+        "distance_from_source": 0,
+        "traversal_path": "MSIV-VALVE-SEAT",
+        "impact_classification": "DIRECT_PRIMARY",
+        "rationale": "Pressure boundary component.",
+        "created_at": "2026-10-10T06:05:00Z"
+      }
+    ],
+    "risk_assessments": [
+      {
+        "id": 42,
+        "change_request_id": "MOC-2026-1180",
+        "failure_mode": "Thermal shock delamination during emergency reactor trip (SCRAM)",
+        "effect": "Containment steam leakage exceeding 10 CFR 50 Appendix J technical limits.",
+        "cause": "Differential coefficient of thermal expansion under 560\u00b0F steam quenching.",
+        "severity": 10,
+        "occurrence": 1,
+        "detection": 4,
+        "rpn": 40,
+        "action_priority": "HIGH",
+        "mitigation": "Hydrostatic proof test at 3,750 psig (1.5x design pressure) with acoustic emission monitoring.",
+        "status": "ACTIVE",
+        "high_severity_flag": true,
+        "accountable_owner": "Nuclear Plant Chief Engineer"
+      }
+    ],
+    "verification_requirements": [
+      {
+        "id": "REQ-MOC-1180-01",
+        "change_request_id": "MOC-2026-1180",
+        "requirement_type": "TEST",
+        "target_object_id": "MSIV-HYDRO-TEST",
+        "title": "ASME Section III 3,750 psig Hydrostatic Proof Test",
+        "description": "Full pressure vessel hydrostatic test with zero seat leakage for 30 minutes.",
+        "acceptance_criteria": "Zero pressure drop and zero detectable leakage per ASME Section III NB-6220.",
+        "mandatory": true,
+        "source_rule": "ASME_SECTION_III_NB"
+      }
+    ],
+    "evidence_records": [
+      {
+        "id": "EVD-MOC-1180-01",
+        "change_request_id": "MOC-2026-1180",
+        "requirement_id": "REQ-MOC-1180-01",
+        "evidence_type": "TEST_REPORT",
+        "source_reference": "ASME-HYDRO-CERT-VALVE-01",
+        "document_revision": "Rev 2.0",
+        "file_name": "asme_hydro_proof_certified.pdf",
+        "file_hash": "1e2d3c4b5a6f7e8d9c0b1a2f3e4d5c6b7a8f9e0d1c2b3a4f5e6d7c8b9a0f1e2d",
+        "file_size_bytes": 512940,
+        "verification_status": "ACCEPTED",
+        "verified_by_id": "usr-qa-mgr",
+        "verified_at": "2026-10-12T16:30:00Z",
+        "notes": "Test witnessed by Authorized Nuclear Inservice Inspector (ANII); zero leakage confirmed."
+      }
+    ],
+    "gate_evaluations": [
+      {
+        "id": 43,
+        "change_request_id": "MOC-2026-1180",
+        "gate_name": "CLOSURE_GATE",
+        "overall_result": "PASS",
+        "evaluated_at": "2026-10-14T17:00:00Z",
+        "evaluated_by_id": "usr-qa-mgr",
+        "details_json": "{\"mandatory_requirements_total\": 1, \"evidence_provided\": 1, \"accepted_evidence\": 1, \"missing_or_unaccepted\": 0, \"high_severity_risks_unmitigated\": 0}",
+        "blocking_reasons_json": "[]",
+        "corrective_actions_json": "[]"
+      }
+    ],
+    "approvals": [
+      {
+        "id": 44,
+        "change_request_id": "MOC-2026-1180",
+        "reviewer_id": "usr-chief-eng",
+        "reviewer_role": "APPROVER",
+        "decision": "APPROVED",
+        "rationale": "Hydrostatic proof test certified by ANII; nuclear containment isolation verified.",
+        "timestamp": "2026-10-14T17:30:00Z"
       }
     ]
   }

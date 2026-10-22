@@ -9,17 +9,34 @@ import { RiskControlsView } from './features/risks/RiskControlsView';
 import { VerificationGatesView } from './features/evidence/VerificationGatesView';
 import { ReviewQueueView } from './features/approvals/ReviewQueueView';
 import { ReportsView } from './features/reports/ReportsView';
+import { IndustryCustomizerView, IndustrySector, INDUSTRY_PRESETS } from './features/customizer/IndustryCustomizerView';
+import { DoorPlugVisualizer } from './components/DoorPlugVisualizer';
+import { IncidentEscapeSimulator } from './components/IncidentEscapeSimulator';
 import { api, User, ChangeRequest } from './api/client';
 import { 
   Shield, 
   Activity, 
   Search, 
   Sparkles,
-  Command
+  Command,
+  X,
+  Sliders,
+  ChevronDown,
+  Layers
 } from 'lucide-react';
+
+const SECTOR_OPTIONS: { id: IndustrySector; label: string; icon: string; defaultChangeId: string }[] = [
+  { id: 'AEROSPACE', label: 'Aerospace', icon: '✈️', defaultChangeId: 'CCR-2026-0001' },
+  { id: 'AUTOMOTIVE', label: 'Automotive EV', icon: '🚗', defaultChangeId: 'ECO-2026-0814' },
+  { id: 'MEDTECH', label: 'MedTech', icon: '🏥', defaultChangeId: 'ECN-2026-4402' },
+  { id: 'SEMICONDUCTOR', label: 'Semiconductor', icon: '⚡', defaultChangeId: 'CR-2026-9011' },
+  { id: 'ENERGY', label: 'Nuclear Energy', icon: '🏭', defaultChangeId: 'MOC-2026-1180' },
+  { id: 'CUSTOM', label: 'Enterprise Custom', icon: '⚙️', defaultChangeId: 'CCR-2026-0001' }
+];
 
 export const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<NavTab>('overview');
+  const [currentIndustry, setCurrentIndustry] = useState<IndustrySector>('AEROSPACE');
   const [selectedChangeId, setSelectedChangeId] = useState<string>('CCR-2026-0001');
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -28,6 +45,8 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isCommandOpen, setIsCommandOpen] = useState<boolean>(false);
   const [isTourOpen, setIsTourOpen] = useState<boolean>(false);
+  const [isDoorPlugOpen, setIsDoorPlugOpen] = useState<boolean>(false);
+  const [isEscapeSimOpen, setIsEscapeSimOpen] = useState<boolean>(false);
 
   const initData = async () => {
     try {
@@ -54,13 +73,13 @@ export const App: React.FC = () => {
     initData();
   }, []);
 
-  // Keyboard shortcuts: Ctrl+K or Cmd+K for command palette, 1-7 for tabs
+  // Keyboard shortcuts: Ctrl+K or Cmd+K for command palette, 1-8 for tabs
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setIsCommandOpen((prev) => !prev);
-      } else if (!isCommandOpen && !isTourOpen && (e.target as HTMLElement).tagName !== 'INPUT' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
+      } else if (!isCommandOpen && !isTourOpen && !isDoorPlugOpen && !isEscapeSimOpen && (e.target as HTMLElement).tagName !== 'INPUT' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
         const keyMap: Record<string, NavTab> = {
           '1': 'overview',
           '2': 'changes',
@@ -69,6 +88,7 @@ export const App: React.FC = () => {
           '5': 'evidence',
           '6': 'approvals',
           '7': 'reports',
+          '8': 'customizer',
         };
         if (keyMap[e.key]) {
           setCurrentTab(keyMap[e.key]);
@@ -77,14 +97,21 @@ export const App: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isCommandOpen, isTourOpen]);
+  }, [isCommandOpen, isTourOpen, isDoorPlugOpen, isEscapeSimOpen]);
 
   const handleNavigate = (tab: NavTab, changeId?: string) => {
     if (changeId) setSelectedChangeId(changeId);
     setCurrentTab(tab);
   };
 
+  const handleSectorChange = (sector: IndustrySector, changeId?: string) => {
+    setCurrentIndustry(sector);
+    const targetChange = changeId || SECTOR_OPTIONS.find(s => s.id === sector)?.defaultChangeId || 'CCR-2026-0001';
+    setSelectedChangeId(targetChange);
+  };
+
   const currentChange = changes.find((c) => c.id === selectedChangeId) || changes[0];
+  const activeSectorConfig = INDUSTRY_PRESETS[currentIndustry] || INDUSTRY_PRESETS.AEROSPACE;
 
   return (
     <div className="flex h-screen bg-[#F5F5F7] text-gray-900 overflow-hidden font-sans">
@@ -102,26 +129,33 @@ export const App: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Top Glass Status Bar */}
-        <header className="h-16 border-b border-gray-200/80 glass-header px-7 flex items-center justify-between shrink-0 z-10">
-          <div className="flex items-center gap-4">
-            {/* System Status Pill */}
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-gray-200 text-xs shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse-subtle" />
-              <span className="font-medium text-gray-600">
-                {api.getIsLiveBackend() ? 'Live Telemetry' : 'Demo Mode'}
-              </span>
+        <header className="h-16 border-b border-gray-200/80 glass-header px-6 flex items-center justify-between shrink-0 z-10 gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Multi-Industry Sector Switcher */}
+            <div className="relative shrink-0">
+              <select
+                value={currentIndustry}
+                onChange={(e) => handleSectorChange(e.target.value as IndustrySector)}
+                className="appearance-none bg-white text-xs font-semibold text-gray-800 border border-gray-200 rounded-xl px-3 py-1.5 pr-8 focus:outline-none focus:border-[#0071E3] cursor-pointer shadow-2xs hover:bg-gray-50 transition"
+              >
+                {SECTOR_OPTIONS.map((sec) => (
+                  <option key={sec.id} value={sec.id}>
+                    {sec.icon} {sec.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-2.5 pointer-events-none" />
             </div>
 
-            <div className="h-4 w-px bg-gray-200 hidden md:block" />
+            <div className="h-4 w-px bg-gray-200 hidden sm:block" />
 
             {/* Active Change Selector Dropdown */}
             {currentChange && (
-              <div className="flex items-center gap-2.5 text-xs">
-                <span className="text-gray-400 font-medium hidden lg:inline">Change Order:</span>
+              <div className="flex items-center gap-2 text-xs truncate">
                 <select
                   value={selectedChangeId}
                   onChange={(e) => setSelectedChangeId(e.target.value)}
-                  className="bg-white text-xs font-semibold text-gray-900 border border-gray-200 rounded-lg px-2.5 py-1 focus:outline-none focus:border-[#0071E3] cursor-pointer shadow-2xs"
+                  className="bg-white text-xs font-mono font-semibold text-gray-900 border border-gray-200 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#0071E3] cursor-pointer shadow-2xs shrink-0"
                 >
                   {changes.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -129,10 +163,10 @@ export const App: React.FC = () => {
                     </option>
                   ))}
                 </select>
-                <span className="text-gray-600 truncate max-w-xs hidden xl:inline font-normal">
+                <span className="text-gray-600 truncate max-w-[200px] xl:max-w-xs hidden lg:inline font-normal">
                   {currentChange.title}
                 </span>
-                <span className={`text-[10px] px-2.5 py-0.5 rounded-full border font-semibold ${
+                <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold shrink-0 hidden md:inline-block ${
                   currentChange.state === 'AUTHORIZED' 
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     : currentChange.state === 'REJECTED'
@@ -146,47 +180,52 @@ export const App: React.FC = () => {
           </div>
 
           {/* Right Header Navigation & Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Boeing Case Study Quick Modals */}
+            <button
+              onClick={() => setIsDoorPlugOpen(true)}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-xs font-medium text-gray-700 transition shadow-2xs"
+              title="Inspect 3D Door Plug Schematic"
+            >
+              <span>✈️ Door Plug</span>
+            </button>
+
+            <button
+              onClick={() => setIsEscapeSimOpen(true)}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-xs font-medium text-gray-700 transition shadow-2xs"
+              title="Launch Alaska 1282 Incident Escape Simulator"
+            >
+              <span>🛡️ Escape Sim</span>
+            </button>
+
             {/* Command Palette Trigger Button */}
             <button
               onClick={() => setIsCommandOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-xs text-gray-500 hover:text-gray-900 transition-all shadow-2xs"
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white hover:bg-gray-50 border border-gray-200 text-xs text-gray-500 hover:text-gray-900 transition-all shadow-2xs"
             >
               <Search className="w-3.5 h-3.5 text-gray-400" />
-              <span className="hidden sm:inline">Search...</span>
+              <span className="hidden md:inline">Search...</span>
               <kbd className="text-[10px] px-1.5 py-0.5 rounded-md bg-gray-100 border border-gray-200 text-gray-400 font-mono">⌘K</kbd>
             </button>
 
             {/* Showcase Tour Trigger Button */}
             <button
               onClick={() => setIsTourOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100/70 border border-blue-200 text-xs font-semibold text-[#0071E3] transition-all shadow-2xs"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100/70 border border-blue-200 text-xs font-semibold text-[#0071E3] transition-all shadow-2xs"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#0071E3]" />
-              <span className="hidden md:inline">Tour</span>
+              <span className="hidden sm:inline">Tour</span>
             </button>
 
             <div className="h-4 w-px bg-gray-200 hidden sm:block" />
 
-            {/* Technology Safeguard Badges */}
-            <div className="hidden lg:flex items-center gap-2">
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-[11px] text-gray-600 shadow-2xs">
-                <Activity className="w-3.5 h-3.5 text-blue-600" />
-                <span className="font-medium">NetworkX BFS</span>
-              </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-gray-200 text-[11px] text-gray-600 shadow-2xs">
-                <Shield className="w-3.5 h-3.5 text-red-600" />
-                <span className="font-medium">AIAG &amp; VDA</span>
-              </div>
-            </div>
-
             {/* Active User Pill */}
             {currentUser && (
-              <div className="flex items-center gap-2 pl-1.5 text-xs">
+              <div className="flex items-center gap-2 pl-1 text-xs">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#0071E3] to-[#409CFF] flex items-center justify-center font-bold text-white text-xs shadow-xs">
                   {currentUser.display_name.charAt(0)}
                 </div>
-                <div className="hidden sm:block text-left">
+                <div className="hidden xl:block text-left">
                   <div className="text-xs font-semibold text-gray-900 leading-tight">
                     {currentUser.display_name.split(' ')[0]}
                   </div>
@@ -205,6 +244,9 @@ export const App: React.FC = () => {
             <OverviewView
               onNavigate={handleNavigate}
               selectedChangeId={selectedChangeId}
+              currentIndustry={currentIndustry}
+              onOpenDoorPlug={() => setIsDoorPlugOpen(true)}
+              onOpenEscapeSim={() => setIsEscapeSimOpen(true)}
             />
           )}
 
@@ -249,10 +291,91 @@ export const App: React.FC = () => {
               currentUser={currentUser}
             />
           )}
+
+          {currentTab === 'customizer' && (
+            <IndustryCustomizerView
+              currentIndustry={currentIndustry}
+              onSelectIndustry={handleSectorChange}
+              onNavigate={handleNavigate}
+              currentUser={currentUser}
+            />
+          )}
         </main>
       </div>
 
-      {/* Floating Modals */}
+      {/* 3D Door Plug Blueprint Modal */}
+      {isDoorPlugOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-sm animate-fade-in"
+          onClick={() => setIsDoorPlugOpen(false)}
+        >
+          <div 
+            className="w-full max-w-5xl max-h-[90vh] bg-white rounded-3xl border border-gray-200 shadow-2xl overflow-hidden flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white shrink-0">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">✈️</span>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 leading-tight">
+                    Boeing 737-9 MAX Station 500 Mid-Exit Door Plug Blueprint
+                  </h3>
+                  <p className="text-[11px] text-gray-400">
+                    Interactive engineering schematic with retaining bolt hotspots and FAA AC-05 safeguards
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsDoorPlugOpen(false)}
+                className="p-2 rounded-xl text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 bg-[#FAFAFC]">
+              <DoorPlugVisualizer onSelectComponent={(id) => console.log('Selected hotspot', id)} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Incident Escape Simulator Modal */}
+      {isEscapeSimOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/40 backdrop-blur-sm animate-fade-in"
+          onClick={() => setIsEscapeSimOpen(false)}
+        >
+          <div 
+            className="w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl border border-gray-200 shadow-2xl overflow-hidden flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white shrink-0">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">🛡️</span>
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 leading-tight">
+                    Incident Escape Simulator &middot; Alaska Airlines Flight 1282 vs ChangeLens
+                  </h3>
+                  <p className="text-[11px] text-gray-400">
+                    Interactive 5-stage comparison demonstrating deterministic quality gate containment
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsEscapeSimOpen(false)}
+                className="p-2 rounded-xl text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 bg-[#FAFAFC]">
+              <IncidentEscapeSimulator />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Floating Command Palette */}
       <CommandPalette
         isOpen={isCommandOpen}
         onClose={() => setIsCommandOpen(false)}
@@ -263,6 +386,7 @@ export const App: React.FC = () => {
         }}
       />
 
+      {/* Showcase Tour Modal */}
       <GuidedTourModal
         isOpen={isTourOpen}
         onClose={() => setIsTourOpen(false)}

@@ -180,6 +180,9 @@ export interface ChangeRequest {
   proposed_baseline_id?: string;
   state: string;
   priority: string;
+  industry?: 'AEROSPACE' | 'AUTOMOTIVE' | 'MEDTECH' | 'SEMICONDUCTOR' | 'ENERGY' | 'CUSTOM';
+  compliance_standard?: string;
+  target_system?: string;
   created_at?: string;
   updated_at?: string;
   requester?: User;

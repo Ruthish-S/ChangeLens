@@ -9,7 +9,8 @@ import {
   FileSpreadsheet,
   Sparkles,
   UserCheck,
-  ChevronDown
+  ChevronDown,
+  Sliders
 } from 'lucide-react';
 import { User } from '../api/client';
 
@@ -20,7 +21,8 @@ export type NavTab =
   | 'risks' 
   | 'evidence' 
   | 'approvals' 
-  | 'reports';
+  | 'reports'
+  | 'customizer';
 
 interface SidebarProps {
   currentTab: NavTab;
@@ -55,7 +57,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badgeColor: 'bg-red-50 text-red-600 border border-red-200'
     },
     { id: 'approvals' as NavTab, label: 'Review Queue', icon: CheckSquare, shortcut: '6' },
-    { id: 'reports' as NavTab, label: 'Audit Reports', icon: FileSpreadsheet, shortcut: '7' }
+    { id: 'reports' as NavTab, label: 'Audit Reports', icon: FileSpreadsheet, shortcut: '7' },
+    { id: 'customizer' as NavTab, label: 'Industry Studio', icon: Sliders, shortcut: '8' }
   ];
 
   return (

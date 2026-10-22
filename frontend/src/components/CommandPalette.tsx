@@ -9,7 +9,8 @@ import {
   FileSpreadsheet, 
   LayoutDashboard,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  Sliders
 } from 'lucide-react';
 import { NavTab } from './Sidebar';
 
@@ -47,12 +48,16 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     { id: 'tab-evidence', title: 'Go to Quality Gates & Verification', category: 'Navigation', icon: FileCheck2, color: 'text-emerald-600', action: () => onSelectTab('evidence') },
     { id: 'tab-approvals', title: 'Go to Review Queue & Governance', category: 'Navigation', icon: CheckSquare, color: 'text-emerald-600', action: () => onSelectTab('approvals') },
     { id: 'tab-reports', title: 'Go to Reports & Exports (PDF/Word/Excel)', category: 'Navigation', icon: FileSpreadsheet, color: 'text-amber-600', action: () => onSelectTab('reports') },
+    { id: 'tab-customizer', title: 'Go to Industry Customizer Studio', category: 'Navigation', icon: Sliders, color: 'text-blue-600', action: () => onSelectTab('customizer') },
     
-    // Quick Change Switchers
-    { id: 'cr-1', title: 'CCR-2026-0001: Boeing Station 500 Door Plug Rework', category: 'Change Order', icon: GitBranch, color: 'text-red-600', action: () => onSelectTab('changes', 'CCR-2026-0001') },
-    { id: 'cr-2', title: 'CCR-2026-0002: Standard Fastener Substitution (Lower Hinge)', category: 'Change Order', icon: GitBranch, color: 'text-blue-600', action: () => onSelectTab('changes', 'CCR-2026-0002') },
+    // Multi-Industry Quick Change Switchers
+    { id: 'cr-aero', title: 'CCR-2026-0001: Aerospace (Boeing 737-9 Door Plug)', category: 'Aerospace', icon: GitBranch, color: 'text-red-600', action: () => onSelectTab('changes', 'CCR-2026-0001') },
+    { id: 'cr-auto', title: 'ECO-2026-0814: Automotive (800V EV Battery Pack)', category: 'Automotive', icon: GitBranch, color: 'text-blue-600', action: () => onSelectTab('changes', 'ECO-2026-0814') },
+    { id: 'cr-med', title: 'ECN-2026-4402: MedTech (Pacemaker Titanium Weld)', category: 'MedTech', icon: GitBranch, color: 'text-emerald-600', action: () => onSelectTab('changes', 'ECN-2026-4402') },
+    { id: 'cr-semi', title: 'CR-2026-9011: Semiconductor (3nm EUV Reticle Stage)', category: 'Semiconductor', icon: GitBranch, color: 'text-purple-600', action: () => onSelectTab('changes', 'CR-2026-9011') },
+    { id: 'cr-energy', title: 'MOC-2026-1180: Nuclear Energy (Steam Isolation Valve)', category: 'Energy', icon: GitBranch, color: 'text-amber-600', action: () => onSelectTab('changes', 'MOC-2026-1180') },
     
-    // Key Aircraft Components
+    // Key Benchmark Aircraft Components
     { id: 'comp-105', title: 'C-105: Upper Guide Pin & Retaining Bolt Assembly', category: 'Airframe Component', icon: Network, color: 'text-blue-600', action: () => onSelectTab('impact', 'CCR-2026-0001') },
     { id: 'comp-104', title: 'C-104: Mid-Exit Door Plug Panel Structure', category: 'Airframe Component', icon: Network, color: 'text-blue-600', action: () => onSelectTab('impact', 'CCR-2026-0001') },
     { id: 'comp-spec', title: 'S-202: Fastener Installation & Torque Spec BAC-5001-4', category: 'Specification', icon: ShieldAlert, color: 'text-amber-600', action: () => onSelectTab('risks', 'CCR-2026-0001') },
@@ -68,10 +73,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev + 1) % filteredItems.length);
+      setSelectedIndex((prev) => (prev + 1) % (filteredItems.length || 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setSelectedIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
+      setSelectedIndex((prev) => (prev - 1 + (filteredItems.length || 1)) % (filteredItems.length || 1));
     } else if (e.key === 'Enter') {
       e.preventDefault();
       if (filteredItems[selectedIndex]) {
@@ -98,7 +103,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           <input
             ref={inputRef}
             type="text"
-            placeholder="Type a command, component (C-105), order (CCR-2026-0001), or workspace..."
+            placeholder="Type a command, component (C-105), order (CCR, ECO, ECN), or workspace..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);

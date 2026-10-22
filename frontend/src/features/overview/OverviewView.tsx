@@ -44,9 +44,18 @@ import { NavTab } from '../../components/Sidebar';
 interface OverviewViewProps {
   onNavigate: (tab: NavTab, changeId?: string) => void;
   selectedChangeId: string;
+  onOpenDoorPlug?: () => void;
+  onOpenEscapeSim?: () => void;
+  currentIndustry?: string;
 }
 
-export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
+export const OverviewView: React.FC<OverviewViewProps> = ({
+  onNavigate,
+  selectedChangeId,
+  onOpenDoorPlug,
+  onOpenEscapeSim,
+  currentIndustry = 'AEROSPACE'
+}) => {
   const [metrics, setMetrics] = useState<OverviewMetrics | null>(null);
   const [changes, setChanges] = useState<ChangeRequest[]>([]);
   const [riskData, setRiskData] = useState<any[]>([]);
@@ -100,6 +109,43 @@ export const OverviewView: React.FC<OverviewViewProps> = ({ onNavigate }) => {
         return 'bg-amber-50 text-amber-800 border-amber-200';
     }
   };
+
+  const getIndustryHero = () => {
+    switch (currentIndustry) {
+      case 'AUTOMOTIVE':
+        return {
+          badge: 'Active Powertrain Baseline: 800V High-Voltage Battery Pack & Busbar',
+          title: 'Automotive & EV Change Control & Functional Safety',
+          desc: 'Autonomous engineering change propagation, ISO 26262 ASIL-D containment, and cryptographic evidence verification across battery cells, thermal barriers, and busbars.'
+        };
+      case 'MEDTECH':
+        return {
+          badge: 'Active Device Baseline: Class III Implantable Pacemaker · Titanium Enclosure',
+          title: 'Medical Device Design Controls & 21 CFR 820 Governance',
+          desc: 'Autonomous engineering change propagation, ISO 14971 risk containment, and cryptographic DHF evidence verification across titanium welds and hermetic laser seals.'
+        };
+      case 'SEMICONDUCTOR':
+        return {
+          badge: 'Active Cleanroom Baseline: 3nm EUV Lithography Reticle Chuck Stage',
+          title: 'Semiconductor Quality & Cleanroom Tool Governance',
+          desc: 'Autonomous engineering change propagation, SEMI E10 thermal drift containment, and Copy-Exactly compliance verification across EUV cleanroom chambers.'
+        };
+      case 'ENERGY':
+        return {
+          badge: 'Active Nuclear Baseline: Main Steam Isolation Valve (MSIV) Boundary',
+          title: 'Nuclear & Critical Energy Management of Change (MOC)',
+          desc: 'Autonomous engineering change propagation, ASME Section III pressure containment, and NRC 10 CFR 50 Appendix B verification across containment boundary seals.'
+        };
+      case 'AEROSPACE':
+      default:
+        return {
+          badge: 'Active Airframe Baseline: Boeing 737-9 MAX · Fuselage Station 500',
+          title: 'Aviation Change Control & Quality Governance',
+          desc: 'Autonomous engineering change propagation, FMEA risk containment, and cryptographic evidence verification. Ensures zero unrecorded aircraft modifications reach the flight line.'
+        };
+    }
+  };
+  const heroInfo = getIndustryHero();
 
   const filteredChanges = changes.filter((c) => {
     const matchesFilter = tableFilter === 'ALL' || c.change_type.toLowerCase().includes(tableFilter.toLowerCase());
