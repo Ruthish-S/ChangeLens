@@ -30,7 +30,7 @@ export const GuidedTourModal: React.FC<GuidedTourModalProps> = ({ isOpen, onClos
       title: "Welcome to ChangeLens 2026",
       tagline: "Every change. Every impact. Every decision justified.",
       icon: Sparkles,
-      iconColor: "text-cyan-400 bg-cyan-950/80 border-cyan-800",
+      iconColor: "text-blue-600 bg-cyan-950/80 border-cyan-800",
       targetTab: "overview" as NavTab,
       description: "ChangeLens is an explainable engineering change-impact and quality gate intelligence platform. Grounded in the Boeing 737-9 MAX door plug case study, it demonstrates how digital twin configuration graphs prevent catastrophic manufacturing disengagements.",
       keyMetrics: [
@@ -121,27 +121,27 @@ export const GuidedTourModal: React.FC<GuidedTourModalProps> = ({ isOpen, onClos
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-2xl bg-[#0d1424] border border-slate-700/80 rounded-2xl shadow-2xl shadow-cyan-950/30 overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-2xl bg-white border border-gray-200 rounded-2xl shadow-2xl shadow-black/10 overflow-hidden flex flex-col">
         {/* Glow accent line */}
         <div className="h-1 w-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-rose-500" />
 
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className={`p-2 rounded-xl border ${step.iconColor}`}>
               <Icon className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-wider text-cyan-400">
+              <span className="text-[11px] font-mono uppercase tracking-wider text-blue-600">
                 Interactive Showcase · Step {currentStep + 1} of {tourSteps.length}
               </span>
-              <h2 className="text-lg font-bold text-white">{step.title}</h2>
+              <h2 className="text-lg font-bold text-gray-900">{step.title}</h2>
             </div>
           </div>
           <button 
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -149,33 +149,33 @@ export const GuidedTourModal: React.FC<GuidedTourModalProps> = ({ isOpen, onClos
 
         {/* Modal Body */}
         <div className="p-6 space-y-5">
-          <div className="text-sm font-medium text-slate-300">
+          <div className="text-sm font-medium text-gray-700">
             {step.tagline}
           </div>
-          <p className="text-sm leading-relaxed text-slate-400">
+          <p className="text-sm leading-relaxed text-gray-500">
             {step.description}
           </p>
 
           {/* Key Metrics Pills */}
           <div className="grid grid-cols-3 gap-3 pt-2">
             {step.keyMetrics.map((km, idx) => (
-              <div key={idx} className="p-3 rounded-xl bg-slate-900/80 border border-slate-800/80 flex flex-col">
-                <span className="text-[10px] uppercase font-mono text-slate-500">{km.label}</span>
-                <span className="text-xs font-bold font-mono text-cyan-300 mt-1 truncate">{km.val}</span>
+              <div key={idx} className="p-3 rounded-xl bg-gray-50 text-gray-800 border border-gray-200/80 flex flex-col">
+                <span className="text-[10px] uppercase font-mono text-gray-400">{km.label}</span>
+                <span className="text-xs font-bold font-mono text-blue-600 mt-1 truncate">{km.val}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-4 border-t border-slate-800 bg-[#090e1a] flex items-center justify-between">
+        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
           <div className="flex items-center gap-1.5">
             {tourSteps.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentStep(idx)}
                 className={`h-2 rounded-full transition-all ${
-                  idx === currentStep ? 'w-6 bg-cyan-400' : 'w-2 bg-slate-700 hover:bg-slate-500'
+                  idx === currentStep ? 'w-6 bg-cyan-400' : 'w-2 bg-gray-300 hover:bg-gray-400'
                 }`}
               />
             ))}
@@ -185,7 +185,7 @@ export const GuidedTourModal: React.FC<GuidedTourModalProps> = ({ isOpen, onClos
             {currentStep > 0 && (
               <button
                 onClick={() => setCurrentStep(currentStep - 1)}
-                className="px-3 py-1.5 rounded-lg border border-slate-700 text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors flex items-center gap-1"
+                className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-1"
               >
                 <ChevronLeft className="w-3.5 h-3.5" /> Back
               </button>
@@ -193,7 +193,7 @@ export const GuidedTourModal: React.FC<GuidedTourModalProps> = ({ isOpen, onClos
 
             <button
               onClick={handleAction}
-              className="px-3.5 py-1.5 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/50 text-xs font-bold text-cyan-300 transition-colors flex items-center gap-1.5"
+              className="px-3.5 py-1.5 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/50 border border-cyan-500/50 text-xs font-bold text-blue-600 transition-colors flex items-center gap-1.5"
             >
               <span>{step.actionText}</span>
               <ExternalLink className="w-3 h-3" />
@@ -202,14 +202,14 @@ export const GuidedTourModal: React.FC<GuidedTourModalProps> = ({ isOpen, onClos
             {currentStep < tourSteps.length - 1 ? (
               <button
                 onClick={() => setCurrentStep(currentStep + 1)}
-                className="px-4 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-colors flex items-center gap-1"
+                className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs transition-colors flex items-center gap-1"
               >
                 Next <ChevronRight className="w-3.5 h-3.5" />
               </button>
             ) : (
               <button
                 onClick={onClose}
-                className="px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-colors"
+                className="px-4 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium text-xs transition-colors"
               >
                 Complete Tour
               </button>

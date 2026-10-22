@@ -47,57 +47,50 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenTour
 }) => {
   const navItems = [
-    { id: 'overview' as NavTab, label: 'Executive Dashboard', icon: LayoutDashboard, shortcut: '1' },
-    { id: 'changes' as NavTab, label: 'Change Workspace', icon: GitBranch, shortcut: '2' },
-    { id: 'impact' as NavTab, label: 'Impact Graph Explorer', icon: Network, shortcut: '3' },
-    { id: 'risks' as NavTab, label: 'Risk Controls (FMEA)', icon: ShieldAlert, shortcut: '4' },
+    { id: 'overview' as NavTab, label: 'Dashboard', icon: LayoutDashboard, shortcut: '1' },
+    { id: 'changes' as NavTab, label: 'Changes', icon: GitBranch, shortcut: '2' },
+    { id: 'impact' as NavTab, label: 'Impact Graph', icon: Network, shortcut: '3' },
+    { id: 'risks' as NavTab, label: 'Risk Controls', icon: ShieldAlert, shortcut: '4' },
     { 
       id: 'evidence' as NavTab, 
-      label: 'Verification & Gates', 
+      label: 'Verification', 
       icon: FileCheck2, 
       shortcut: '5',
-      badge: blockedCount > 0 ? `${blockedCount} BLOCKED` : undefined,
-      badgeColor: 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+      badge: blockedCount > 0 ? `${blockedCount} Blocked` : undefined,
+      badgeColor: 'bg-red-50 text-red-600 border border-red-200'
     },
-    { id: 'approvals' as NavTab, label: 'Review Queue & SoD', icon: CheckSquare, shortcut: '6' },
-    { id: 'reports' as NavTab, label: 'Reports & Exports', icon: FileSpreadsheet, shortcut: '7' },
-    { id: 'ilm' as NavTab, label: 'ILM Case Study', icon: GraduationCap, shortcut: '8' }
+    { id: 'approvals' as NavTab, label: 'Reviews', icon: CheckSquare, shortcut: '6' },
+    { id: 'reports' as NavTab, label: 'Reports', icon: FileSpreadsheet, shortcut: '7' },
+    { id: 'ilm' as NavTab, label: 'Case Study', icon: GraduationCap, shortcut: '8' }
   ];
 
   return (
-    <aside className="w-64 h-screen bg-[#090d16] border-r border-slate-800/70 flex flex-col shrink-0 select-none font-sans z-20">
-      {/* 2026 Sleek Brand Header */}
-      <div className="h-16 px-5 border-b border-slate-800/70 flex items-center justify-between bg-slate-900/40">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-[1.5px] shadow-md shadow-cyan-950/40 flex items-center justify-center">
-            <div className="w-full h-full bg-[#0a0f1d] rounded-[10px] flex items-center justify-center">
-              <Aperture className="w-5 h-5 text-cyan-400" />
-            </div>
+    <aside className="w-60 h-screen bg-white border-r border-gray-200 flex flex-col shrink-0 select-none font-sans z-20">
+      {/* Brand Header */}
+      <div className="h-14 px-5 border-b border-gray-200 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+            <Aperture className="w-4.5 h-4.5 text-white" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <h1 className="text-sm font-bold tracking-tight text-white font-sans">
-                ChangeLens
-              </h1>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-semibold">
-                2026
-              </span>
-            </div>
-            <p className="text-[10px] text-slate-400 font-medium">
-              Aerospace Configuration Desk
+            <h1 className="text-sm font-semibold tracking-tight text-gray-900">
+              ChangeLens
+            </h1>
+            <p className="text-[11px] text-gray-400 leading-tight">
+              Governance Platform
             </p>
           </div>
         </div>
       </div>
 
       {/* User Persona & Separation-of-Duties Card */}
-      <div className="p-3 border-b border-slate-800/60 bg-slate-900/30">
-        <div className="flex items-center justify-between text-[11px] font-medium text-slate-400 mb-2 px-1">
+      <div className="p-3 border-b border-gray-200">
+        <div className="flex items-center justify-between text-[11px] font-medium text-gray-500 mb-2 px-1">
           <span className="flex items-center gap-1.5">
-            <UserCheck className="w-3.5 h-3.5 text-cyan-400" />
+            <UserCheck className="w-3.5 h-3.5 text-gray-400" />
             Active Persona
           </span>
-          <span className="text-[10px] font-mono text-slate-500">FAA SoD</span>
+          <span className="text-[10px] text-gray-400">SoD</span>
         </div>
         
         <div className="relative">
@@ -107,26 +100,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
               const selected = allUsers.find((u) => u.id === e.target.value);
               if (selected) onUserChange(selected);
             }}
-            className="w-full appearance-none bg-slate-800/80 hover:bg-slate-800 text-xs text-slate-200 border border-slate-700/70 rounded-xl px-3 py-2 pr-8 focus:outline-none focus:border-cyan-500 cursor-pointer font-medium transition-all shadow-sm"
+            className="w-full appearance-none bg-gray-50 hover:bg-gray-100 text-xs text-gray-700 border border-gray-200 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer font-medium transition-all"
           >
             {allUsers.map((u) => (
-              <option key={u.id} value={u.id} className="bg-slate-900 text-slate-200 py-1">
+              <option key={u.id} value={u.id}>
                 {u.display_name} ({u.role})
               </option>
             ))}
           </select>
-          <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none" />
+          <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-2.5 top-2.5 pointer-events-none" />
         </div>
 
         {currentUser && (
           <div className="mt-2 px-1 flex items-center justify-between text-[11px]">
-            <span className="text-slate-400">Authority:</span>
-            <span className={`px-2 py-0.5 rounded-md font-mono text-[10px] font-semibold border ${
+            <span className="text-gray-400">Authority:</span>
+            <span className={`px-2 py-0.5 rounded-md text-[10px] font-medium border ${
               currentUser.role === 'APPROVER' 
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                ? 'bg-green-50 text-green-700 border-green-200'
                 : currentUser.role === 'REQUESTER'
-                ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                ? 'bg-amber-50 text-amber-700 border-amber-200'
+                : 'bg-blue-50 text-blue-700 border-blue-200'
             }`}>
               {currentUser.role === 'APPROVER' ? 'Final Sign-off' : currentUser.role === 'REQUESTER' ? 'Self-Sign Blocked' : 'Quality Verify'}
             </span>
@@ -135,9 +128,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Navigation Tab Menu */}
-      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
-        <div className="px-3 pb-1 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
-          Workspaces
+      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-0.5">
+        <div className="px-3 pb-2 text-[10px] uppercase tracking-wider text-gray-400 font-semibold">
+          Navigation
         </div>
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -146,23 +139,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`w-full text-left px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between transition-all duration-150 ${
+              className={`w-full text-left px-3 py-2 rounded-lg text-[13px] font-medium flex items-center justify-between transition-all duration-150 ${
                 isActive
-                  ? 'bg-cyan-500/15 text-cyan-300 font-semibold border border-cyan-500/30 shadow-sm shadow-cyan-950/20'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                  ? 'bg-gray-100 text-gray-900 font-semibold'
+                  : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-blue-600' : 'text-gray-400'}`} />
                 <span className="truncate">{item.label}</span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
                 {item.badge && (
-                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold ${item.badgeColor}`}>
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded font-semibold ${item.badgeColor}`}>
                     {item.badge}
                   </span>
                 )}
-                <kbd className="hidden lg:inline-block text-[10px] font-mono text-slate-500 px-1 py-0.5 rounded bg-slate-800/60 border border-slate-700/50">
+                <kbd className="hidden lg:inline-block text-[10px] text-gray-400 px-1.5 py-0.5 rounded bg-gray-100 border border-gray-200">
                   {item.shortcut}
                 </kbd>
               </div>
@@ -171,24 +164,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
         })}
       </div>
 
-      {/* Modern Bottom Tour & System Status */}
-      <div className="p-3 border-t border-slate-800/70 bg-slate-900/40 space-y-2">
+      {/* Bottom Tour & System Status */}
+      <div className="p-3 border-t border-gray-200 space-y-2">
         <button
           onClick={onOpenTour}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-semibold transition-all shadow-sm"
+          className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 text-xs font-semibold transition-all"
         >
           <div className="flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <Sparkles className="w-3.5 h-3.5 text-blue-500" />
             <span>Interactive Tour</span>
           </div>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-200">
+          <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-600">
             Guide
           </span>
         </button>
 
-        <div className="px-1 flex items-center justify-between text-[10px] font-mono text-slate-500">
+        <div className="px-1 flex items-center justify-between text-[10px] text-gray-400">
           <span className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
             ChangeLens v2.6.0
           </span>
           <span>Boeing 737-9</span>

@@ -8,194 +8,201 @@ import {
   Layers,
   FileText,
   Workflow,
-  HelpCircle
+  HelpCircle,
+  ShieldCheck,
+  TrendingUp,
+  Activity
 } from 'lucide-react';
 
 export const IlmCaseStudyView: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'matrix' | 'fishbone' | 'pestel' | 'swot' | 'pdca'>('matrix');
 
   return (
-    <div className="space-y-6">
-      {/* Top Header */}
-      <div className="p-4 rounded-lg bg-[#0F172A] border border-[#1E293B] flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
+    <div className="space-y-6 max-w-7xl mx-auto pb-12 font-sans">
+      {/* Top Header Card */}
+      <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5">
+        <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <GraduationCap className="w-5 h-5 text-purple-400" />
-            <h2 className="text-base font-bold text-slate-100">
-              Innovation & Leadership Management (ILM) Case Evaluation
-            </h2>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">
-              Boeing 737-9 MAX Case Study
+            <span className="w-2 h-2 rounded-full bg-blue-600" />
+            <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider">
+              Innovation &amp; Leadership Management Case Study
+            </span>
+            <span className="text-xs text-gray-400">·</span>
+            <span className="text-xs font-medium text-gray-500">
+              Boeing 737-9 MAX Incident Synthesis
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Academic alignment under Innovation & Leadership Management syllabus: Translating documented regulatory oversight facts into system requirements.
+          <h2 className="text-xl font-semibold text-gray-900 tracking-tight">
+            ILM Strategic Frameworks &amp; ChangeLens Solution
+          </h2>
+          <p className="text-xs sm:text-sm text-gray-500 max-w-3xl leading-relaxed">
+            Direct synthesis of the classroom presentation analysis (PESTEL, SWOT, Fishbone, Decision Matrix, and PDCA) proving why <span className="font-semibold text-gray-800">Option C: Integrated Evidence-Gated Governance</span> is the winning manufacturing leadership solution.
           </p>
         </div>
 
         {/* Epistemic Rigor Legend */}
-        <div className="flex items-center gap-2 text-[10px] font-mono">
-          <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
-            [DOCUMENTED EVIDENCE]
+        <div className="flex flex-wrap items-center gap-2 text-[11px] shrink-0">
+          <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">
+            Fact / Documented
           </span>
-          <span className="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">
-            [ANALYTICAL JUDGEMENT]
+          <span className="px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-medium">
+            Analytical Model
           </span>
-          <span className="px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800">
-            [DESIGN DECISION]
+          <span className="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-medium">
+            Solution Decision
           </span>
         </div>
       </div>
 
-      {/* Navigation Sub-Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 text-xs font-medium">
+      {/* Apple-Style Navigation Segmented Controls */}
+      <div className="bg-white p-1.5 rounded-xl border border-gray-200/80 shadow-sm flex flex-wrap items-center gap-1 text-xs">
         <button
           onClick={() => setActiveTab('matrix')}
-          className={`px-3 py-1.5 rounded transition ${
-            activeTab === 'matrix' ? 'bg-red-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'matrix' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >
-          Weighted Decision Matrix
+          Decision Matrix (Option C Selected)
         </button>
         <button
           onClick={() => setActiveTab('fishbone')}
-          className={`px-3 py-1.5 rounded transition ${
-            activeTab === 'fishbone' ? 'bg-red-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'fishbone' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >
-          Ishikawa (Fishbone) Analysis
+          Fishbone (Root Cause)
         </button>
         <button
           onClick={() => setActiveTab('pestel')}
-          className={`px-3 py-1.5 rounded transition ${
-            activeTab === 'pestel' ? 'bg-red-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'pestel' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >
-          PESTEL Analysis
+          PESTEL Macro Analysis
         </button>
         <button
           onClick={() => setActiveTab('swot')}
-          className={`px-3 py-1.5 rounded transition ${
-            activeTab === 'swot' ? 'bg-red-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'swot' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >
           SWOT Evaluation
         </button>
         <button
           onClick={() => setActiveTab('pdca')}
-          className={`px-3 py-1.5 rounded transition ${
-            activeTab === 'pdca' ? 'bg-red-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+          className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            activeTab === 'pdca' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
           }`}
         >
-          PDCA Refinement Cycle
+          PDCA Continuous Loop
         </button>
       </div>
 
       {/* Tab 1: Weighted Decision Matrix */}
       {activeTab === 'matrix' && (
         <div className="space-y-4">
-          <div className="p-5 rounded-lg bg-[#0F172A] border border-[#1E293B] space-y-3">
+          <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
             <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-                <Scale className="w-4 h-4 text-amber-400" />
-                Multi-Criteria Solution Comparison (Weighted Decision Matrix)
+              <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                <Scale className="w-4 h-4 text-blue-600" />
+                Multi-Criteria Decision Matrix (Slide 21 &amp; 22 of Deck)
               </h3>
-              <p className="text-xs text-slate-400">
-                Evaluation of three engineering change-control intervention alternatives against explicit criteria and weights before prototype implementation.
+              <p className="text-xs text-gray-500 mt-1">
+                Rigorous evaluation of three engineering change-control interventions against explicit criteria. ChangeLens represents Option C: Integrated Governance.
               </p>
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border border-slate-800">
-                <thead className="bg-[#121A2E] text-slate-400 font-mono text-[10px]">
+              <table className="w-full text-left text-xs border border-gray-100 rounded-xl overflow-hidden">
+                <thead className="bg-gray-50 text-gray-500 text-[11px] font-medium uppercase tracking-wider">
                   <tr>
-                    <th className="p-3 border-r border-slate-800">Evaluation Criterion</th>
-                    <th className="p-3 text-center border-r border-slate-800">Weight</th>
-                    <th className="p-3 border-r border-slate-800">Alt 1: Paper Checklist & Manual Review</th>
-                    <th className="p-3 border-r border-slate-800">Alt 2: Basic Digital Change Tracker</th>
-                    <th className="p-3 bg-red-950/30 text-red-200 font-bold border-l-2 border-red-700">
-                      Alt 3: ChangeLens (Explainable Gates)
+                    <th className="p-3.5 border-r border-gray-100">Evaluation Criterion</th>
+                    <th className="p-3.5 text-center border-r border-gray-100">Weight</th>
+                    <th className="p-3.5 border-r border-gray-100">Option A: Procedural Reinforcement</th>
+                    <th className="p-3.5 border-r border-gray-100">Option B: Governance Reinforcement</th>
+                    <th className="p-3.5 bg-blue-50/70 text-blue-900 font-semibold border-l-2 border-blue-600">
+                      Option C: Integrated Governance (ChangeLens)
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800 text-slate-300 font-sans">
+                <tbody className="divide-y divide-gray-100 text-gray-700">
                   <tr>
-                    <td className="p-3 font-semibold border-r border-slate-800">
-                      C1: Traceability & Audit Depth
-                      <div className="text-[10px] text-slate-500 font-normal">Reconstruct decisions from verified records</div>
+                    <td className="p-3.5 font-medium border-r border-gray-100">
+                      C1: Risk Reduction &amp; Defect Prevention
+                      <div className="text-[11px] text-gray-400 font-normal">Independent controls on every failure path</div>
                     </td>
-                    <td className="p-3 text-center font-mono border-r border-slate-800">20%</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">2 / 5 (Score: 0.40)</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">3 / 5 (Score: 0.60)</td>
-                    <td className="p-3 font-mono font-bold text-emerald-400 bg-red-950/10">5 / 5 (Score: 1.00)</td>
+                    <td className="p-3.5 text-center font-mono border-r border-gray-100">30%</td>
+                    <td className="p-3.5 border-r border-gray-100">3 / 5 (Score: 0.90)</td>
+                    <td className="p-3.5 border-r border-gray-100">4 / 5 (Score: 1.20)</td>
+                    <td className="p-3.5 font-semibold text-blue-700 bg-blue-50/40">5 / 5 (Score: 1.50)</td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-semibold border-r border-slate-800">
-                      C2: Downstream Impact Visibility
-                      <div className="text-[10px] text-slate-500 font-normal">Algorithmic traversal across tests & rework</div>
+                    <td className="p-3.5 font-medium border-r border-gray-100">
+                      C2: Accountability &amp; Auditability
+                      <div className="text-[11px] text-gray-400 font-normal">Named owners, RACI, and verified records</div>
                     </td>
-                    <td className="p-3 text-center font-mono border-r border-slate-800">25%</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">1 / 5 (Score: 0.25)</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">2 / 5 (Score: 0.50)</td>
-                    <td className="p-3 font-mono font-bold text-emerald-400 bg-red-950/10">5 / 5 (Score: 1.25)</td>
+                    <td className="p-3.5 text-center font-mono border-r border-gray-100">20%</td>
+                    <td className="p-3.5 border-r border-gray-100">2 / 5 (Score: 0.40)</td>
+                    <td className="p-3.5 border-r border-gray-100">5 / 5 (Score: 1.00)</td>
+                    <td className="p-3.5 font-semibold text-blue-700 bg-blue-50/40">5 / 5 (Score: 1.00)</td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-semibold border-r border-slate-800">
-                      C3: Risk-Adaptive Verification
-                      <div className="text-[10px] text-slate-500 font-normal">Dynamic rules triggered by FMEA high-severity</div>
+                    <td className="p-3.5 font-medium border-r border-gray-100">
+                      C3: Implementation Feasibility
+                      <div className="text-[11px] text-gray-400 font-normal">Builds on current practice without disruption</div>
                     </td>
-                    <td className="p-3 text-center font-mono border-r border-slate-800">20%</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">2 / 5 (Score: 0.40)</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">2 / 5 (Score: 0.40)</td>
-                    <td className="p-3 font-mono font-bold text-emerald-400 bg-red-950/10">5 / 5 (Score: 1.00)</td>
+                    <td className="p-3.5 text-center font-mono border-r border-gray-100">15%</td>
+                    <td className="p-3.5 border-r border-gray-100">5 / 5 (Score: 0.75)</td>
+                    <td className="p-3.5 border-r border-gray-100">3 / 5 (Score: 0.45)</td>
+                    <td className="p-3.5 font-semibold text-blue-700 bg-blue-50/40">2 / 5 (Score: 0.30)</td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-semibold border-r border-slate-800">
-                      C4: Explainability & Decision Support
-                      <div className="text-[10px] text-slate-500 font-normal">Show the rule, path, and corrective action</div>
+                    <td className="p-3.5 font-medium border-r border-gray-100">
+                      C4: Time to Implement
+                      <div className="text-[11px] text-gray-400 font-normal">Deployment speed into production lines</div>
                     </td>
-                    <td className="p-3 text-center font-mono border-r border-slate-800">15%</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">2 / 5 (Score: 0.30)</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">3 / 5 (Score: 0.45)</td>
-                    <td className="p-3 font-mono font-bold text-emerald-400 bg-red-950/10">5 / 5 (Score: 0.75)</td>
+                    <td className="p-3.5 text-center font-mono border-r border-gray-100">10%</td>
+                    <td className="p-3.5 border-r border-gray-100">5 / 5 (Score: 0.50)</td>
+                    <td className="p-3.5 border-r border-gray-100">3 / 5 (Score: 0.30)</td>
+                    <td className="p-3.5 font-semibold text-blue-700 bg-blue-50/40">2 / 5 (Score: 0.20)</td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-semibold border-r border-slate-800">
-                      C5: Operational Usability & Adoption
-                      <div className="text-[10px] text-slate-500 font-normal">Simplicity, response time, clarity</div>
+                    <td className="p-3.5 font-medium border-r border-gray-100">
+                      C5: Resource Requirements
+                      <div className="text-[11px] text-gray-400 font-normal">Initial capital, staffing, and tooling costs</div>
                     </td>
-                    <td className="p-3 text-center font-mono border-r border-slate-800">10%</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">4 / 5 (Score: 0.40)</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">4 / 5 (Score: 0.40)</td>
-                    <td className="p-3 font-mono font-bold text-emerald-400 bg-red-950/10">4 / 5 (Score: 0.40)</td>
+                    <td className="p-3.5 text-center font-mono border-r border-gray-100">10%</td>
+                    <td className="p-3.5 border-r border-gray-100">4 / 5 (Score: 0.40)</td>
+                    <td className="p-3.5 border-r border-gray-100">3 / 5 (Score: 0.30)</td>
+                    <td className="p-3.5 font-semibold text-blue-700 bg-blue-50/40">2 / 5 (Score: 0.20)</td>
                   </tr>
                   <tr>
-                    <td className="p-3 font-semibold border-r border-slate-800">
-                      C6: Separation of Duties & Tamper Control
-                      <div className="text-[10px] text-slate-500 font-normal">Prevent self-approvals; read-only auditor</div>
+                    <td className="p-3.5 font-medium border-r border-gray-100">
+                      C6: Sustainability &amp; Closed-Loop Feedback
+                      <div className="text-[11px] text-gray-400 font-normal">Built into authority structure with measured KPIs</div>
                     </td>
-                    <td className="p-3 text-center font-mono border-r border-slate-800">10%</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">2 / 5 (Score: 0.20)</td>
-                    <td className="p-3 border-r border-slate-800 font-mono">3 / 5 (Score: 0.30)</td>
-                    <td className="p-3 font-mono font-bold text-emerald-400 bg-red-950/10">5 / 5 (Score: 0.50)</td>
+                    <td className="p-3.5 text-center font-mono border-r border-gray-100">15%</td>
+                    <td className="p-3.5 border-r border-gray-100">2 / 5 (Score: 0.30)</td>
+                    <td className="p-3.5 border-r border-gray-100">4 / 5 (Score: 0.60)</td>
+                    <td className="p-3.5 font-semibold text-blue-700 bg-blue-50/40">5 / 5 (Score: 0.75)</td>
                   </tr>
                 </tbody>
-                <tfoot className="bg-[#121A2E] text-slate-200 font-mono text-xs">
-                  <tr className="font-bold">
-                    <td className="p-3 border-r border-slate-800 uppercase">Weighted Overall Score</td>
-                    <td className="p-3 text-center border-r border-slate-800">100%</td>
-                    <td className="p-3 border-r border-slate-800 text-slate-400">1.95 / 5.00</td>
-                    <td className="p-3 border-r border-slate-800 text-slate-300">2.65 / 5.00</td>
-                    <td className="p-3 text-emerald-400 text-sm bg-red-950/30">
-                      4.90 / 5.00 (SELECTED)
+                <tfoot className="bg-gray-50 text-gray-900 text-xs font-semibold">
+                  <tr>
+                    <td className="p-3.5 border-r border-gray-100 uppercase">Weighted Overall Score</td>
+                    <td className="p-3.5 text-center border-r border-gray-100">100%</td>
+                    <td className="p-3.5 border-r border-gray-100 text-gray-500">3.25 / 5.00</td>
+                    <td className="p-3.5 border-r border-gray-100 text-gray-700">3.85 / 5.00</td>
+                    <td className="p-3.5 text-emerald-700 bg-blue-50/70 text-sm font-bold">
+                      3.95 / 5.00 (SELECTED SOLUTION)
                     </td>
                   </tr>
                 </tfoot>
               </table>
             </div>
 
-            <div className="p-3 rounded bg-[#0B0F17] border border-slate-800 text-xs text-slate-400">
-              <span className="font-bold text-slate-300">Decision Conclusion:</span> Alternative 3 (ChangeLens) was selected because it eliminates the critical vulnerabilities identified in the Boeing 737-9 case: unrecorded shop-floor rework, missing secondary inspections, and self-authorization without physical evidence.
+            <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-100 text-xs text-blue-900 leading-relaxed">
+              <span className="font-semibold text-blue-950">Deck Conclusion:</span> Option C (Integrated Governance) was selected because it eliminates the critical vulnerabilities exposed in the Alaska Airlines Flight 1282 investigation: unrecorded shop-floor rework, missing secondary inspections, and self-authorization without physical evidence. ChangeLens provides the exact software execution of this winning strategy.
             </div>
           </div>
         </div>
@@ -203,67 +210,58 @@ export const IlmCaseStudyView: React.FC = () => {
 
       {/* Tab 2: Fishbone Diagram */}
       {activeTab === 'fishbone' && (
-        <div className="p-5 rounded-lg bg-[#0F172A] border border-[#1E293B] space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">
-              Ishikawa (Fishbone) Analysis with Epistemic Rigor
+            <h3 className="text-sm font-semibold text-gray-900">
+              Ishikawa (Fishbone) Analysis &amp; System Safeguards (Slide 9 of Deck)
             </h3>
-            <p className="text-xs text-slate-400">
-              Investigating potential contributing causes to the Station 500 door plug blowout while strictly segregating verified regulatory facts from analytical hypotheses and software countermeasures.
+            <p className="text-xs text-gray-500 mt-0.5">
+              Targeting controllable system weaknesses behind the uninspected closure, categorized by the 6 core manufacturing dimensions.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Category 1: Method & Process */}
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-2">
-              <div className="font-bold text-xs uppercase text-slate-300 border-b border-slate-800 pb-1">
-                Method & Process
+            {/* Category 1 */}
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-2.5">
+              <div className="font-semibold text-xs uppercase text-gray-800 border-b border-gray-200 pb-1.5">
+                Methods &amp; Instructions
               </div>
               <div className="space-y-2 text-xs">
-                <div className="p-2 rounded bg-emerald-950/20 border border-emerald-900/60 text-emerald-300 text-[11px]">
-                  <span className="font-bold">[DOCUMENTED EVIDENCE]</span> Door plug opened for cabin interior rework without formal non-conformance traveler.
+                <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] leading-relaxed">
+                  <span className="font-semibold">[FACT]</span> Plug opened on 18 Sep 2023 without required documentation or work order.
                 </div>
-                <div className="p-2 rounded bg-amber-950/20 border border-amber-900/60 text-amber-300 text-[11px]">
-                  <span className="font-bold">[ANALYTICAL JUDGEMENT]</span> Informal communication across shifts bypassed the digital PLM change-control loop.
-                </div>
-                <div className="p-2 rounded bg-purple-950/20 border border-purple-900/60 text-purple-300 text-[11px]">
-                  <span className="font-bold">[DESIGN DECISION]</span> Enforce REQ-PROC-TRAVELER-04 requiring serialized rework sign-off.
+                <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-800 text-[11px] leading-relaxed">
+                  <span className="font-semibold">[CHANGELENS FIX]</span> Digital traveler locking: Physical steps cannot initiate without active authorized CCR.
                 </div>
               </div>
             </div>
 
-            {/* Category 2: People & Oversight */}
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-2">
-              <div className="font-bold text-xs uppercase text-slate-300 border-b border-slate-800 pb-1">
-                People & Oversight
+            {/* Category 2 */}
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-2.5">
+              <div className="font-semibold text-xs uppercase text-gray-800 border-b border-gray-200 pb-1.5">
+                People &amp; Competency
               </div>
               <div className="space-y-2 text-xs">
-                <div className="p-2 rounded bg-emerald-950/20 border border-emerald-900/60 text-emerald-300 text-[11px]">
-                  <span className="font-bold">[DOCUMENTED EVIDENCE]</span> Independent QA inspector was never notified or called to perform final buy-off stamp.
+                <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] leading-relaxed">
+                  <span className="font-semibold">[FACT]</span> Specialized door plug workers were not present or scheduled at closure.
                 </div>
-                <div className="p-2 rounded bg-amber-950/20 border border-amber-900/60 text-amber-300 text-[11px]">
-                  <span className="font-bold">[ANALYTICAL JUDGEMENT]</span> Schedule pressure and ambiguous handover ownership between supplier and assembly teams disincentivized pausing for inspection.
-                </div>
-                <div className="p-2 rounded bg-purple-950/20 border border-purple-900/60 text-purple-300 text-[11px]">
-                  <span className="font-bold">[DESIGN DECISION]</span> Separation of duties prevents assembly technicians from closing or certifying their own work.
+                <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-800 text-[11px] leading-relaxed">
+                  <span className="font-semibold">[CHANGELENS FIX]</span> Persona qualification enforcement: Only certified technicians can sign off critical tasks.
                 </div>
               </div>
             </div>
 
-            {/* Category 3: Measurement & Verification */}
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-2">
-              <div className="font-bold text-xs uppercase text-slate-300 border-b border-slate-800 pb-1">
-                Measurement & Verification
+            {/* Category 3 */}
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-2.5">
+              <div className="font-semibold text-xs uppercase text-gray-800 border-b border-gray-200 pb-1.5">
+                Inspection &amp; Verification
               </div>
               <div className="space-y-2 text-xs">
-                <div className="p-2 rounded bg-emerald-950/20 border border-emerald-900/60 text-emerald-300 text-[11px]">
-                  <span className="font-bold">[DOCUMENTED EVIDENCE]</span> The four retaining bolts were uninstalled or missing when the plug departed the airframe.
+                <div className="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] leading-relaxed">
+                  <span className="font-semibold">[FACT]</span> No QA inspection occurred prior to aircraft delivery because no record existed to call the inspector.
                 </div>
-                <div className="p-2 rounded bg-amber-950/20 border border-amber-900/60 text-amber-300 text-[11px]">
-                  <span className="font-bold">[ANALYTICAL JUDGEMENT]</span> Quality gates accepted verbal assertions of completion rather than cryptographic/calibrated physical buy-off records.
-                </div>
-                <div className="p-2 rounded bg-purple-950/20 border border-purple-900/60 text-purple-300 text-[11px]">
-                  <span className="font-bold">[DESIGN DECISION]</span> Quality Gate Engine returns BLOCKED until SHA-256 hashed torque and cotter-pin certificates are validated.
+                <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-800 text-[11px] leading-relaxed">
+                  <span className="font-semibold">[CHANGELENS FIX]</span> Quality Gate Lock: Delivery blocked automatically until Level II QA inspection record is verified.
                 </div>
               </div>
             </div>
@@ -273,51 +271,51 @@ export const IlmCaseStudyView: React.FC = () => {
 
       {/* Tab 3: PESTEL */}
       {activeTab === 'pestel' && (
-        <div className="p-5 rounded-lg bg-[#0F172A] border border-[#1E293B] space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">
-              PESTEL Macro-Environmental Strategic Analysis
+            <h3 className="text-sm font-semibold text-gray-900">
+              PESTEL Macro-Environmental Strategic Analysis (Slide 11 of Deck)
             </h3>
-            <p className="text-xs text-slate-400">
-              Analyzing the external aerospace regulatory, economic, and technological forces driving the design of ChangeLens.
+            <p className="text-xs text-gray-500 mt-0.5">
+              External regulatory, economic, and technological factors requiring an automated evidence-gated system.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-1.5">
-              <span className="font-bold text-red-400 font-mono text-[11px]">POLITICAL & REGULATORY</span>
-              <p className="text-slate-300">FAA Emergency ADs and production rate caps (38 aircraft/month) mandate zero tolerance for undocumented assembly adjustments.</p>
-              <div className="text-[10px] text-purple-400 font-mono mt-1">ChangeLens: Hard gate blocks on missing QA sign-offs (AC-04).</div>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-red-600 text-xs">POLITICAL &amp; REGULATORY</span>
+              <p className="text-gray-600 leading-relaxed">FAA capped 737 MAX production expansion, stationed on-site inspectors, and mandated SMS rule compliance.</p>
+              <div className="text-[11px] text-blue-600 font-medium mt-1">ChangeLens: Hard gate blocks on missing regulatory evidence.</div>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-1.5">
-              <span className="font-bold text-amber-400 font-mono text-[11px]">ECONOMIC</span>
-              <p className="text-slate-300">Fleet grounding costs and deferred deliveries exceed billions of dollars; quality defects carry catastrophic economic consequences.</p>
-              <div className="text-[10px] text-purple-400 font-mono mt-1">ChangeLens: Automated impact traversal cuts review cycle time by 64.6%.</div>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-amber-600 text-xs">ECONOMIC</span>
+              <p className="text-gray-600 leading-relaxed">Manufacturing delays, groundings, and rework cost billions. Speed cannot compromise quality integrity.</p>
+              <div className="text-[11px] text-blue-600 font-medium mt-1">ChangeLens: Automated impact traversal cuts review cycle time by 64.6%.</div>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-1.5">
-              <span className="font-bold text-blue-400 font-mono text-[11px]">SOCIO-CULTURAL</span>
-              <p className="text-slate-300">Public and passenger scrutiny demands transparent aerospace engineering culture with rigorous whistleblower protection.</p>
-              <div className="text-[10px] text-purple-400 font-mono mt-1">ChangeLens: Immutable audit trail logs all decisions and dissent (AC-07).</div>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-blue-600 text-xs">SOCIAL &amp; WORKFORCE</span>
+              <p className="text-gray-600 leading-relaxed">Workforce proficiency, psychological safety, and speaking up without reprisal are critical to quality culture.</p>
+              <div className="text-[11px] text-blue-600 font-medium mt-1">ChangeLens: Anonymous dissent logging and transparent audit trail.</div>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-1.5">
-              <span className="font-bold text-cyan-400 font-mono text-[11px]">TECHNOLOGICAL</span>
-              <p className="text-slate-300">Disconnection between enterprise design PLM and shop-floor manual traveler books creates hazardous visibility blind spots.</p>
-              <div className="text-[10px] text-purple-400 font-mono mt-1">ChangeLens: Graph traverses components, rework, and inspections in one model.</div>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-cyan-600 text-xs">TECHNOLOGICAL</span>
+              <p className="text-gray-600 leading-relaxed">Disconnection between enterprise design PLM and shop-floor manual traveler records creates hazardous blind spots.</p>
+              <div className="text-[11px] text-blue-600 font-medium mt-1">ChangeLens: Unified graph connects parts, travelers, and inspection sign-offs.</div>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-1.5">
-              <span className="font-bold text-emerald-400 font-mono text-[11px]">ENVIRONMENTAL</span>
-              <p className="text-slate-300">Demand for lightweight alloys and tight aerodynamic seals introduces subtle stress-corrosion and deflection hazards.</p>
-              <div className="text-[10px] text-purple-400 font-mono mt-1">ChangeLens: Adaptive rule CAT-MAT-01 triggers CMTR and proof pressure checks.</div>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-emerald-600 text-xs">ENVIRONMENTAL</span>
+              <p className="text-gray-600 leading-relaxed">Fuel efficiency drives lighter alloys and precision composite doors requiring strict conformity verification.</p>
+              <div className="text-[11px] text-blue-600 font-medium mt-1">ChangeLens: Material test certs (CMTR) verified against design limits.</div>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-slate-800 space-y-1.5">
-              <span className="font-bold text-purple-400 font-mono text-[11px]">LEGAL</span>
-              <p className="text-slate-300">DOJ oversight and civil liability require evidentiary standards that survive rigorous forensic scrutiny.</p>
-              <div className="text-[10px] text-purple-400 font-mono mt-1">ChangeLens: SHA-256 evidence hashing and cryptographically stamped reports.</div>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-purple-600 text-xs">LEGAL &amp; COMPLIANCE</span>
+              <p className="text-gray-600 leading-relaxed">NTSB investigations and FAA product conformance enforcement demand tamper-evident records.</p>
+              <div className="text-[11px] text-blue-600 font-medium mt-1">ChangeLens: SHA-256 evidence hashing and immutable governance logs.</div>
             </div>
           </div>
         </div>
@@ -325,50 +323,50 @@ export const IlmCaseStudyView: React.FC = () => {
 
       {/* Tab 4: SWOT */}
       {activeTab === 'swot' && (
-        <div className="p-5 rounded-lg bg-[#0F172A] border border-[#1E293B] space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">
-              SWOT Analysis of Change-Management Quality Architecture
+            <h3 className="text-sm font-semibold text-gray-900">
+              SWOT Analysis of Manufacturing Quality Control (Slide 12 of Deck)
             </h3>
-            <p className="text-xs text-slate-400">
-              Identifying structural internal strengths/weaknesses and external opportunities/threats in aerospace manufacturing change control.
+            <p className="text-xs text-gray-500 mt-0.5">
+              Preserving structural manufacturing strengths while closing exposed vulnerabilities with ChangeLens.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded bg-[#0B0F17] border border-emerald-900/50 space-y-2">
-              <div className="font-bold text-emerald-400 uppercase text-xs">Strengths (Internal)</div>
-              <ul className="list-disc list-inside space-y-1 text-slate-300">
-                <li>Proven aerospace structural standards (FAR Part 25, AMS, BAC).</li>
-                <li>Comprehensive qualification protocols for static proof pressurization.</li>
-                <li>Highly skilled aerospace engineering cadre and formal review boards.</li>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-2">
+              <div className="font-semibold text-emerald-700 text-xs">Strengths (Documented Base)</div>
+              <ul className="list-disc list-inside space-y-1 text-gray-600">
+                <li>Voluntary SMS program initiated in 2019, now required by rule.</li>
+                <li>Six KPIs with control limits that trigger corrective action.</li>
+                <li>Extensive aerospace technical standards and engineering workforce.</li>
               </ul>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-red-900/50 space-y-2">
-              <div className="font-bold text-red-400 uppercase text-xs">Weaknesses (Internal)</div>
-              <ul className="list-disc list-inside space-y-1 text-slate-300">
-                <li>Shop-floor rework execution separated from digital PLM tracking.</li>
-                <li>Checklist fatigue leading to superficial compliance reviews.</li>
-                <li>Absence of tamper-evident digital evidence linked to physical fasteners.</li>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-2">
+              <div className="font-semibold text-red-700 text-xs">Weaknesses (Identified Gaps)</div>
+              <ul className="list-disc list-inside space-y-1 text-gray-600">
+                <li>Plug work was undocumented, so closure was never scheduled for inspection.</li>
+                <li>Informal SMS was inadequate to proactively catch repetitive removals.</li>
+                <li>Non-compliance cited in process control, parts handling, and product control.</li>
               </ul>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-blue-900/50 space-y-2">
-              <div className="font-bold text-blue-400 uppercase text-xs">Opportunities (External)</div>
-              <ul className="list-disc list-inside space-y-1 text-slate-300">
-                <li>Deploy explainable graph dependency traversal for instant downstream visibility.</li>
-                <li>Implement deterministic quality gates with human accountability.</li>
-                <li>Automate engineering report generation directly from verified database records.</li>
+            <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-200 space-y-2">
+              <div className="font-semibold text-blue-700 text-xs">Opportunities (ChangeLens Features)</div>
+              <ul className="list-disc list-inside space-y-1 text-gray-700">
+                <li>Gate progress on verified records, not manual sign-off alone.</li>
+                <li>Independent verification required for all high-consequence work (S ≥ 8).</li>
+                <li>Measure sustained effectiveness rather than mere activity completion.</li>
               </ul>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-amber-900/50 space-y-2">
-              <div className="font-bold text-amber-400 uppercase text-xs">Threats (External)</div>
-              <ul className="list-disc list-inside space-y-1 text-slate-300">
-                <li>Disaggregated supply chain communications between tiers.</li>
-                <li>Delivery schedule pressure creating incentives to bypass documentation.</li>
-                <li>Loss of regulatory self-certification privileges.</li>
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-2">
+              <div className="font-semibold text-amber-700 text-xs">Threats (External Risks)</div>
+              <ul className="list-disc list-inside space-y-1 text-gray-600">
+                <li>Recurrence of latent escapes leading to catastrophic in-service events.</li>
+                <li>Sustained FAA production expansion caps and regulatory intervention.</li>
+                <li>Erosion of passenger and airline trust in assembly integrity.</li>
               </ul>
             </div>
           </div>
@@ -377,42 +375,42 @@ export const IlmCaseStudyView: React.FC = () => {
 
       {/* Tab 5: PDCA */}
       {activeTab === 'pdca' && (
-        <div className="p-5 rounded-lg bg-[#0F172A] border border-[#1E293B] space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-gray-200/80 shadow-sm space-y-4">
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">
-              PDCA (Plan-Do-Check-Act) Continuous Refinement Cycle
+            <h3 className="text-sm font-semibold text-gray-900">
+              PDCA (Plan-Do-Check-Act) Closed-Loop Governance (Slide 24 of Deck)
             </h3>
-            <p className="text-xs text-slate-400">
-              The iterative engineering methodology applied to design, evaluate, and refine ChangeLens.
+            <p className="text-xs text-gray-500 mt-0.5">
+              Ensuring corrective actions remain effective over time through continuous operational verification.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-            <div className="p-4 rounded bg-[#0B0F17] border border-blue-800 space-y-1.5">
-              <span className="font-bold text-blue-400 font-mono text-sm">1. PLAN</span>
-              <p className="text-slate-300 leading-relaxed">
-                Formulate the 20-item synthetic configuration graph for the Station 500 door plug. Define the 8-state workflow machine, FMEA rubric, and the 12 acceptance criteria (AC-01 to AC-12).
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-blue-600 text-xs">1. PLAN</span>
+              <p className="text-gray-600 leading-relaxed">
+                Define critical manufacturing risks, assign single accountable owners (RACI), establish baselines, and specify mandatory evidence criteria.
               </p>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-amber-800 space-y-1.5">
-              <span className="font-bold text-amber-400 font-mono text-sm">2. DO</span>
-              <p className="text-slate-300 leading-relaxed">
-                Implement modular monolith backend (FastAPI, NetworkX, ReportLab) and typed interactive frontend (React, Vite, @xyflow/react). Seed realistic Boeing 737-9 MAX case study configuration.
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-amber-600 text-xs">2. DO</span>
+              <p className="text-gray-600 leading-relaxed">
+                Implement standardized digital travelers, risk-based inspection gates, role competency checks, and automated supplier quality requirements.
               </p>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-emerald-800 space-y-1.5">
-              <span className="font-bold text-emerald-400 font-mono text-sm">3. CHECK</span>
-              <p className="text-slate-300 leading-relaxed">
-                Subject prototype to 19 automated tests. Measure impact recall (1.00), precision (0.80), invalid-transition block rate (100%), and multi-format report reproduction consistency.
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-emerald-600 text-xs">3. CHECK</span>
+              <p className="text-gray-600 leading-relaxed">
+                Conduct sample record-to-work audits, review gate bottleneck rates, track recurrence of verified defects, and test instruction compliance.
               </p>
             </div>
 
-            <div className="p-4 rounded bg-[#0B0F17] border border-purple-800 space-y-1.5">
-              <span className="font-bold text-purple-400 font-mono text-sm">4. ACT</span>
-              <p className="text-slate-300 leading-relaxed">
-                Tune relationship propagation filters to eliminate sibling assembly leakage. Enforce mandatory S≥8 escalation and separation of duties to prevent self-authorizations.
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200/80 space-y-1.5">
+              <span className="font-semibold text-purple-600 text-xs">4. ACT</span>
+              <p className="text-gray-600 leading-relaxed">
+                Correct residual process weaknesses, revise control limits, report sustained performance to leadership, and institutionalize best practices.
               </p>
             </div>
           </div>

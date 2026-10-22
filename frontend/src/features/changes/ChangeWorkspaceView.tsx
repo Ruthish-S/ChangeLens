@@ -109,14 +109,14 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Header & Selector */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-lg bg-[#0F172A] border border-[#1E293B]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded bg-red-950/60 border border-red-800 text-red-400">
             <GitBranch className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-slate-100">Engineering Change Workspace</h2>
-            <p className="text-xs text-slate-400">
+            <h2 className="text-base font-bold text-gray-900">Engineering Change Workspace</h2>
+            <p className="text-xs text-gray-500">
               Side-by-side baseline revision comparison, proposed delta definition, and traversal dispatch.
             </p>
           </div>
@@ -124,11 +124,11 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <label className="text-xs text-slate-400">Select Change:</label>
+            <label className="text-xs text-gray-500">Select Change:</label>
             <select
               value={currentChange?.id || ''}
               onChange={(e) => onSelectChange(e.target.value)}
-              className="bg-[#1A2338] text-slate-200 border border-slate-700 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
+              className="bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
             >
               {changes.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -151,19 +151,19 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
       {currentChange && (
         <>
           {/* Metadata & Actions Bar */}
-          <div className="p-5 rounded-lg bg-[#0F172A] border border-[#1E293B] space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm space-y-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-mono font-bold text-red-400">{currentChange.id}</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-100 text-gray-800 text-gray-700 border border-gray-200">
                     {currentChange.change_type}
                   </span>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-semibold">
                     STATE: {currentChange.state}
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-slate-100">{currentChange.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{currentChange.title}</h3>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
@@ -177,21 +177,21 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
                 </button>
                 <button
                   onClick={() => onNavigate('impact', currentChange.id)}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-[#1E293B] hover:bg-[#334155] text-slate-200 text-xs rounded border border-slate-700 transition"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-[#1E293B] hover:bg-[#334155] text-gray-800 text-xs rounded border border-gray-200 transition"
                 >
                   <Network className="w-3.5 h-3.5 text-blue-400" />
                   Impact Explorer
                 </button>
                 <button
                   onClick={() => onNavigate('evidence', currentChange.id)}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-[#1E293B] hover:bg-[#334155] text-slate-200 text-xs rounded border border-slate-700 transition"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-[#1E293B] hover:bg-[#334155] text-gray-800 text-xs rounded border border-gray-200 transition"
                 >
                   <FileCheck2 className="w-3.5 h-3.5 text-emerald-400" />
                   Quality Gate
                 </button>
                 <button
                   onClick={() => onNavigate('reports', currentChange.id)}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-[#1E293B] hover:bg-[#334155] text-slate-200 text-xs rounded border border-slate-700 transition"
+                  className="flex items-center gap-1.5 px-3 py-2 bg-[#1E293B] hover:bg-[#334155] text-gray-800 text-xs rounded border border-gray-200 transition"
                 >
                   <FileSpreadsheet className="w-3.5 h-3.5 text-amber-400" />
                   Export Report
@@ -202,44 +202,44 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
             {/* Justification & Context */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
               <div className="md:col-span-3">
-                <div className="text-slate-400 text-[11px] font-semibold uppercase tracking-wider mb-1">
+                <div className="text-gray-500 text-[11px] font-semibold uppercase tracking-wider mb-1">
                   Engineering Justification & Operational Problem Statement
                 </div>
-                <div className="p-3 rounded bg-[#0B0F17] border border-slate-800 text-slate-300 leading-relaxed">
+                <div className="p-3 rounded bg-gray-50 border border-gray-200 text-gray-700 leading-relaxed">
                   {currentChange.reason}
                 </div>
               </div>
 
               <div className="space-y-2 font-mono text-[11px]">
-                <div className="p-2.5 rounded bg-[#0B0F17] border border-slate-800">
-                  <div className="text-slate-500 text-[9px] uppercase">Configuration Baseline</div>
-                  <div className="text-slate-200 font-bold truncate">{currentChange.baseline_id}</div>
-                  <div className="text-slate-400 text-[10px]">Rev A.1 (Active)</div>
+                <div className="p-2.5 rounded bg-gray-50 border border-gray-200">
+                  <div className="text-gray-400 text-[9px] uppercase">Configuration Baseline</div>
+                  <div className="text-gray-800 font-bold truncate">{currentChange.baseline_id}</div>
+                  <div className="text-gray-500 text-[10px]">Rev A.1 (Active)</div>
                 </div>
-                <div className="p-2.5 rounded bg-[#0B0F17] border border-slate-800">
-                  <div className="text-slate-500 text-[9px] uppercase">Accountable Requester</div>
-                  <div className="text-slate-200 font-bold truncate">
+                <div className="p-2.5 rounded bg-gray-50 border border-gray-200">
+                  <div className="text-gray-400 text-[9px] uppercase">Accountable Requester</div>
+                  <div className="text-gray-800 font-bold truncate">
                     {currentChange.requester?.display_name || currentChange.requester_id}
                   </div>
-                  <div className="text-slate-400 text-[10px]">Structural Lead (PE)</div>
+                  <div className="text-gray-500 text-[10px]">Structural Lead (PE)</div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Section B: Side-by-side Baseline Comparison Table */}
-          <div className="p-5 rounded-lg bg-[#0F172A] border border-[#1E293B]">
+          <div className="p-5 rounded-2xl bg-white border border-gray-200/80 shadow-sm/80 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-gray-800 flex items-center gap-2">
                   <Layers className="w-4 h-4 text-red-400" />
                   Baseline vs Proposed Configuration Comparison
                 </h4>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-gray-500">
                   Field-level delta highlighting changes requiring qualification and downstream re-verification.
                 </p>
               </div>
-              <span className="text-[10px] font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded border border-slate-700">
+              <span className="text-[10px] font-mono text-gray-500 bg-gray-100 text-gray-800 px-2.5 py-1 rounded border border-gray-200">
                 {currentChange.change_items.length} proposed item deltas
               </span>
             </div>
@@ -247,7 +247,7 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-800 text-slate-400 uppercase text-[10px]">
+                  <tr className="border-b border-gray-200 text-gray-500 uppercase text-[10px]">
                     <th className="py-2.5 px-3">Affected Item</th>
                     <th className="py-2.5 px-3">Field Name</th>
                     <th className="py-2.5 px-3">Operation</th>
@@ -256,13 +256,13 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
                     <th className="py-2.5 px-3">Engineering Rationale</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 font-sans">
+                <tbody className="divide-y divide-gray-100 font-sans">
                   {currentChange.change_items.map((ci) => (
-                    <tr key={ci.id} className="hover:bg-slate-800/30 transition">
-                      <td className="py-3 px-3 font-mono font-bold text-slate-200">
+                    <tr key={ci.id} className="hover:bg-gray-100 text-gray-800/30 transition">
+                      <td className="py-3 px-3 font-mono font-bold text-gray-800">
                         {ci.affected_object_id}
                       </td>
-                      <td className="py-3 px-3 font-mono text-slate-400">
+                      <td className="py-3 px-3 font-mono text-gray-500">
                         {ci.field_name}
                       </td>
                       <td className="py-3 px-3">
@@ -272,7 +272,7 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
                       </td>
                       {/* Baseline Value */}
                       <td className="py-3 px-3">
-                        <div className="p-2.5 rounded bg-[#0B0F17] border border-slate-800 text-slate-300 font-mono text-[11px]">
+                        <div className="p-2.5 rounded bg-gray-50 border border-gray-200 text-gray-700 font-mono text-[11px]">
                           {ci.current_value}
                         </div>
                       </td>
@@ -282,7 +282,7 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
                           {ci.proposed_value}
                         </div>
                       </td>
-                      <td className="py-3 px-3 text-slate-400 text-[11px]">
+                      <td className="py-3 px-3 text-gray-500 text-[11px]">
                         {ci.justification || 'Standard revision cycle'}
                       </td>
                     </tr>
@@ -297,43 +297,43 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
       {/* New Change Request Modal */}
       {showNewModal && (
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-          <div className="bg-[#0F172A] border border-slate-700 rounded-lg max-w-lg w-full p-6 shadow-2xl">
-            <h3 className="text-base font-bold text-slate-100 mb-4 flex items-center gap-2">
+          <div className="bg-white border border-gray-200 rounded-lg max-w-lg w-full p-6 shadow-2xl">
+            <h3 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
               <Plus className="w-4 h-4 text-red-500" />
               Create Engineering Change Proposal
             </h3>
             <form onSubmit={handleCreateNew} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Proposal Title</label>
+                <label className="block text-gray-700 font-medium mb-1">Proposal Title</label>
                 <input
                   type="text"
                   required
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="e.g. Fuselage Stop Pad Alignment Shim Spec Update"
-                  className="w-full bg-[#1A2338] text-slate-200 border border-slate-700 rounded px-3 py-2 text-xs focus:outline-none focus:border-red-500"
+                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-2 text-xs focus:outline-none focus:border-red-500"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Engineering Justification</label>
+                <label className="block text-gray-700 font-medium mb-1">Engineering Justification</label>
                 <textarea
                   required
                   rows={3}
                   value={newReason}
                   onChange={(e) => setNewReason(e.target.value)}
                   placeholder="Detail the root cause, defect history, or regulatory oversight directive requiring this change..."
-                  className="w-full bg-[#1A2338] text-slate-200 border border-slate-700 rounded px-3 py-2 text-xs focus:outline-none focus:border-red-500"
+                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-2 text-xs focus:outline-none focus:border-red-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Change Category</label>
+                  <label className="block text-gray-700 font-medium mb-1">Change Category</label>
                   <select
                     value={newType}
                     onChange={(e) => setNewType(e.target.value)}
-                    className="w-full bg-[#1A2338] text-slate-200 border border-slate-700 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
+                    className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs focus:outline-none focus:border-red-500"
                   >
                     <option value="MATERIAL_SUBSTITUTION">MATERIAL_SUBSTITUTION</option>
                     <option value="FASTENER_REVISION">FASTENER_REVISION</option>
@@ -342,33 +342,33 @@ export const ChangeWorkspaceView: React.FC<ChangeWorkspaceProps> = ({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-slate-300 font-medium mb-1">Target Object ID</label>
+                  <label className="block text-gray-700 font-medium mb-1">Target Object ID</label>
                   <input
                     type="text"
                     required
                     value={newObjectId}
                     onChange={(e) => setNewObjectId(e.target.value)}
-                    className="w-full bg-[#1A2338] text-slate-200 border border-slate-700 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
+                    className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-medium mb-1">Proposed Value</label>
+                <label className="block text-gray-700 font-medium mb-1">Proposed Value</label>
                 <input
                   type="text"
                   required
                   value={newProposedVal}
                   onChange={(e) => setNewProposedVal(e.target.value)}
-                  className="w-full bg-[#1A2338] text-slate-200 border border-slate-700 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
+                  className="w-full bg-[#1A2338] text-gray-800 border border-gray-200 rounded px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-red-500"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
+              <div className="flex justify-end gap-2 pt-2 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => setShowNewModal(false)}
-                  className="px-3 py-1.5 bg-[#1E293B] hover:bg-[#334155] text-slate-300 rounded text-xs transition"
+                  className="px-3 py-1.5 bg-[#1E293B] hover:bg-[#334155] text-gray-700 rounded text-xs transition"
                 >
                   Cancel
                 </button>

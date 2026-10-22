@@ -91,8 +91,8 @@ export const App: React.FC = () => {
   const currentChange = changes.find((c) => c.id === selectedChangeId) || changes[0];
 
   return (
-    <div className="flex h-screen bg-[#090d16] text-slate-100 overflow-hidden font-sans">
-      {/* Persistent Industrial HUD Sidebar */}
+    <div className="flex h-screen bg-[#f5f5f7] text-gray-900 overflow-hidden font-sans">
+      {/* Sidebar */}
       <Sidebar
         currentTab={currentTab}
         onTabChange={(tab) => setCurrentTab(tab)}
@@ -105,43 +105,43 @@ export const App: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        {/* Top 2026 Aerospace HUD Status Bar */}
-        <header className="h-16 border-b border-slate-800/70 bg-slate-900/70 backdrop-blur-md px-6 flex items-center justify-between shrink-0 z-10">
+        {/* Top Status Bar */}
+        <header className="h-14 border-b border-gray-200 bg-white/80 backdrop-blur-sm px-6 flex items-center justify-between shrink-0 z-10">
           <div className="flex items-center gap-4">
-            {/* System Status Beacon */}
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400/50" />
-              <span className="font-bold text-slate-300">
-                {api.getIsLiveBackend() ? 'FASTAPI LIVE' : 'SHOWCASE DEMO ENGINE'}
+            {/* System Status */}
+            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-gray-50 border border-gray-200 text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+              <span className="font-medium text-gray-500">
+                {api.getIsLiveBackend() ? 'Live' : 'Demo'}
               </span>
             </div>
 
-            <div className="h-4 w-px bg-slate-800 hidden md:block" />
+            <div className="h-4 w-px bg-gray-200 hidden md:block" />
 
             {/* Active Change Selector Dropdown */}
             {currentChange && (
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-slate-400 hidden lg:inline">Active Change:</span>
+                <span className="text-gray-400 hidden lg:inline">Active:</span>
                 <select
                   value={selectedChangeId}
                   onChange={(e) => setSelectedChangeId(e.target.value)}
-                  className="bg-slate-900/90 text-xs font-mono font-bold text-cyan-300 border border-slate-700/80 rounded-lg px-2.5 py-1 focus:outline-none focus:border-cyan-500 cursor-pointer"
+                  className="bg-gray-50 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg px-2.5 py-1 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer"
                 >
                   {changes.map((c) => (
-                    <option key={c.id} value={c.id} className="bg-slate-900 text-slate-200">
+                    <option key={c.id} value={c.id}>
                       {c.id} - {c.priority}
                     </option>
                   ))}
                 </select>
-                <span className="text-slate-300 truncate max-w-xs hidden xl:inline font-medium">
+                <span className="text-gray-600 truncate max-w-xs hidden xl:inline font-medium">
                   {currentChange.title}
                 </span>
-                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-bold ${
+                <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
                   currentChange.state === 'AUTHORIZED' 
-                    ? 'bg-emerald-950/80 text-emerald-400 border-emerald-800'
+                    ? 'bg-green-50 text-green-700 border-green-200'
                     : currentChange.state === 'REJECTED'
-                    ? 'bg-rose-950/80 text-rose-400 border-rose-800'
-                    : 'bg-amber-950/80 text-amber-400 border-amber-800'
+                    ? 'bg-red-50 text-red-700 border-red-200'
+                    : 'bg-amber-50 text-amber-700 border-amber-200'
                 }`}>
                   {currentChange.state}
                 </span>
@@ -154,32 +154,32 @@ export const App: React.FC = () => {
             {/* Command Palette Trigger Button */}
             <button
               onClick={() => setIsCommandOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-xs text-slate-400 hover:text-slate-200 transition-colors shadow-sm"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs text-gray-500 hover:text-gray-700 transition-colors"
             >
-              <Search className="w-3.5 h-3.5 text-slate-400" />
+              <Search className="w-3.5 h-3.5 text-gray-400" />
               <span className="hidden sm:inline">Search...</span>
-              <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">Ctrl+K</kbd>
+              <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 border border-gray-200 text-gray-400">Ctrl+K</kbd>
             </button>
 
             {/* Showcase Tour Trigger Button */}
             <button
               onClick={() => setIsTourOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600/20 to-blue-600/20 hover:from-cyan-600/30 hover:to-blue-600/30 border border-cyan-500/40 text-xs font-bold text-cyan-300 transition-colors shadow-sm shadow-cyan-950/30"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200 text-xs font-semibold text-blue-600 transition-colors"
             >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <Sparkles className="w-3.5 h-3.5 text-blue-500" />
               <span className="hidden md:inline">Tour</span>
             </button>
 
-            <div className="h-4 w-px bg-slate-800 hidden sm:block" />
+            <div className="h-4 w-px bg-gray-200 hidden sm:block" />
 
-            {/* Verification Tech Badges */}
+            {/* Tech Badges */}
             <div className="hidden lg:flex items-center gap-2">
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] font-mono text-slate-400">
-                <Activity className="w-3.5 h-3.5 text-cyan-400" />
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-200 text-[11px] text-gray-500">
+                <Activity className="w-3.5 h-3.5 text-blue-500" />
                 <span>NetworkX BFS</span>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-[11px] font-mono text-slate-400">
-                <Shield className="w-3.5 h-3.5 text-rose-400" />
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 border border-gray-200 text-[11px] text-gray-500">
+                <Shield className="w-3.5 h-3.5 text-red-500" />
                 <span>AIAG/VDA FMEA</span>
               </div>
             </div>
@@ -187,14 +187,14 @@ export const App: React.FC = () => {
             {/* Active User Pill */}
             {currentUser && (
               <div className="flex items-center gap-2 pl-1 text-xs">
-                <div className="w-7 h-7 rounded-full bg-cyan-950 border border-cyan-700 flex items-center justify-center font-mono font-bold text-cyan-300 text-[11px]">
+                <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center font-semibold text-white text-[11px]">
                   {currentUser.display_name.charAt(0)}
                 </div>
                 <div className="hidden sm:block text-left">
-                  <div className="text-xs font-semibold text-slate-200 leading-tight">
+                  <div className="text-xs font-medium text-gray-700 leading-tight">
                     {currentUser.display_name.split(' ')[0]}
                   </div>
-                  <div className="text-[10px] font-mono text-slate-400 leading-tight">
+                  <div className="text-[10px] text-gray-400 leading-tight">
                     {currentUser.role}
                   </div>
                 </div>
@@ -204,7 +204,7 @@ export const App: React.FC = () => {
         </header>
 
         {/* Scrollable View Container */}
-        <main className="flex-1 overflow-y-auto p-6 bg-[#090d16]">
+        <main className="flex-1 overflow-y-auto p-6 bg-[#f5f5f7]">
           {currentTab === 'overview' && (
             <OverviewView
               onNavigate={handleNavigate}
